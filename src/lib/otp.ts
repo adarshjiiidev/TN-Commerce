@@ -22,23 +22,23 @@ const createTransporter = () => {
 
 // Send OTP email
 export async function sendOTPEmail(
-  email: string, 
-  otp: string, 
+  email: string,
+  otp: string,
   purpose: 'email_verification' | 'password_reset' = 'email_verification'
 ): Promise<boolean> {
   try {
     const transporter = createTransporter()
-    
-    const subject = purpose === 'email_verification' 
-      ? 'Verify Your Email - T&N' 
-      : 'Reset Your Password - T&N'
-    
-    const html = purpose === 'email_verification' 
+
+    const subject = purpose === 'email_verification'
+      ? 'Verify Your Email - Limit//Up'
+      : 'Reset Your Password - Limit//Up'
+
+    const html = purpose === 'email_verification'
       ? getVerificationEmailTemplate(otp)
       : getPasswordResetEmailTemplate(otp)
 
     const mailOptions = {
-      from: `"T&N" <${process.env.EMAIL_FROM}>`,
+      from: `"Limit//Up" <${process.env.EMAIL_FROM}>`,
       to: email,
       subject,
       html,
@@ -54,20 +54,20 @@ export async function sendOTPEmail(
 
 // Store OTP in database
 export async function storeOTP(
-  email: string, 
-  code: string, 
+  email: string,
+  code: string,
   purpose: 'email_verification' | 'password_reset' = 'email_verification'
 ): Promise<boolean> {
   try {
     await dbConnect()
-    
+
     // Delete any existing unused OTPs for this email and purpose
-    await OTP.deleteMany({ 
-      email, 
-      purpose, 
-      isUsed: false 
+    await OTP.deleteMany({
+      email,
+      purpose,
+      isUsed: false
     })
-    
+
     // Create new OTP
     await OTP.create({
       email,
@@ -75,7 +75,7 @@ export async function storeOTP(
       purpose,
       expiresAt: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
     })
-    
+
     return true
   } catch (error) {
     console.error('Error storing OTP:', error)
@@ -85,13 +85,13 @@ export async function storeOTP(
 
 // Verify OTP
 export async function verifyOTP(
-  email: string, 
-  code: string, 
+  email: string,
+  code: string,
   purpose: 'email_verification' | 'password_reset' = 'email_verification'
 ): Promise<{ success: boolean; error?: string }> {
   try {
     await dbConnect()
-    
+
     const otpRecord = await OTP.findOne({
       email,
       code,
@@ -99,14 +99,14 @@ export async function verifyOTP(
       isUsed: false,
       expiresAt: { $gt: new Date() }
     })
-    
+
     if (!otpRecord) {
       return { success: false, error: 'Invalid or expired OTP' }
     }
-    
+
     // Mark OTP as used
     await OTP.findByIdAndUpdate(otpRecord._id, { isUsed: true })
-    
+
     return { success: true }
   } catch (error) {
     console.error('Error verifying OTP:', error)
@@ -122,7 +122,7 @@ function getVerificationEmailTemplate(otp: string): string {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Verify Your Email - T&N</title>
+      <title>Verify Your Email - Limit//Up</title>
       <style>
         body {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -190,12 +190,12 @@ function getVerificationEmailTemplate(otp: string): string {
       <div class="container">
         <div class="card">
           <div class="logo">
-            <h1>T&N</h1>
+            <h1>Limit//Up</h1>
           </div>
           
           <h2 style="text-align: center; margin-bottom: 16px;">Verify Your Email</h2>
           
-          <p>Welcome to T&N! Please verify your email address by entering the following code:</p>
+          <p>Welcome to Limit//Up! Please verify your email address by entering the following code:</p>
           
           <div class="otp-code">${otp}</div>
           
@@ -204,8 +204,8 @@ function getVerificationEmailTemplate(otp: string): string {
           </p>
           
           <div class="footer">
-            <p>If you didn't create an account with T&N, please ignore this email.</p>
-            <p>&copy; 2025 T&N. All rights reserved.</p>
+            <p>If you didn't create an account with Limit//Up, please ignore this email.</p>
+            <p>&copy; 2025 Limit//Up. All rights reserved.</p>
           </div>
         </div>
       </div>
@@ -221,7 +221,7 @@ function getPasswordResetEmailTemplate(otp: string): string {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Reset Your Password - T&N</title>
+      <title>Reset Your Password - Limit//Up</title>
       <style>
         body {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -279,7 +279,7 @@ function getPasswordResetEmailTemplate(otp: string): string {
       <div class="container">
         <div class="card">
           <div class="logo">
-            <h1>T&N</h1>
+            <h1>Limit//Up</h1>
           </div>
           
           <h2 style="text-align: center; margin-bottom: 16px;">Reset Your Password</h2>
@@ -294,7 +294,7 @@ function getPasswordResetEmailTemplate(otp: string): string {
           
           <div class="footer">
             <p>If you didn't request a password reset, please ignore this email.</p>
-            <p>&copy; 2025 T&N. All rights reserved.</p>
+            <p>&copy; 2025 Limit//Up. All rights reserved.</p>
           </div>
         </div>
       </div>

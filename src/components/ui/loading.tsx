@@ -27,7 +27,7 @@ export default function Loading({ className, size = 'md', text }: LoadingProps) 
       >
         <Loader2 className={cn('animate-spin', sizeClasses[size])} />
         {text && (
-          <span className="text-sm text-gray-600">{text}</span>
+          <span className="text-sm text-gray-400">{text}</span>
         )}
       </motion.div>
     </div>

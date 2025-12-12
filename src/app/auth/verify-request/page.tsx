@@ -28,7 +28,7 @@ function VerifyRequestContent() {
               whileHover={{ scale: 1.05 }}
               className="text-4xl font-bold tracking-tighter text-black"
             >
-              T&N
+              Limit//Up
             </motion.h1>
           </Link>
           <h2 className="mt-6 text-3xl font-bold text-gray-900">
@@ -49,7 +49,7 @@ function VerifyRequestContent() {
               We've sent a magic link to <strong>{email}</strong>
             </CardDescription>
           </CardHeader>
-          
+
           <CardContent className="space-y-4">
             <div className="text-center space-y-2">
               <p className="text-sm text-gray-600">
@@ -81,7 +81,7 @@ function VerifyRequestContent() {
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Sign In
               </Button>
-              
+
               <Button
                 onClick={() => router.push('/')}
                 variant="ghost"
@@ -114,7 +114,7 @@ function VerifyRequestFallback() {
         <div className="text-center">
           <Link href="/" className="inline-block">
             <h1 className="text-4xl font-bold tracking-tighter text-black">
-              T&N
+              Limit//Up
             </h1>
           </Link>
           <h2 className="mt-6 text-3xl font-bold text-gray-900">
@@ -135,7 +135,7 @@ function VerifyRequestFallback() {
               We've sent a magic link to your email
             </CardDescription>
           </CardHeader>
-          
+
           <CardContent className="space-y-4">
             <div className="text-center space-y-2">
               <p className="text-sm text-gray-600">
@@ -165,7 +165,7 @@ function VerifyRequestFallback() {
                   Back to Sign In
                 </Button>
               </Link>
-              
+
               <Link href="/" className="w-full">
                 <Button variant="ghost" className="w-full">
                   Continue to Homepage

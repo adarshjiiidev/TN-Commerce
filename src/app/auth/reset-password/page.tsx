@@ -192,14 +192,14 @@ export default function ResetPasswordPage() {
               whileHover={{ scale: 1.05 }}
               className="text-4xl font-bold tracking-tighter text-black"
             >
-              T&N
+              Limit//Up
             </motion.h1>
           </Link>
           <h2 className="mt-6 text-3xl font-bold text-gray-900">
             {step === 'request' ? 'Reset Your Password' : 'Enter Reset Code'}
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            {step === 'request' 
+            {step === 'request'
               ? 'Enter your email to receive a password reset code'
               : 'Enter the code sent to your email and your new password'
             }
@@ -404,7 +404,7 @@ export default function ResetPasswordPage() {
             href="/"
             className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
           >
-            ← Back to T&N
+            ← Back to Limit//Up
           </Link>
         </div>
       </motion.div>

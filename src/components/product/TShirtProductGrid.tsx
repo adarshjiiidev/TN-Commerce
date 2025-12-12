@@ -28,11 +28,11 @@ interface TShirtProductGridProps {
   className?: string
 }
 
-export default function TShirtProductGrid({ 
-  title, 
-  subtitle, 
-  icon, 
-  fetchUrl, 
+export default function TShirtProductGrid({
+  title,
+  subtitle,
+  icon,
+  fetchUrl,
   limit = 8,
   className = ""
 }: TShirtProductGridProps) {
@@ -49,7 +49,7 @@ export default function TShirtProductGrid({
       setLoading(true)
       const response = await fetch(`${fetchUrl}&limit=${limit}`)
       const data = await response.json()
-      
+
       if (data.success) {
         setProducts(data.data.products)
       } else {
@@ -72,10 +72,10 @@ export default function TShirtProductGrid({
       <section className={`py-8 px-4 sm:px-6 lg:px-8 ${className}`}>
         <div className="max-w-7xl mx-auto">
           <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
+            <div className="h-8 bg-gray-800 rounded w-1/4 mb-6"></div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
               {Array.from({ length: limit }).map((_, i) => (
-                <div key={i} className="bg-gray-200 h-80 rounded-2xl"></div>
+                <div key={i} className="bg-gray-800 h-80 rounded-2xl"></div>
               ))}
             </div>
           </div>
@@ -88,8 +88,8 @@ export default function TShirtProductGrid({
     return (
       <section className={`py-8 px-4 sm:px-6 lg:px-8 ${className}`}>
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">{title}</h2>
-          <p className="text-red-600">Error loading products: {error}</p>
+          <h2 className="text-2xl font-bold text-white mb-4">{title}</h2>
+          <p className="text-red-400">Error loading products: {error}</p>
         </div>
       </section>
     )
@@ -117,15 +117,15 @@ export default function TShirtProductGrid({
               </div>
             )}
             <div>
-              <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">{title}</h2>
+              <h2 className="text-2xl lg:text-3xl font-bold text-white">{title}</h2>
               {subtitle && (
-                <p className="text-gray-600 mt-1">{subtitle}</p>
+                <p className="text-gray-400 mt-1">{subtitle}</p>
               )}
             </div>
           </div>
 
           <Link href="/products?category=tshirts">
-            <button className="text-blue-600 hover:text-blue-700 font-semibold transition-colors">
+            <button className="text-purple-400 hover:text-purple-300 font-semibold transition-colors">
               View All
             </button>
           </Link>
@@ -141,7 +141,7 @@ export default function TShirtProductGrid({
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="group cursor-pointer"
             >
-              <div className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+              <div className="bg-[#1a1a24] rounded-2xl shadow-sm hover:shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-all duration-300 overflow-hidden border border-gray-800">
                 {/* Product Image */}
                 <div className="relative aspect-square overflow-hidden">
                   <Link href={`/products/${product._id}`}>
@@ -152,41 +152,41 @@ export default function TShirtProductGrid({
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </Link>
-                  
+
                   {/* Badges */}
                   <div className="absolute top-3 left-3 flex flex-col gap-2">
                     {product.originalPrice && product.isOnSale && (
-                      <div className="bg-red-500 text-white px-2 py-1 rounded-lg text-sm font-bold">
+                      <div className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-2 py-1 rounded-lg text-sm font-bold">
                         -{calculateDiscount(product.originalPrice, product.price)}%
                       </div>
                     )}
                     {product.isFeatured && (
-                      <div className="bg-blue-500 text-white px-2 py-1 rounded-lg text-sm font-bold">
+                      <div className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-2 py-1 rounded-lg text-sm font-bold">
                         Featured
                       </div>
                     )}
                     {product.stock < 10 && (
-                      <div className="bg-orange-500 text-white px-2 py-1 rounded-lg text-sm font-bold">
+                      <div className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-2 py-1 rounded-lg text-sm font-bold">
                         Low Stock
                       </div>
                     )}
                   </div>
-                  
+
                   {/* Action Buttons */}
                   <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
-                      className="bg-white/80 backdrop-blur-sm p-2 rounded-full hover:bg-white transition-all duration-300"
+                      className="bg-black/60 backdrop-blur-sm p-2 rounded-full border border-gray-600 hover:border-pink-500"
                     >
-                      <Heart className="h-4 w-4 text-gray-600 hover:text-red-500" />
+                      <Heart className="h-4 w-4 text-white hover:text-pink-500" />
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
-                      className="bg-white/80 backdrop-blur-sm p-2 rounded-full hover:bg-white transition-all duration-300"
+                      className="bg-black/60 backdrop-blur-sm p-2 rounded-full border border-gray-600 hover:border-cyan-500"
                     >
-                      <Eye className="h-4 w-4 text-gray-600 hover:text-blue-500" />
+                      <Eye className="h-4 w-4 text-white hover:text-cyan-500" />
                     </motion.button>
                   </div>
 
@@ -196,7 +196,7 @@ export default function TShirtProductGrid({
                     whileHover={{ opacity: 1, y: 0 }}
                     className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300"
                   >
-                    <button className="w-full bg-black text-white py-2 rounded-lg font-semibold text-sm hover:bg-gray-800 transition-colors flex items-center justify-center">
+                    <button className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-2 rounded-lg font-semibold text-sm hover:from-purple-700 hover:to-pink-600 transition-colors flex items-center justify-center">
                       <ShoppingCart className="h-4 w-4 mr-2" />
                       Quick Add
                     </button>
@@ -206,28 +206,28 @@ export default function TShirtProductGrid({
                 {/* Product Info */}
                 <div className="p-4">
                   <Link href={`/products/${product._id}`}>
-                    <h3 className="font-semibold text-gray-900 mb-2 truncate group-hover:text-blue-600 transition-colors">
+                    <h3 className="font-semibold text-white mb-2 truncate group-hover:text-purple-400 transition-colors">
                       {product.name}
                     </h3>
                   </Link>
-                  
-                  
+
+
                   {/* Rating */}
                   <div className="flex items-center mb-3">
                     <div className="flex items-center">
                       <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                      <span className="text-sm text-gray-600 ml-1">{product.rating}</span>
+                      <span className="text-sm text-gray-400 ml-1">{product.rating}</span>
                     </div>
-                    <span className="text-xs text-gray-400 ml-2">({product.reviewCount})</span>
+                    <span className="text-xs text-gray-500 ml-2">({product.reviewCount})</span>
                   </div>
 
                   {/* Price */}
                   <div className="flex items-center space-x-2">
-                    <span className="text-lg font-bold text-gray-900">
+                    <span className="text-lg font-bold text-purple-400">
                       ₹{product.price}
                     </span>
                     {product.originalPrice && (
-                      <span className="text-sm text-gray-400 line-through">
+                      <span className="text-sm text-gray-500 line-through">
                         ₹{product.originalPrice}
                       </span>
                     )}
@@ -246,7 +246,7 @@ export default function TShirtProductGrid({
           className="text-center mt-8"
         >
           <Link href="/products?category=tshirts">
-            <button className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg">
+            <button className="bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 hover:shadow-[0_0_20px_rgba(147,51,234,0.5)]">
               View All T-Shirts
             </button>
           </Link>

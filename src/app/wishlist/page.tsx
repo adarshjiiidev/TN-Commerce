@@ -13,7 +13,7 @@ export default function WishlistRedirect() {
   }, [router])
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div className="min-h-screen bg-[#0d0d12] pt-20 flex items-center justify-center">
       <Loading text="Redirecting to your wishlist..." />
     </div>
   )

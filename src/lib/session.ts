@@ -17,7 +17,7 @@ export async function getCurrentUser() {
 export async function requireAuth() {
   const session = await getServerAuthSession()
   if (!session?.user) {
-    redirect('/auth/signin')
+    redirect('/?auth=signin')
   }
   return session.user
 }
@@ -25,7 +25,7 @@ export async function requireAuth() {
 export async function requireAdmin() {
   const session = await getServerAuthSession()
   if (!session?.user) {
-    redirect('/auth/signin')
+    redirect('/?auth=signin')
   }
   if (!session.user.isAdmin) {
     redirect('/auth/error?error=accessdenied')
@@ -36,7 +36,7 @@ export async function requireAdmin() {
 export async function requireVerifiedUser() {
   const session = await getServerAuthSession()
   if (!session?.user) {
-    redirect('/auth/signin')
+    redirect('/?auth=signin')
   }
   if (!session.user.emailVerified) {
     redirect('/auth/error?error=emailverification')
@@ -89,7 +89,7 @@ export function canAccess(session: any, requiredRole?: 'admin' | 'user' | 'verif
 // Session validation for API routes
 export async function validateApiSession(request: NextRequest) {
   const session = await getServerAuthSession()
-  
+
   if (!session?.user) {
     return {
       error: 'Authentication required',
@@ -107,7 +107,7 @@ export async function validateApiSession(request: NextRequest) {
 
 export async function validateApiAdminSession(request: NextRequest) {
   const session = await getServerAuthSession()
-  
+
   if (!session?.user) {
     return {
       error: 'Authentication required',
@@ -189,7 +189,7 @@ export function generateSessionId(): string {
 // Auth redirect helpers
 export function getAuthRedirectUrl(originalUrl?: string, fallback = '/dashboard'): string {
   if (!originalUrl) return fallback
-  
+
   // Prevent open redirect vulnerabilities
   try {
     const url = new URL(originalUrl, 'http://localhost:3000')
@@ -199,7 +199,7 @@ export function getAuthRedirectUrl(originalUrl?: string, fallback = '/dashboard'
   } catch (e) {
     // Invalid URL, use fallback
   }
-  
+
   return fallback
 }
 

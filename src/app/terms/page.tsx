@@ -2,13 +2,15 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { FileText, ShoppingCart, Shield, AlertTriangle, Scale, Clock } from 'lucide-react'
+import { FileText, ShoppingCart, Shield, AlertTriangle, Scale, Clock, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
 
 export default function TermsOfServicePage() {
   const sections = [
     {
       title: 'Acceptance of Terms',
       icon: FileText,
+      gradient: 'from-blue-500 to-cyan-500',
       content: [
         'By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement',
         'These terms apply to all visitors, users, and others who access or use the service',
@@ -19,8 +21,9 @@ export default function TermsOfServicePage() {
     {
       title: 'Use License',
       icon: Scale,
+      gradient: 'from-purple-500 to-pink-500',
       content: [
-        'Permission is granted to temporarily download one copy of the materials on T&N\'s website for personal, non-commercial transitory viewing only',
+        'Permission is granted to temporarily download one copy of the materials on Limit//Up\'s website for personal, non-commercial transitory viewing only',
         'This is the grant of a license, not a transfer of title, and under this license you may not modify or copy the materials',
         'Use the materials for any commercial purpose or for any public display',
         'Attempt to reverse engineer any software contained on the website',
@@ -30,6 +33,7 @@ export default function TermsOfServicePage() {
     {
       title: 'Product Information',
       icon: ShoppingCart,
+      gradient: 'from-orange-500 to-red-500',
       content: [
         'We strive to provide accurate product descriptions, images, and pricing',
         'Colors may vary slightly due to monitor settings and photography',
@@ -41,6 +45,7 @@ export default function TermsOfServicePage() {
     {
       title: 'Order Terms',
       icon: ShoppingCart,
+      gradient: 'from-green-500 to-emerald-500',
       content: [
         'All orders are subject to acceptance and availability',
         'We reserve the right to refuse or cancel any order for any reason',
@@ -52,6 +57,7 @@ export default function TermsOfServicePage() {
     {
       title: 'Privacy and Data',
       icon: Shield,
+      gradient: 'from-cyan-500 to-blue-500',
       content: [
         'Your privacy is protected in accordance with our Privacy Policy',
         'We collect information necessary to process orders and improve services',
@@ -63,6 +69,7 @@ export default function TermsOfServicePage() {
     {
       title: 'Prohibited Uses',
       icon: AlertTriangle,
+      gradient: 'from-red-500 to-rose-500',
       content: [
         'Violate any applicable laws or regulations',
         'Transmit any worms, viruses, or any code of a destructive nature',
@@ -75,105 +82,104 @@ export default function TermsOfServicePage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Terms of Service</h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Please read these terms and conditions carefully before using our service.
-            </p>
-            <div className="mt-6 flex items-center justify-center space-x-2 text-sm text-gray-500">
-              <Clock className="h-4 w-4" />
-              <span>Last updated: August 31, 2025</span>
-            </div>
-          </motion.div>
-        </div>
+    <div className="min-h-screen bg-[#0d0d12] py-24">
+      {/* Background Ambience */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="space-y-12">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-6 font-heading">
+            <span className="gradient-text">Terms of Service</span>
+          </h1>
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-8">
+            Please read these terms and conditions carefully before using our service.
+          </p>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-400">
+            <Clock className="h-4 w-4 text-purple-400" />
+            <span>Last updated: August 31, 2025</span>
+          </div>
+        </motion.div>
+
+        <div className="max-w-4xl mx-auto space-y-8">
           {/* Introduction */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white rounded-lg shadow-lg p-8"
+            className="glass-card rounded-2xl p-8 sm:p-10 relative overflow-hidden group"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Welcome to T&N</h2>
-            <p className="text-gray-600 leading-relaxed">
-              These Terms of Service ("Terms") govern your use of our website located at www.tn-fashion.com 
-              and any related services provided by T&N ("we," "us," or "our").
-            </p>
-            <p className="text-gray-600 leading-relaxed mt-4">
-              Please read these Terms carefully before using our service. By accessing or using our service, 
-              you agree to be bound by these Terms. If you disagree with any part of these terms, then you 
-              may not access the service.
-            </p>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-purple-500/10 to-transparent rounded-bl-full pointer-events-none" />
+
+            <h2 className="text-2xl font-bold text-white mb-6 font-heading">Welcome to Limit//Up</h2>
+            <div className="space-y-4 text-gray-300 leading-relaxed">
+              <p>
+                These Terms of Service ("Terms") govern your use of our website located at www.limitup.com
+                and any related services provided by Limit//Up ("we," "us," or "our").
+              </p>
+              <p>
+                Please read these Terms carefully before using our service. By accessing or using our service,
+                you agree to be bound by these Terms. If you disagree with any part of these terms, then you
+                may not access the service.
+              </p>
+            </div>
           </motion.div>
 
           {/* Terms Sections */}
-          {sections.map((section, index) => (
-            <motion.div
-              key={section.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
-              className="bg-white rounded-lg shadow-lg p-8"
-            >
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                <div className="bg-blue-100 p-2 rounded-lg mr-3">
-                  <section.icon className="h-5 w-5 text-blue-600" />
+          <div className="grid grid-cols-1 gap-6">
+            {sections.map((section, index) => (
+              <motion.div
+                key={section.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
+                whileHover={{ y: -4 }}
+                className="glass-card rounded-2xl p-8 hover-glow transition-all"
+              >
+                <div className="flex items-start gap-4 mb-6">
+                  <div className={`p-3 rounded-xl bg-gradient-to-br ${section.gradient} shadow-lg`}>
+                    <section.icon className="h-6 w-6 text-white" />
+                  </div>
+                  <h2 className="text-xl font-bold text-white mt-2 font-heading">
+                    {section.title}
+                  </h2>
                 </div>
-                {section.title}
-              </h2>
-              <ul className="space-y-3">
-                {section.content.map((item, itemIndex) => (
-                  <li key={itemIndex} className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
-                    <span className="text-gray-600">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
 
-          {/* Limitation of Liability */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.0 }}
-            className="bg-white rounded-lg shadow-lg p-8"
-          >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Limitation of Liability</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              In no event shall T&N or its suppliers be liable for any damages (including, without limitation, 
-              damages for loss of data or profit, or due to business interruption) arising out of the use or 
-              inability to use the materials on T&N's website.
-            </p>
-            <p className="text-gray-600 leading-relaxed">
-              Some jurisdictions do not allow the limitation of incidental or consequential damages, so the 
-              above limitation may not apply to you.
-            </p>
-          </motion.div>
+                <ul className="space-y-4 ml-3">
+                  {section.content.map((item, itemIndex) => (
+                    <motion.li
+                      key={itemIndex}
+                      className="flex items-start gap-3 text-gray-400 group"
+                      whileHover={{ x: 4, color: '#e5e7eb' }}
+                    >
+                      <div className={`w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-gradient-to-r ${section.gradient}`} />
+                      <span className="transition-colors">{item}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
 
           {/* Governing Law */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.1 }}
-            className="bg-white rounded-lg shadow-lg p-8"
+            transition={{ duration: 0.6, delay: 0.9 }}
+            className="glass-card rounded-2xl p-8"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Governing Law</h2>
-            <p className="text-gray-600 leading-relaxed">
-              These terms and conditions are governed by and construed in accordance with the laws of the 
-              jurisdiction in which T&N operates, and you irrevocably submit to the exclusive jurisdiction 
+            <h2 className="text-xl font-bold text-white mb-4 font-heading">Governing Law</h2>
+            <p className="text-gray-400 leading-relaxed">
+              These terms and conditions are governed by and construed in accordance with the laws of the
+              jurisdiction in which Limit//Up operates, and you irrevocably submit to the exclusive jurisdiction
               of the courts in that state or location.
             </p>
           </motion.div>
@@ -182,27 +188,38 @@ export default function TermsOfServicePage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.2 }}
-            className="bg-blue-50 rounded-lg p-8 text-center"
+            transition={{ duration: 0.6, delay: 1.0 }}
+            className="glass-card rounded-3xl p-8 sm:p-12 text-center bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/20"
           >
-            <FileText className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Questions About These Terms?</h2>
-            <p className="text-gray-600 mb-6">
-              If you have any questions about these Terms of Service, please contact us.
+            <div className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 mb-6 shadow-glow">
+              <FileText className="h-8 w-8 text-white" />
+            </div>
+
+            <h2 className="text-2xl font-bold text-white mb-4 font-heading">Questions About These Terms?</h2>
+            <p className="text-gray-400 mb-8 max-w-lg mx-auto">
+              If you have any questions or concerns about these Terms of Service, please don't hesitate to reach out to our legal team.
             </p>
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="mailto:legal@tn-fashion.com"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition-colors"
-              >
-                legal@tn-fashion.com
-              </a>
-              <a
-                href="/contact"
-                className="bg-white hover:bg-gray-50 text-blue-600 border border-blue-600 px-6 py-3 rounded-md font-medium transition-colors"
-              >
-                Contact Form
-              </a>
+              <Link href="mailto:legal@limitup.com">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+                >
+                  <ArrowRight className="w-4 h-4" />
+                  Email Legal Team
+                </motion.button>
+              </Link>
+              <Link href="/contact">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-white/10 text-white border border-white/10 px-8 py-3 rounded-full font-semibold hover:bg-white/20 transition-colors"
+                >
+                  Contact Support
+                </motion.button>
+              </Link>
             </div>
           </motion.div>
         </div>

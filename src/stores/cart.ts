@@ -7,7 +7,7 @@ interface CartStore {
   isOpen: boolean
   total: number
   itemCount: number
-  
+
   // Actions
   addItem: (product: Product, variantId?: string, quantity?: number) => void
   removeItem: (productId: string, variantId?: string) => void
@@ -41,11 +41,11 @@ export const useCartStore = create<CartStore>()(
         )
 
         let newItems: CartItem[]
-        
+
         if (existingItemIndex > -1) {
           // Update existing item quantity
-          newItems = items.map((item, index) => 
-            index === existingItemIndex 
+          newItems = items.map((item, index) =>
+            index === existingItemIndex
               ? { ...item, quantity: item.quantity + quantity }
               : item
           )
@@ -55,6 +55,8 @@ export const useCartStore = create<CartStore>()(
             ...items,
             {
               productId: product._id,
+              name: product.name,
+              image: product.images[0],
               variantId,
               quantity,
               price: product.price
@@ -74,7 +76,7 @@ export const useCartStore = create<CartStore>()(
         const newItems = get().items.filter(
           item => !(item.productId === productId && item.variantId === variantId)
         )
-        
+
         set({
           items: newItems,
           total: calculateTotal(newItems),

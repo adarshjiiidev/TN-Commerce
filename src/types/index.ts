@@ -63,6 +63,8 @@ export interface ProductVariant {
 
 export interface CartItem {
   productId: string;
+  name: string;
+  image: string;
   variantId?: string;
   quantity: number;
   price: number;
@@ -102,7 +104,7 @@ export interface OrderItem {
   image: string;
 }
 
-export type OrderStatus = 
+export type OrderStatus =
   | 'pending'
   | 'confirmed'
   | 'processing'

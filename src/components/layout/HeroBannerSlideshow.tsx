@@ -1,299 +1,257 @@
 "use client"
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { ArrowRight, Star, Users } from 'lucide-react'
 import { Banner } from '@/types'
 
 export default function HeroBannerSlideshow() {
   const [banners, setBanners] = useState<Banner[]>([])
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const [loading, setLoading] = useState(true)
 
-  // Fetch banners from API
   useEffect(() => {
     const fetchBanners = async () => {
       try {
         const response = await fetch('/api/banners')
         const data = await response.json()
-        
-        if (data.success && data.data) {
-          setBanners(data.data)
-        }
+        if (data.success && data.data) setBanners(data.data)
       } catch (error) {
         console.error('Failed to fetch banners:', error)
       } finally {
         setLoading(false)
       }
     }
-
     fetchBanners()
   }, [])
 
-  // Auto-play functionality
-  const nextSlide = useCallback(() => {
-    if (banners.length > 0) {
+  // Auto-rotate slides
+  useEffect(() => {
+    if (banners.length <= 1) return
+
+    const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % banners.length)
-    }
-  }, [banners.length])
+    }, 5000)
 
-  const prevSlide = useCallback(() => {
-    if (banners.length > 0) {
-      setCurrentSlide((prev) => (prev - 1 + banners.length) % banners.length)
-    }
-  }, [banners.length])
-
-  // Auto-play timer
-  useEffect(() => {
-    if (!isAutoPlaying || banners.length <= 1) return
-
-    const interval = setInterval(nextSlide, 5000) // Change slide every 5 seconds
     return () => clearInterval(interval)
-  }, [isAutoPlaying, banners.length, nextSlide])
+  }, [banners.length])
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') prevSlide()
-      if (e.key === 'ArrowRight') nextSlide()
-      if (e.key === ' ') {
-        e.preventDefault()
-        setIsAutoPlaying(!isAutoPlaying)
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyPress)
-    return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [nextSlide, prevSlide, isAutoPlaying])
-
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index)
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % banners.length)
   }
 
-  // Loading state
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + banners.length) % banners.length)
+  }
+
+  const defaultContent = {
+    title: "Express Your Vibe",
+    subtitle: "Discover the Latest Styles",
+    description: "Discover the latest trends & express your style effortlessly. Shop exclusive collections with premium designs, just for you!",
+    buttonText: "Shop now",
+    link: "/products"
+  }
+
   if (loading) {
     return (
-      <div className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 px-4 sm:px-6 lg:px-8 py-4 hidden lg:block">
+      <section className="pt-24 pb-6 px-4 sm:px-6 lg:px-8 bg-[#0d0d12]">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center min-h-[40vh]">
-            <div className="animate-pulse">
-              <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
-              <div className="h-12 bg-gray-200 rounded w-1/2 mb-4"></div>
-              <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
-              <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-            </div>
-            <div className="animate-pulse">
-              <div className="h-64 lg:h-[300px] bg-gray-200 rounded"></div>
-            </div>
-          </div>
+          <div className="bg-[#1a1a24] rounded-3xl p-8 animate-pulse h-96"></div>
         </div>
-      </div>
+      </section>
     )
   }
 
-  // No banners state
-  if (banners.length === 0) {
-    return (
-      <div className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 px-4 sm:px-6 lg:px-8 py-4 hidden lg:block">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center min-h-[40vh]">
-            <div className="text-center lg:text-left">
-              <h1 className="text-3xl lg:text-4xl font-black text-gray-900 mb-3">
-                Welcome to TN E-Commerce
-              </h1>
-              <p className="text-base text-gray-600 mb-6">
-                Discover amazing products at great prices.
-              </p>
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                <Link href="/products">Shop Now</Link>
-              </Button>
-            </div>
-            <div className="relative h-64 lg:h-[300px] bg-gray-100 rounded-lg flex items-center justify-center">
-              <p className="text-gray-500">No banners available</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  const currentBanner = banners[currentSlide]
+  const currentBanner = banners.length > 0 ? banners[currentSlide] : null
 
   return (
-    <section className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 px-4 sm:px-6 lg:px-8 py-4 hidden lg:block overflow-hidden">
+    <section className="pt-24 pb-6 px-4 sm:px-6 lg:px-8 bg-[#0d0d12]">
       <div className="max-w-7xl mx-auto">
-        <div className="relative">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide}
-              initial={{ opacity: 0, x: 300 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -300 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center min-h-[40vh]"
-            >
-              {/* Left Content */}
-              <div className="text-left z-10">
-                {currentBanner.subtitle && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="inline-flex items-center px-4 py-2 rounded-full bg-red-100 text-red-600 text-sm font-semibold mb-4"
-                  >
-                    {currentBanner.subtitle}
-                  </motion.div>
-                )}
-
-                <motion.h1
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.3 }}
-                  className="text-3xl lg:text-4xl font-black text-gray-900 mb-3 leading-tight"
+        {/* Main Hero Card - Compact */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="bg-gradient-to-br from-[#1a1a24] to-[#14141c] rounded-3xl p-6 md:p-8 shadow-2xl border border-white/5 mb-6"
+        >
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            {/* Left Content */}
+            <div className="relative z-10">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.5 }}
                 >
-                  {currentBanner.title}
-                </motion.h1>
+                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+                    {currentBanner?.title || defaultContent.title}
+                    <br />
+                    <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                      {defaultContent.subtitle}
+                    </span>
+                  </h1>
 
-                {currentBanner.description && (
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.5 }}
-                    className="text-base text-gray-600 mb-6 max-w-md"
-                  >
-                    {currentBanner.description}
-                  </motion.p>
-                )}
+                  <p className="text-gray-400 text-base mb-6 max-w-lg leading-relaxed">
+                    {currentBanner?.description || defaultContent.description}
+                  </p>
 
-                {currentBanner.link && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.6 }}
-                  >
-                    <Button
-                      size="default"
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 text-base font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-                    >
-                      <Link href={currentBanner.link}>
-                        {currentBanner.buttonText || 'Shop Now'}
-                      </Link>
-                    </Button>
-                  </motion.div>
-                )}
-              </div>
+                  <div>
+                    <Link href={currentBanner?.link || defaultContent.link}>
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="bg-white text-black px-6 py-3 rounded-full font-semibold inline-flex items-center gap-2 shadow-xl hover:shadow-2xl transition-all"
+                      >
+                        {currentBanner?.buttonText || defaultContent.buttonText}
+                        <ArrowRight className="h-4 w-4" />
+                      </motion.button>
+                    </Link>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
 
-              {/* Right Content - Banner Image */}
+              {/* Social Proof - Compact */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="relative h-64 lg:h-[300px]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+                className="mt-8"
               >
-                <div className="relative h-full rounded-2xl overflow-hidden shadow-2xl">
-                  <Image
-                    src={currentBanner.image}
-                    alt={currentBanner.title}
-                    fill
-                    className="object-cover"
-                    priority={currentSlide === 0}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="flex -space-x-2">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 border-2 border-[#1a1a24]" />
+                    ))}
+                  </div>
+                  <Users className="h-4 w-4 text-gray-400" />
+                </div>
+                <div className="text-xl font-bold text-white mb-0.5">58K+</div>
+                <div className="text-gray-400 text-xs mb-1">Client Reviews</div>
+                <div className="flex items-center gap-0.5">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <Star key={i} className="h-3 w-3 text-yellow-400 fill-current" />
+                  ))}
                 </div>
               </motion.div>
-            </motion.div>
-          </AnimatePresence>
+            </div>
 
-          {/* Navigation Controls */}
-          {banners.length > 1 && (
-            <>
-              {/* Previous/Next Buttons */}
-              <button
-                onClick={prevSlide}
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110"
-                aria-label="Previous slide"
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </button>
-
-              <button
-                onClick={nextSlide}
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110"
-                aria-label="Next slide"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </button>
-
-              {/* Play/Pause Button */}
-              <button
-                onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-                className="absolute bottom-4 right-4 z-20 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110"
-                aria-label={isAutoPlaying ? 'Pause slideshow' : 'Play slideshow'}
-              >
-                {isAutoPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-              </button>
-
-              {/* Pagination Dots */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-                {banners.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToSlide(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                      index === currentSlide
-                        ? 'bg-white shadow-lg scale-110'
-                        : 'bg-white/60 hover:bg-white/80'
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-
-              {/* Progress Bar */}
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
+            {/* Right Image - Smaller */}
+            <div className="relative h-[350px] lg:h-[400px] rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
+              <AnimatePresence mode="wait">
                 <motion.div
-                  className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
-                  initial={{ width: '0%' }}
-                  animate={{ width: '100%' }}
-                  transition={{
-                    duration: isAutoPlaying ? 5 : 0,
-                    ease: 'linear',
-                    repeat: isAutoPlaying ? Infinity : 0
-                  }}
-                  key={`${currentSlide}-${isAutoPlaying}`}
+                  key={currentSlide}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.05 }}
+                  transition={{ duration: 0.5 }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={currentBanner?.image || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
+                    alt="Hero"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Navigation Dots */}
+          {banners.length > 1 && (
+            <div className="flex justify-center items-center gap-2 mt-6">
+              {banners.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentSlide(idx)}
+                  className={`transition-all duration-300 rounded-full ${currentSlide === idx
+                    ? 'w-8 h-2 bg-gradient-to-r from-purple-500 to-pink-500'
+                    : 'w-2 h-2 bg-white/20 hover:bg-white/40'
+                    }`}
+                  aria-label={`Go to slide ${idx + 1}`}
                 />
-              </div>
-            </>
+              ))}
+            </div>
           )}
+        </motion.div>
+
+        {/* Bottom Cards Grid - Updated with Oversized and Regular Fit */}
+        <div className="grid md:grid-cols-3 gap-4">
+          {/* Card 1 - Oversized */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+            className="bg-gradient-to-br from-[#1a1a24] to-[#14141c] rounded-2xl overflow-hidden border border-white/5 h-60 group cursor-pointer"
+          >
+            <Link href="/products?fit=oversized" className="block h-full relative">
+              <Image
+                src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Oversized"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute bottom-4 left-4">
+                <h3 className="text-white font-bold text-lg">Oversized</h3>
+                <p className="text-gray-300 text-xs mt-1">Shop Collection →</p>
+              </div>
+            </Link>
+          </motion.div>
+
+          {/* Card 2 - Regular Fit */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1 }}
+            className="bg-gradient-to-br from-[#1a1a24] to-[#14141c] rounded-2xl overflow-hidden border border-white/5 h-60 group cursor-pointer"
+          >
+            <Link href="/products?fit=regular" className="block h-full relative">
+              <Image
+                src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Regular Fit"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute bottom-4 left-4">
+                <h3 className="text-white font-bold text-lg">Regular Fit</h3>
+                <p className="text-gray-300 text-xs mt-1">Shop Now →</p>
+              </div>
+            </Link>
+          </motion.div>
+
+          {/* Card 3 - CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1 }}
+            className="bg-gradient-to-br from-purple-600/20 via-pink-600/20 to-purple-600/20 backdrop-blur-xl rounded-2xl border border-purple-500/20 h-60 flex items-center justify-center p-6 text-center"
+          >
+            <div>
+              <h3 className="text-white font-bold text-xl mb-2">
+                Models wearing
+                <br />
+                full outfits
+              </h3>
+              <Link href="/collections">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-white/20 transition-all"
+                >
+                  Explore more →
+                </motion.button>
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </div>
-
-      {/* Touch/Swipe Support */}
-      <div
-        className="absolute inset-0 z-10"
-        onTouchStart={(e) => {
-          const touch = e.touches[0]
-          e.currentTarget.dataset.startX = touch.clientX.toString()
-        }}
-        onTouchEnd={(e) => {
-          const touch = e.changedTouches[0]
-          const startX = parseFloat(e.currentTarget.dataset.startX || '0')
-          const endX = touch.clientX
-          const diff = startX - endX
-
-          if (Math.abs(diff) > 50) { // Minimum swipe distance
-            if (diff > 0) {
-              nextSlide()
-            } else {
-              prevSlide()
-            }
-          }
-        }}
-      />
     </section>
   )
 }

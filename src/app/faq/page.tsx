@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, Search, HelpCircle } from 'lucide-react'
+import { ChevronDown, Search, HelpCircle, MessageCircle, Mail } from 'lucide-react'
 
 export default function FAQPage() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -92,25 +92,25 @@ export default function FAQPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#0d0d12] py-24">
       {/* Header */}
-      <div className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Find answers to common questions about our products and services
-            </p>
-          </motion.div>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center"
+        >
+          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 font-heading">
+            <span className="gradient-text">Frequently Asked Questions</span>
+          </h1>
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            Find answers to common questions about our products and services
+          </p>
+        </motion.div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Search */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -118,65 +118,69 @@ export default function FAQPage() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mb-12"
         >
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+          <div className="relative group">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-purple-400 transition-colors" />
             <input
               type="text"
               placeholder="Search FAQs..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+              className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 text-lg text-white placeholder:text-gray-500 transition-all"
             />
           </div>
         </motion.div>
 
         {/* FAQ Categories */}
-        <div className="space-y-8">
+        <div className="space-y-6">
           {filteredFAQs.map((category, categoryIndex) => (
             <motion.div
               key={category.category}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 + categoryIndex * 0.1 }}
-              className="bg-white rounded-lg shadow-lg overflow-hidden"
+              className="glass-card rounded-2xl overflow-hidden"
             >
-              <div className="p-6 border-b border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 flex items-center">
-                  <HelpCircle className="h-5 w-5 mr-2 text-blue-600" />
+              <div className="p-6 border-b border-white/10 bg-gradient-to-r from-purple-500/10 to-pink-500/10">
+                <h2 className="text-xl font-bold text-white flex items-center font-heading">
+                  <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 mr-3">
+                    <HelpCircle className="h-5 w-5 text-white" />
+                  </div>
                   {category.category}
                 </h2>
               </div>
 
-              <div className="divide-y divide-gray-200">
+              <div className="divide-y divide-white/10">
                 {category.questions.map((faq, faqIndex) => {
                   const globalIndex = categoryIndex * 100 + faqIndex
                   return (
                     <div key={faqIndex}>
-                      <button
+                      <motion.button
                         onClick={() => toggleFAQ(globalIndex)}
-                        className="w-full px-6 py-4 text-left hover:bg-gray-50 transition-colors"
+                        whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.03)' }}
+                        className="w-full px-6 py-5 text-left transition-colors"
                       >
                         <div className="flex items-center justify-between">
-                          <h3 className="font-medium text-gray-900">{faq.question}</h3>
-                          <ChevronDown
-                            className={`h-5 w-5 text-gray-500 transition-transform ${
-                              openFAQ === globalIndex ? 'rotate-180' : ''
-                            }`}
-                          />
+                          <h3 className="font-medium text-white pr-4">{faq.question}</h3>
+                          <motion.div
+                            animate={{ rotate: openFAQ === globalIndex ? 180 : 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <ChevronDown className="h-5 w-5 text-gray-400 flex-shrink-0" />
+                          </motion.div>
                         </div>
-                      </button>
-                      
+                      </motion.button>
+
                       <AnimatePresence>
                         {openFAQ === globalIndex && (
                           <motion.div
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3 }}
+                            transition={{ duration: 0.3, ease: 'easeInOut' }}
                             className="overflow-hidden"
                           >
-                            <div className="px-6 pb-4">
-                              <p className="text-gray-600">{faq.answer}</p>
+                            <div className="px-6 pb-5 bg-white/5">
+                              <p className="text-gray-300">{faq.answer}</p>
                             </div>
                           </motion.div>
                         )}
@@ -194,25 +198,38 @@ export default function FAQPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-12 bg-blue-50 rounded-lg p-8 text-center"
+          className="mt-12 glass-card rounded-3xl p-8 text-center bg-gradient-to-br from-purple-500/10 to-pink-500/10"
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Still have questions?</h2>
-          <p className="text-gray-600 mb-6">
+          <motion.div
+            whileHover={{ rotate: 360 }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 mb-4"
+          >
+            <MessageCircle className="h-8 w-8 text-white" />
+          </motion.div>
+          <h2 className="text-2xl font-bold text-white mb-2 font-heading">Still have questions?</h2>
+          <p className="text-gray-400 mb-6">
             Can't find what you're looking for? Our customer service team is here to help.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
+            <motion.a
               href="/contact"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-3 rounded-full font-semibold transition-all shadow-glow hover:shadow-glow-lg inline-flex items-center justify-center gap-2"
             >
+              <MessageCircle className="w-5 h-5" />
               Contact Support
-            </a>
-            <a
-              href="mailto:support@tn-fashion.com"
-              className="bg-white hover:bg-gray-50 text-blue-600 border border-blue-600 px-6 py-3 rounded-md font-medium transition-colors"
+            </motion.a>
+            <motion.a
+              href="mailto:support@limitup.com"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-8 py-3 rounded-full font-semibold transition-all inline-flex items-center justify-center gap-2"
             >
+              <Mail className="w-5 h-5" />
               Email Us
-            </a>
+            </motion.a>
           </div>
         </motion.div>
       </div>

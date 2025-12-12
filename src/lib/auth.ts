@@ -15,7 +15,7 @@ export const authOptions: NextAuthOptions = {
     databaseName: process.env.MONGODB_DB_NAME || "test",
     collections: {
       Users: "nextauth_users",
-      Accounts: "nextauth_accounts", 
+      Accounts: "nextauth_accounts",
       Sessions: "nextauth_sessions",
       VerificationTokens: "nextauth_verification_tokens"
     }
@@ -34,11 +34,11 @@ export const authOptions: NextAuthOptions = {
 
         try {
           await dbConnect()
-          
+
           // Find user with password field included
           const user = await User.findOne({ email: credentials.email.toLowerCase() })
             .select('+password')
-          
+
           if (!user) {
             return null
           }
@@ -46,7 +46,7 @@ export const authOptions: NextAuthOptions = {
           // Check if email is verified (skip for admin users)
           const adminEmails = process.env.ADMIN_EMAILS?.split(',').map(email => email.trim().toLowerCase()) || []
           const isAdmin = adminEmails.includes(user.email.toLowerCase())
-          
+
           if (!user.emailVerified && !isAdmin) {
             throw new Error('Please verify your email before signing in')
           }
@@ -79,7 +79,8 @@ export const authOptions: NextAuthOptions = {
           access_type: "offline",
           response_type: "code"
         }
-      }
+      },
+      allowDangerousEmailAccountLinking: true
     }),
     EmailProvider({
       server: `smtp://${process.env.EMAIL_SERVER_USER}:${process.env.EMAIL_SERVER_PASSWORD}@${process.env.EMAIL_SERVER_HOST}:${process.env.EMAIL_SERVER_PORT}`,
@@ -105,7 +106,7 @@ export const authOptions: NextAuthOptions = {
       if (session?.user?.email) {
         await dbConnect()
         const dbUser = await User.findOne({ email: session.user.email })
-        
+
         if (dbUser) {
           session.user.id = dbUser._id.toString()
           session.user.isAdmin = dbUser.isAdmin
@@ -124,15 +125,15 @@ export const authOptions: NextAuthOptions = {
       try {
         if (account?.provider === 'google' || account?.provider === 'email') {
           await dbConnect()
-          
+
           // Check if user exists in your custom User model
           let customUser = await User.findOne({ email: user.email })
-          
+
           if (!customUser) {
             // Check if this is an admin email
             const adminEmails = process.env.ADMIN_EMAILS?.split(',').map(email => email.trim().toLowerCase()) || []
             const isAdmin = adminEmails.includes(user.email?.toLowerCase() || '')
-            
+
             // Create user in your custom User model to maintain consistency
             customUser = await User.create({
               email: user.email,
@@ -151,10 +152,10 @@ export const authOptions: NextAuthOptions = {
               await customUser.save()
             }
           }
-          
+
           return true
         }
-        
+
         return true
       } catch (error) {
         console.error('Sign in error:', error)
@@ -163,7 +164,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: '/auth/signin',
+    signIn: '/',
     signOut: '/auth/signout',
     error: '/auth/error',
     verifyRequest: '/auth/verify-request',

@@ -18,9 +18,9 @@ export default function SignOutPage() {
   const handleSignOut = async () => {
     setIsSigningOut(true)
     try {
-      await signOut({ 
+      await signOut({
         callbackUrl: '/',
-        redirect: false 
+        redirect: false
       })
       setSignedOut(true)
       setTimeout(() => {
@@ -90,7 +90,7 @@ export default function SignOutPage() {
               whileHover={{ scale: 1.05 }}
               className="text-4xl font-bold tracking-tighter text-black"
             >
-              T&N
+              Limit//Up
             </motion.h1>
           </Link>
           <h2 className="mt-6 text-3xl font-bold text-gray-900">
@@ -139,7 +139,7 @@ export default function SignOutPage() {
             href="/"
             className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
           >
-            ← Back to T&N
+            ← Back to Limit//Up
           </Link>
         </div>
       </motion.div>

@@ -3,14 +3,14 @@
 import React, { useState, useEffect, Suspense } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import { motion } from 'framer-motion'
-import { 
-  User, 
-  Package, 
-  Heart, 
-  Settings, 
-  ShoppingBag, 
-  MapPin, 
-  CreditCard, 
+import {
+  User,
+  Package,
+  Heart,
+  Settings,
+  ShoppingBag,
+  MapPin,
+  CreditCard,
   Gift,
   ChevronRight,
   Calendar,
@@ -97,13 +97,13 @@ function DashboardContent() {
   const searchParams = useSearchParams()
   const section = (searchParams.get('section') || 'orders') as 'profile' | 'list' | 'orders' | 'payments' | 'addresses'
   const [activeTab, setActiveTab] = useState<'upcoming' | 'previous' | 'scheduled'>('upcoming')
-  
+
   // Real-time state management
   const [orders, setOrders] = useState<Order[]>([])
   const [wishlist, setWishlist] = useState<WishlistItem[]>([])
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([])
   const [addresses, setAddresses] = useState<Address[]>([])
-  const [userProfile, setUserProfile] = useState<UserProfile>({ 
+  const [userProfile, setUserProfile] = useState<UserProfile>({
     name: '', email: '', phone: '', dateOfBirth: '', gender: '',
     notifications: { email: true, sms: false, push: true }
   })
@@ -118,7 +118,7 @@ function DashboardContent() {
       loadUserData()
     }
   }, [session])
-  
+
   const loadUserData = async () => {
     setIsLoading(true)
     try {
@@ -131,12 +131,12 @@ function DashboardContent() {
         gender: '',
         notifications: { email: true, sms: false, push: true }
       })
-      
+
       // Generate referral code based on user email
       const code = session?.user?.email?.split('@')[0]?.toUpperCase() + Math.random().toString(36).substr(2, 4).toUpperCase()
       setReferralCode(code || '')
       setReferralStats({ totalReferrals: 0, earnings: 0 })
-      
+
       // Load data (in a real app, these would be API calls)
       await Promise.all([
         loadOrders(),
@@ -150,24 +150,24 @@ function DashboardContent() {
       setIsLoading(false)
     }
   }
-  
+
   const loadOrders = async () => {
     // In a real app, this would be an API call
     setOrders([])
   }
-  
+
   const loadWishlist = async () => {
     setWishlist([])
   }
-  
+
   const loadPaymentMethods = async () => {
     setPaymentMethods([])
   }
-  
+
   const loadAddresses = async () => {
     setAddresses([])
   }
-  
+
   const handleSaveProfile = async () => {
     setIsLoading(true)
     try {
@@ -180,7 +180,7 @@ function DashboardContent() {
       setIsLoading(false)
     }
   }
-  
+
   const addAddress = () => {
     const newAddress: Address = {
       id: Date.now().toString(),
@@ -195,11 +195,11 @@ function DashboardContent() {
     }
     setAddresses([...addresses, newAddress])
   }
-  
+
   const removeAddress = (id: string) => {
     setAddresses(addresses.filter(addr => addr.id !== id))
   }
-  
+
   const addPaymentMethod = () => {
     const newPayment: PaymentMethod = {
       id: Date.now().toString(),
@@ -210,11 +210,11 @@ function DashboardContent() {
     }
     setPaymentMethods([...paymentMethods, newPayment])
   }
-  
+
   const removePaymentMethod = (id: string) => {
     setPaymentMethods(paymentMethods.filter(pm => pm.id !== id))
   }
-  
+
   const copyReferralCode = () => {
     navigator.clipboard.writeText(referralCode)
   }
@@ -270,42 +270,56 @@ function DashboardContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#0d0d12] pt-20">
       <div className="flex">
         {/* Sidebar */}
-        <div className="w-64 bg-white shadow-sm min-h-screen p-6">
+        <motion.div
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="w-64 glass-card min-h-screen p-6 border-r border-white/10"
+        >
           {/* Profile Section */}
-          <div className="flex items-center space-x-3 mb-8">
-            <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="flex items-center space-x-3 mb-8"
+          >
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center ring-2 ring-purple-500/20">
               {session.user.image ? (
-                <Image 
-                  src={session.user.image} 
-                  alt={session.user.name || 'User'} 
-                  width={48} 
-                  height={48} 
+                <Image
+                  src={session.user.image}
+                  alt={session.user.name || 'User'}
+                  width={48}
+                  height={48}
                   className="rounded-full"
                 />
               ) : (
-                <User className="w-6 h-6 text-gray-500" />
+                <User className="w-6 h-6 text-white" />
               )}
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900">{session.user.name}</h3>
-              <p className="text-sm text-gray-500">{session.user.email}</p>
+              <h3 className="font-semibold text-white">{session.user.name}</h3>
+              <p className="text-sm text-gray-400 truncate">{session.user.email}</p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Navigation */}
           <nav className="space-y-1">
-            {sidebarItems.map((item) => {
+            {sidebarItems.map((item, idx) => {
               const isActive = section === item.key
               return (
-                <button
+                <motion.button
                   key={item.key}
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.3 + idx * 0.05 }}
                   onClick={() => router.push(`/dashboard?section=${item.key}`)}
-                  className={`w-full text-left flex items-center justify-between p-3 rounded-lg transition-colors ${
-                    isActive ? 'bg-gray-100 text-gray-900 border-r-2 border-gray-900' : 'text-gray-600 hover:bg-gray-50'
-                  }`}
+                  className={`w-full text-left flex items-center justify-between p-3 rounded-xl transition-all ${isActive
+                    ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-white border border-purple-500/30 shadow-glow'
+                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                    }`}
                 >
                   <div className="flex items-center space-x-3">
                     <item.icon className="w-5 h-5" />
@@ -313,62 +327,64 @@ function DashboardContent() {
                   </div>
                   <div className="flex items-center space-x-2">
                     {'badge' in item && item.badge && (
-                      <span className="bg-gray-900 text-white text-xs px-2 py-1 rounded-full">
+                      <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
                         {item.badge}
                       </span>
                     )}
-                    <ChevronRight className="w-4 h-4" />
+                    <ChevronRight className={`w-4 h-4 transition-transform ${isActive ? 'rotate-90' : ''}`} />
                   </div>
-                </button>
+                </motion.button>
               )
             })}
           </nav>
-        </div>
+        </motion.div>
 
         {/* Main Content */}
         <div className="flex-1 p-8">
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <motion.div
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8"
+          >
+            <h1 className="text-3xl font-bold text-white mb-2 font-heading">
               {section === 'orders' && 'My Orders'}
               {section === 'profile' && 'My Profile'}
               {section === 'list' && 'My List'}
               {section === 'payments' && 'Payments'}
               {section === 'addresses' && 'Address Book'}
             </h1>
-          </div>
+          </motion.div>
 
           {/* Orders Section */}
           {section === 'orders' && (
             <div>
-              <div className="flex border-b border-gray-200 mb-6">
+              <div className="flex border-b border-white/10 mb-6">
                 <button
                   onClick={() => setActiveTab('upcoming')}
-                  className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-                    activeTab === 'upcoming'
-                      ? 'border-gray-900 text-gray-900'
-                      : 'border-transparent text-gray-500 hover:text-gray-700'
-                  }`}
+                  className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'upcoming'
+                    ? 'border-purple-500 text-white'
+                    : 'border-transparent text-gray-400 hover:text-white'
+                    }`}
                 >
                   Upcoming Orders (1)
                 </button>
                 <button
                   onClick={() => setActiveTab('previous')}
-                  className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ml-8 ${
-                    activeTab === 'previous'
-                      ? 'border-gray-900 text-gray-900'
-                      : 'border-transparent text-gray-500 hover:text-gray-700'
-                  }`}
+                  className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ml-8 ${activeTab === 'previous'
+                    ? 'border-purple-500 text-white'
+                    : 'border-transparent text-gray-400 hover:text-white'
+                    }`}
                 >
                   Previous Orders (2)
                 </button>
                 <button
                   onClick={() => setActiveTab('scheduled')}
-                  className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ml-8 ${
-                    activeTab === 'scheduled'
-                      ? 'border-gray-900 text-gray-900'
-                      : 'border-transparent text-gray-500 hover:text-gray-700'
-                  }`}
+                  className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ml-8 ${activeTab === 'scheduled'
+                    ? 'border-purple-500 text-white'
+                    : 'border-transparent text-gray-400 hover:text-white'
+                    }`}
                 >
                   Scheduled Orders (0)
                 </button>
@@ -377,93 +393,99 @@ function DashboardContent() {
               {/* Orders List */}
               <div className="space-y-4">
                 {orders.length === 0 ? (
-                  <Card>
-                    <CardContent className="p-12 text-center">
-                      <Package className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">No orders yet</h3>
-                      <p className="text-gray-600 mb-6">When you place your first order, it will appear here.</p>
-                      <Button asChild className="bg-gray-900 hover:bg-gray-800">
-                        <Link href="/products">
-                          <ShoppingBag className="mr-2 h-4 w-4" />
-                          Start Shopping
-                        </Link>
-                      </Button>
-                    </CardContent>
-                  </Card>
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="glass-card rounded-2xl p-12 text-center"
+                  >
+                    <Package className="mx-auto h-16 w-16 text-gray-600 mb-4" />
+                    <h3 className="text-lg font-medium text-white mb-2">No orders yet</h3>
+                    <p className="text-gray-400 mb-6">When you place your first order, it will appear here.</p>
+                    <Link href="/products">
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-6 py-3 rounded-full font-semibold inline-flex items-center gap-2 shadow-glow"
+                      >
+                        <ShoppingBag className="h-4 w-4" />
+                        Start Shopping
+                      </motion.button>
+                    </Link>
+                  </motion.div>
                 ) : (
                   orders.map((order) => (
-                  <motion.div
-                    key={order.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Card className="hover:shadow-md transition-shadow">
-                      <CardContent className="p-6">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-4">
-                            {/* Order Icon */}
-                            <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
-                              <Package className="w-6 h-6 text-gray-600" />
+                    <motion.div
+                      key={order.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <Card className="hover:shadow-md transition-shadow">
+                        <CardContent className="p-6">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                              {/* Order Icon */}
+                              <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                                <Package className="w-6 h-6 text-gray-600" />
+                              </div>
+
+                              {/* Order Details */}
+                              <div>
+                                <div className="flex items-center space-x-2 mb-1">
+                                  <h3 className="font-semibold text-gray-900">Order no {order.orderNumber}</h3>
+                                  <span className="text-lg font-bold">EGP {order.total.toFixed(2)}</span>
+                                </div>
+
+                                {/* Status Progress */}
+                                <div className="flex items-center space-x-4 mb-3">
+                                  <div className="flex items-center space-x-2">
+                                    {getStatusIcon('confirmed')}
+                                    <span className="text-sm text-gray-600">Confirmed</span>
+                                  </div>
+                                  <div className="flex-1 h-px bg-gray-200"></div>
+                                  <div className="flex items-center space-x-2">
+                                    {getStatusIcon('preparing')}
+                                    <span className="text-sm text-gray-600">Preparing</span>
+                                  </div>
+                                  <div className="flex-1 h-px bg-gray-200"></div>
+                                  <div className="flex items-center space-x-2">
+                                    {getStatusIcon('picked_up')}
+                                    <span className="text-sm text-gray-600">Picked up</span>
+                                  </div>
+                                  <div className="flex-1 h-px bg-gray-200"></div>
+                                  <div className="flex items-center space-x-2">
+                                    {getStatusIcon('delivered')}
+                                    <span className="text-sm text-gray-600">Delivered</span>
+                                  </div>
+                                </div>
+
+                                {/* Order Info */}
+                                <div className="flex items-center space-x-4 text-sm text-gray-600">
+                                  <span>{order.items} Items</span>
+                                  <span>•</span>
+                                  <span>{order.deliveryTime}</span>
+                                  <span>•</span>
+                                  <span className="flex items-center space-x-1">
+                                    <Truck className="w-4 h-4" />
+                                    <span>{order.estimatedDelivery}</span>
+                                  </span>
+                                </div>
+                              </div>
                             </div>
-                            
-                            {/* Order Details */}
-                            <div>
-                              <div className="flex items-center space-x-2 mb-1">
-                                <h3 className="font-semibold text-gray-900">Order no {order.orderNumber}</h3>
-                                <span className="text-lg font-bold">EGP {order.total.toFixed(2)}</span>
-                              </div>
-                              
-                              {/* Status Progress */}
-                              <div className="flex items-center space-x-4 mb-3">
-                                <div className="flex items-center space-x-2">
-                                  {getStatusIcon('confirmed')}
-                                  <span className="text-sm text-gray-600">Confirmed</span>
-                                </div>
-                                <div className="flex-1 h-px bg-gray-200"></div>
-                                <div className="flex items-center space-x-2">
-                                  {getStatusIcon('preparing')}
-                                  <span className="text-sm text-gray-600">Preparing</span>
-                                </div>
-                                <div className="flex-1 h-px bg-gray-200"></div>
-                                <div className="flex items-center space-x-2">
-                                  {getStatusIcon('picked_up')}
-                                  <span className="text-sm text-gray-600">Picked up</span>
-                                </div>
-                                <div className="flex-1 h-px bg-gray-200"></div>
-                                <div className="flex items-center space-x-2">
-                                  {getStatusIcon('delivered')}
-                                  <span className="text-sm text-gray-600">Delivered</span>
-                                </div>
-                              </div>
-                              
-                              {/* Order Info */}
-                              <div className="flex items-center space-x-4 text-sm text-gray-600">
-                                <span>{order.items} Items</span>
-                                <span>•</span>
-                                <span>{order.deliveryTime}</span>
-                                <span>•</span>
-                                <span className="flex items-center space-x-1">
-                                  <Truck className="w-4 h-4" />
-                                  <span>{order.estimatedDelivery}</span>
-                                </span>
-                              </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex space-x-3">
+                              <Button variant="outline" size="sm">
+                                Cancel Order
+                              </Button>
+                              <Button className="bg-gray-900 hover:bg-gray-800" size="sm">
+                                Order Details
+                              </Button>
                             </div>
                           </div>
-                          
-                          {/* Action Buttons */}
-                          <div className="flex space-x-3">
-                            <Button variant="outline" size="sm">
-                              Cancel Order
-                            </Button>
-                            <Button className="bg-gray-900 hover:bg-gray-800" size="sm">
-                              Order Details
-                            </Button>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
                   ))
                 )}
               </div>
@@ -476,8 +498,8 @@ function DashboardContent() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle>Personal Information</CardTitle>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     onClick={() => isEditing ? handleSaveProfile() : setIsEditing(true)}
                   >
@@ -491,7 +513,7 @@ function DashboardContent() {
                       <label className="text-sm font-medium text-gray-700 mb-1 block">Full Name</label>
                       <Input
                         value={userProfile.name}
-                        onChange={(e) => setUserProfile({...userProfile, name: e.target.value})}
+                        onChange={(e) => setUserProfile({ ...userProfile, name: e.target.value })}
                         disabled={!isEditing}
                       />
                     </div>
@@ -503,7 +525,7 @@ function DashboardContent() {
                       <label className="text-sm font-medium text-gray-700 mb-1 block">Phone</label>
                       <Input
                         value={userProfile.phone}
-                        onChange={(e) => setUserProfile({...userProfile, phone: e.target.value})}
+                        onChange={(e) => setUserProfile({ ...userProfile, phone: e.target.value })}
                         disabled={!isEditing}
                         placeholder="+1 (555) 123-4567"
                       />
@@ -513,14 +535,14 @@ function DashboardContent() {
                       <Input
                         type="date"
                         value={userProfile.dateOfBirth}
-                        onChange={(e) => setUserProfile({...userProfile, dateOfBirth: e.target.value})}
+                        onChange={(e) => setUserProfile({ ...userProfile, dateOfBirth: e.target.value })}
                         disabled={!isEditing}
                       />
                     </div>
                   </div>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardHeader>
                   <CardTitle>Account Actions</CardTitle>
@@ -617,8 +639,8 @@ function DashboardContent() {
                               )}
                             </div>
                           </div>
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
                             onClick={() => removePaymentMethod(method.id)}
                           >

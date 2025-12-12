@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Orbitron } from "next/font/google";
 import "./globals.css";
 import Layout from '@/components/layout/Layout';
 import ErrorBoundary from '@/components/error/ErrorBoundary';
+
+const orbitron = Orbitron({
+  subsets: ["latin"],
+  variable: "--font-horizon",
+  display: "swap",
+});
 
 const inter = Inter({
   subsets: ["latin"],
@@ -11,12 +17,12 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "T&N - Redefine Your Style",
-    template: "%s | T&N",
+    default: "Limit//Up - Redefine Your Style",
+    template: "%s | Limit//Up",
   },
   description: "Discover bold, minimal designs that speak to the modern lifestyle. Premium fashion and accessories for the contemporary wardrobe. Shop T-shirts, accessories, and more.",
   keywords: [
-    "T&N fashion",
+    "Limit//Up fashion",
     "modern clothing",
     "minimal design",
     "contemporary fashion",
@@ -27,9 +33,9 @@ export const metadata: Metadata = {
     "trendy apparel",
     "quality clothing"
   ],
-  authors: [{ name: "T&N Fashion" }],
-  creator: "T&N Fashion",
-  publisher: "T&N Fashion",
+  authors: [{ name: "Limit//Up Fashion" }],
+  creator: "Limit//Up Fashion",
+  publisher: "Limit//Up Fashion",
   metadataBase: new URL("https://tnfashion.vercel.app"),
   alternates: {
     canonical: "/",
@@ -38,21 +44,21 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://tnfashion.vercel.app",
-    title: "T&N - Redefine Your Style",
+    title: "Limit//Up - Redefine Your Style",
     description: "Discover bold, minimal designs that speak to the modern lifestyle. Premium fashion and accessories for the contemporary wardrobe.",
-    siteName: "T&N Fashion",
+    siteName: "Limit//Up Fashion",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "T&N Fashion - Modern Clothing Brand",
+        alt: "Limit//Up Fashion - Modern Clothing Brand",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "T&N - Redefine Your Style",
+    title: "Limit//Up - Redefine Your Style",
     description: "Discover bold, minimal designs that speak to the modern lifestyle.",
     creator: "@tn_fashion",
     images: ["/og-image.jpg"],
@@ -79,8 +85,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="font-sans">
+    <html lang="en" className={`${inter.variable} ${orbitron.variable} dark`}>
+      <body className="font-sans bg-[#0d0d12] text-white antialiased">
         <ErrorBoundary>
           <Layout>
             {children}
