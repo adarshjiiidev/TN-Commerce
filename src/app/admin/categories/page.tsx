@@ -227,3 +227,6 @@ export default function CategoriesManagement() {
     </div>
   )
 }
+
+export const dynamic = 'force-dynamic'
+

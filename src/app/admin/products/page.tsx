@@ -489,3 +489,6 @@ export default function AdminProductsPage() {
     </div>
   )
 }
+
+export const dynamic = 'force-dynamic'
+

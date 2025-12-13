@@ -209,3 +209,6 @@ export default function PendingOrdersManagement() {
     </div>
   )
 }
+
+export const dynamic = 'force-dynamic'
+

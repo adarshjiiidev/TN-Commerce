@@ -618,3 +618,6 @@ export default function AddProductPage() {
     </div>
   )
 }
+
+export const dynamic = 'force-dynamic'
+

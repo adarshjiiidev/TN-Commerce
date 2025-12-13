@@ -427,3 +427,6 @@ export default function AdminPanel() {
     </div>
   )
 }
+
+export const dynamic = 'force-dynamic'
+

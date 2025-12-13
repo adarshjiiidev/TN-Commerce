@@ -8,6 +8,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, Search, Filter, Trash2, Shield, User as UserIcon, MoreHorizontal, Mail, Calendar, ChevronDown, CheckCircle, XCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { User } from '@/types'
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
 import { cn } from '@/lib/utils'
 
 export default function UsersManagement() {

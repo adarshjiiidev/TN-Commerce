@@ -2,11 +2,11 @@
 
 import { useSession } from 'next-auth/react'
 import { redirect } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import Link from 'next/link'
 import { User } from '@/types'
 
-export default function AdminUsersManagement() {
+function AdminUsersContent() {
   const { data: session, status } = useSession()
   const [admins, setAdmins] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
@@ -14,7 +14,7 @@ export default function AdminUsersManagement() {
 
   useEffect(() => {
     if (status === 'loading') return
-    
+
     if (!session || !session.user.isAdmin) {
       redirect('/auth/signin')
       return
@@ -28,7 +28,7 @@ export default function AdminUsersManagement() {
       setLoading(true)
       const response = await fetch('/api/admin/users?role=admin')
       const data = await response.json()
-      
+
       if (data.success) {
         setAdmins(data.data)
       } else {
@@ -56,7 +56,7 @@ export default function AdminUsersManagement() {
       })
 
       const data = await response.json()
-      
+
       if (data.success) {
         setAdmins(admins.filter(admin => admin._id !== userId))
       } else {
@@ -91,7 +91,7 @@ export default function AdminUsersManagement() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center space-x-4">
-              <Link 
+              <Link
                 href="/admin/users"
                 className="text-gray-600 hover:text-gray-900"
               >
@@ -137,7 +137,7 @@ export default function AdminUsersManagement() {
                   <p className="text-sm text-gray-600">{admin.email}</p>
                 </div>
               </div>
-              
+
               <div className="space-y-2 text-sm text-gray-600">
                 <div className="flex justify-between">
                   <span>Role:</span>
@@ -155,11 +155,10 @@ export default function AdminUsersManagement() {
                 <button
                   onClick={() => removeAdminStatus(admin._id)}
                   disabled={admin._id === session.user.id}
-                  className={`w-full py-2 px-4 rounded-md text-sm font-medium ${
-                    admin._id === session.user.id
+                  className={`w-full py-2 px-4 rounded-md text-sm font-medium ${admin._id === session.user.id
                       ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                       : 'bg-red-100 text-red-800 hover:bg-red-200'
-                  }`}
+                    }`}
                 >
                   {admin._id === session.user.id ? 'Cannot Remove Self' : 'Remove Admin'}
                 </button>
@@ -179,3 +178,18 @@ export default function AdminUsersManagement() {
     </div>
   )
 }
+
+export default function AdminUsersManagement() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+      </div>
+    }>
+      <AdminUsersContent />
+    </Suspense>
+  )
+}
+
+export const dynamic = 'force-dynamic'
+

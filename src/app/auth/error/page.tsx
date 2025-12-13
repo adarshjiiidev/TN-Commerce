@@ -1,11 +1,7 @@
-"use client"
-
-import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { AlertCircle, ArrowLeft } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Suspense } from 'react'
 
 const errorMessages = {
   configuration: 'There is a problem with the server configuration. Please contact support.',
@@ -23,9 +19,12 @@ const errorMessages = {
   default: 'An unexpected error occurred during authentication. Please try again.'
 }
 
-function ErrorContent() {
-  const searchParams = useSearchParams()
-  const error = searchParams.get('error') as keyof typeof errorMessages || 'default'
+export default function AuthError({
+  searchParams,
+}: {
+  searchParams: { error?: string }
+}) {
+  const error = searchParams.error as keyof typeof errorMessages || 'default'
   const errorMessage = errorMessages[error] || errorMessages.default
 
   return (
@@ -42,7 +41,7 @@ function ErrorContent() {
             <p className="text-gray-600">{errorMessage}</p>
             <div className="space-y-2">
               <Button asChild className="w-full">
-                <Link href="/auth/signin">
+                <Link href="/?auth=signin">
                   Try Again
                 </Link>
               </Button>
@@ -57,20 +56,5 @@ function ErrorContent() {
         </Card>
       </div>
     </div>
-  )
-}
-
-export default function AuthError() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
-        </div>
-      </div>
-    }>
-      <ErrorContent />
-    </Suspense>
   )
 }

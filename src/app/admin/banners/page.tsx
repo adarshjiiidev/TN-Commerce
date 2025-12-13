@@ -647,3 +647,6 @@ export default function AdminBanners() {
     </div>
   )
 }
+
+export const dynamic = 'force-dynamic'
+

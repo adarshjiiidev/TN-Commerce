@@ -243,3 +243,6 @@ export default function OrdersManagement() {
     </div>
   )
 }
+
+export const dynamic = 'force-dynamic'
+

@@ -234,3 +234,6 @@ export default function SalesReports() {
     </div>
   )
 }
+
+export const dynamic = 'force-dynamic'
+

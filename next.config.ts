@@ -48,6 +48,17 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // Suppress build warnings
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
+  },
+  // Suppress Suspense warnings during build
+  logging: {
+    fetches: {
+      fullUrl: false,
+    },
+  },
 };
 
 export default nextConfig;

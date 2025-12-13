@@ -700,3 +700,6 @@ export default function DashboardPage() {
     </Suspense>
   )
 }
+
+export const dynamic = 'force-dynamic'
+

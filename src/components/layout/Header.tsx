@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, Heart, ShoppingCart, User, LogOut, Menu, X, Globe, ChevronDown } from 'lucide-react'
@@ -18,6 +18,23 @@ const navLinks = [
   { name: 'Sale', href: '/products?onSale=true', highlight: true },
 ]
 
+function AuthParamHandler({ setAuthModal }: { setAuthModal: (modal: 'signin' | 'signup' | null) => void }) {
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const authParam = searchParams?.get('auth')
+    if (authParam === 'signin') {
+      setAuthModal('signin')
+      window.history.replaceState({}, '', '/')
+    } else if (authParam === 'signup') {
+      setAuthModal('signup')
+      window.history.replaceState({}, '', '/')
+    }
+  }, [searchParams, setAuthModal])
+
+  return null
+}
+
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
@@ -25,7 +42,6 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const { data: session } = useSession()
   const { itemCount, toggleCart } = useCartStore()
-  const searchParams = useSearchParams()
 
   // Handle scroll effect
   useEffect(() => {
@@ -36,18 +52,6 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Check for auth query parameter on mount and when search params change
-  useEffect(() => {
-    const authParam = searchParams?.get('auth')
-    if (authParam === 'signin') {
-      setAuthModal('signin')
-      window.history.replaceState({}, '', '/')
-    } else if (authParam === 'signup') {
-      setAuthModal('signup')
-      window.history.replaceState({}, '', '/')
-    }
-  }, [searchParams])
-
   return (
     <header
       className={cn(
@@ -55,6 +59,9 @@ export default function Header() {
         scrolled ? "bg-[#0d0d12]/80 backdrop-blur-xl border-b border-white/5 py-2" : "bg-transparent py-4"
       )}
     >
+      <Suspense fallback={null}>
+        <AuthParamHandler setAuthModal={setAuthModal} />
+      </Suspense>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-8">
           {/* Logo */}

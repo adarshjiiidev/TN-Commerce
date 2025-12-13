@@ -619,3 +619,6 @@ export default function AdminSalesPage() {
     </div>
   )
 }
+
+export const dynamic = 'force-dynamic'
+
