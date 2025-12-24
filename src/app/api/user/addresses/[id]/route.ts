@@ -7,40 +7,40 @@ import User from '@/lib/models/User'
 // DELETE - Delete address by ID
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await getServerSession(authOptions)
-    
+
     if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { id } = params
 
     if (!id) {
       return NextResponse.json({ error: 'Address ID required' }, { status: 400 })
     }
 
     await dbConnect()
-    
+
     const user = await User.findOne({ email: session.user.email })
-    
+
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
 
     const addressIndex = user.addresses?.findIndex((addr: any) => addr._id.toString() === id)
-    
+
     if (addressIndex === -1) {
       return NextResponse.json({ error: 'Address not found' }, { status: 404 })
     }
 
     const deletedAddress = user.addresses[addressIndex]
-    
+
     // Remove the address
     user.addresses.splice(addressIndex, 1)
-    
+
     // If the deleted address was default and there are other addresses, make the first one default
     if (deletedAddress.isDefault && user.addresses.length > 0) {
       user.addresses[0].isDefault = true

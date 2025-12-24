@@ -6,11 +6,12 @@ import { authOptions } from '@/lib/auth'
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await getServerSession(authOptions)
-    
+
     if (!session || !session.user.isAdmin) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
@@ -18,7 +19,6 @@ export async function PATCH(
       )
     }
 
-    const { id } = params
     const body = await request.json()
 
     await dbConnect()
@@ -60,19 +60,18 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await getServerSession(authOptions)
-    
+
     if (!session || !session.user.isAdmin) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
       )
     }
-
-    const { id } = params
 
     // Prevent users from deleting themselves
     if (id === session.user.id) {

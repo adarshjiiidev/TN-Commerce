@@ -6,18 +6,19 @@ import { Review } from '@/lib/models'
 import { isValidObjectId } from '@/utils'
 
 interface RouteContext {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 // POST /api/reviews/[id]/report - Report a review as inappropriate
 export async function POST(request: NextRequest, { params }: RouteContext) {
   try {
+    const { id } = await params
     await dbConnect()
-    
+
     const session = await getServerSession(authOptions)
-    
+
     if (!session?.user?.id) {
       return NextResponse.json({
         success: false,
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
       }, { status: 401 })
     }
 
-    if (!params.id || !isValidObjectId(params.id)) {
+    if (!id || !isValidObjectId(id)) {
       return NextResponse.json({
         success: false,
         error: 'Valid review ID is required'
@@ -42,7 +43,7 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
     }
 
     // Find the review
-    const review = await Review.findById(params.id)
+    const review = await Review.findById(id)
     if (!review) {
       return NextResponse.json({
         success: false,
@@ -64,8 +65,8 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
     }
 
     // Check if user has already reported this review
-    const hasReported = review.reports.some(report => report.userId === session.user.id)
-    
+    const hasReported = review.reports.some((report: any) => report.userId === session.user.id)
+
     if (hasReported) {
       return NextResponse.json({
         success: false,
@@ -79,7 +80,7 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
       reason: reason.trim(),
       reportedAt: new Date()
     })
-    
+
     review.reportedCount = (review.reportedCount || 0) + 1
 
     await review.save()

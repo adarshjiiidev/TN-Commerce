@@ -8,11 +8,12 @@ import mongoose from 'mongoose'
 // GET /api/admin/products/[id] - Get single product
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await getServerSession(authOptions)
-    
+
     if (!session || !session.user.isAdmin) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
@@ -20,7 +21,7 @@ export async function GET(
       )
     }
 
-    if (!mongoose.Types.ObjectId.isValid(params.id)) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
         { success: false, error: 'Invalid product ID' },
         { status: 400 }
@@ -28,9 +29,9 @@ export async function GET(
     }
 
     await dbConnect()
-    
-    const product = await Product.findById(params.id)
-    
+
+    const product = await Product.findById(id)
+
     if (!product) {
       return NextResponse.json(
         { success: false, error: 'Product not found' },
@@ -54,11 +55,12 @@ export async function GET(
 // PUT /api/admin/products/[id] - Update product
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await getServerSession(authOptions)
-    
+
     if (!session || !session.user.isAdmin) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
@@ -66,7 +68,7 @@ export async function PUT(
       )
     }
 
-    if (!mongoose.Types.ObjectId.isValid(params.id)) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
         { success: false, error: 'Invalid product ID' },
         { status: 400 }
@@ -74,18 +76,18 @@ export async function PUT(
     }
 
     const body = await request.json()
-    
+
     await dbConnect()
-    
+
     const product = await Product.findByIdAndUpdate(
-      params.id,
-      { 
-        ...body, 
-        updatedAt: new Date() 
+      id,
+      {
+        ...body,
+        updatedAt: new Date()
       },
       { new: true, runValidators: true }
     )
-    
+
     if (!product) {
       return NextResponse.json(
         { success: false, error: 'Product not found' },
@@ -110,11 +112,12 @@ export async function PUT(
 // DELETE /api/admin/products/[id] - Delete product
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await getServerSession(authOptions)
-    
+
     if (!session || !session.user.isAdmin) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
@@ -122,7 +125,7 @@ export async function DELETE(
       )
     }
 
-    if (!mongoose.Types.ObjectId.isValid(params.id)) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
         { success: false, error: 'Invalid product ID' },
         { status: 400 }
@@ -130,9 +133,9 @@ export async function DELETE(
     }
 
     await dbConnect()
-    
-    const product = await Product.findByIdAndDelete(params.id)
-    
+
+    const product = await Product.findByIdAndDelete(id)
+
     if (!product) {
       return NextResponse.json(
         { success: false, error: 'Product not found' },

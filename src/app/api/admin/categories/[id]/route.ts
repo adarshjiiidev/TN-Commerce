@@ -6,11 +6,12 @@ import { authOptions } from '@/lib/auth'
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await getServerSession(authOptions)
-    
+
     if (!session || !session.user.isAdmin) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
@@ -18,16 +19,15 @@ export async function PATCH(
       )
     }
 
-    const { id } = params
     const body = await request.json()
 
     await dbConnect()
 
     // If updating slug, check for uniqueness
     if (body.slug) {
-      const existingCategory = await Category.findOne({ 
-        slug: body.slug, 
-        _id: { $ne: id } 
+      const existingCategory = await Category.findOne({
+        slug: body.slug,
+        _id: { $ne: id }
       })
       if (existingCategory) {
         return NextResponse.json(
@@ -66,19 +66,18 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await getServerSession(authOptions)
-    
+
     if (!session || !session.user.isAdmin) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
       )
     }
-
-    const { id } = params
 
     await dbConnect()
 

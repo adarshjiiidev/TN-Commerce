@@ -6,18 +6,19 @@ import { Review } from '@/lib/models'
 import { isValidObjectId } from '@/utils'
 
 interface RouteContext {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 // POST /api/reviews/[id]/helpful - Mark a review as helpful
 export async function POST(request: NextRequest, { params }: RouteContext) {
   try {
+    const { id } = await params
     await dbConnect()
-    
+
     const session = await getServerSession(authOptions)
-    
+
     if (!session?.user?.id) {
       return NextResponse.json({
         success: false,
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
       }, { status: 401 })
     }
 
-    if (!params.id || !isValidObjectId(params.id)) {
+    if (!id || !isValidObjectId(id)) {
       return NextResponse.json({
         success: false,
         error: 'Valid review ID is required'
@@ -33,7 +34,7 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
     }
 
     // Find the review
-    const review = await Review.findById(params.id)
+    const review = await Review.findById(id)
     if (!review) {
       return NextResponse.json({
         success: false,
@@ -56,10 +57,10 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
 
     // Check if user has already voted
     const hasVoted = review.helpfulVotes.includes(session.user.id)
-    
+
     if (hasVoted) {
       // Remove vote
-      review.helpfulVotes = review.helpfulVotes.filter(userId => userId !== session.user.id)
+      review.helpfulVotes = review.helpfulVotes.filter((userId: string) => userId !== session.user.id)
       review.helpfulCount = Math.max(0, (review.helpfulCount || 0) - 1)
     } else {
       // Add vote

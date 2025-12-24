@@ -2,8 +2,11 @@
 
 import { useSession } from 'next-auth/react'
 import { redirect, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, use } from 'react'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowLeft, Plus, Trash2, Camera, Upload, Save, AlertCircle, CheckCircle2, Tag as TagIcon, Layers, Package, DollarSign, Info } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 interface Product {
   _id: string
@@ -20,7 +23,8 @@ interface Product {
   tags: string[]
 }
 
-export default function EditProductPage({ params }: { params: { id: string } }) {
+export default function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
   const { data: session, status } = useSession()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -32,19 +36,19 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
 
   useEffect(() => {
     if (status === 'loading') return
-    
+
     if (!session || !session.user.isAdmin) {
       redirect('/auth/signin')
       return
     }
 
     fetchProduct()
-  }, [session, status, params.id])
+  }, [session, status, id])
 
   const fetchProduct = async () => {
     try {
       setFetching(true)
-      const response = await fetch(`/api/admin/products/${params.id}`)
+      const response = await fetch(`/api/admin/products/${id}`)
       const data = await response.json()
 
       if (data.success) {
@@ -64,7 +68,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!product) return
 
     if (!product.name || !product.description || product.price <= 0) {
@@ -79,14 +83,14 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
 
     try {
       setLoading(true)
-      const response = await fetch(`/api/admin/products/${params.id}`, {
+      const response = await fetch(`/api/admin/products/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(product)
       })
-      
+
       const data = await response.json()
-      
+
       if (data.success) {
         alert('Product updated successfully!')
         router.push('/admin/products')
@@ -119,7 +123,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
 
     try {
       setUploadLoading(true)
-      
+
       // Convert to base64 for simple storage (in production, use cloud storage)
       const reader = new FileReader()
       reader.onload = (event) => {
@@ -142,18 +146,18 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true })
       setShowCamera(true)
-      
+
       // Simple camera implementation - in production, use a proper camera library
       const video = document.createElement('video')
       video.srcObject = stream
       video.play()
-      
+
       // For now, just close the camera modal
       setTimeout(() => {
         setShowCamera(false)
         stream.getTracks().forEach(track => track.stop())
       }, 3000)
-      
+
     } catch (error) {
       console.error('Error accessing camera:', error)
       alert('Error accessing camera. Please check permissions.')
@@ -190,8 +194,8 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
 
   if (status === 'loading' || fetching) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin h-12 w-12 border-2 border-black border-t-transparent mx-auto"></div>
       </div>
     )
   }
@@ -201,302 +205,352 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white pt-20">
       {/* Header */}
-      <div className="bg-white shadow">
+      <div className="border-b border-black/[0.03] bg-white sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center space-x-4">
-              <Link href="/admin/products" className="text-blue-600 hover:text-blue-800">
-                ← Back to Products
+          <div className="flex justify-between items-center py-10">
+            <div className="flex items-center space-x-6">
+              <Link href="/admin/products" className="p-3 bg-gray-50 border border-black/[0.03] text-gray-400 hover:text-black hover:bg-black hover:text-white transition-all">
+                <ArrowLeft className="h-5 w-5" />
               </Link>
-              <h1 className="text-3xl font-bold text-gray-900">Edit Product</h1>
+              <div>
+                <h1 className="text-4xl font-black text-black uppercase tracking-tighter italic">Edit Product</h1>
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1">Refine your boutique listing details</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-6">Basic Information</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Product Name *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={product.name}
-                  onChange={(e) => setProduct(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <form onSubmit={handleSubmit} className="space-y-12">
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            {/* Left Column: Form Details */}
+            <div className="lg:col-span-2 space-y-12">
+              <div className="bg-white border border-black/[0.03] p-8 space-y-8">
+                <div className="flex items-center gap-3 pb-4 border-b border-black/[0.02]">
+                  <Info className="h-4 w-4 text-black" />
+                  <h2 className="text-xl font-black text-black uppercase tracking-tighter italic">Registry Details</h2>
+                </div>
 
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                      Listing Title
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={product.name}
+                      onChange={(e) => setProduct(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                      className="w-full px-4 py-4 bg-gray-50 border border-black/[0.03] text-sm font-bold text-black focus:outline-none focus:border-black/10 transition-all placeholder:text-gray-300"
+                      placeholder="e.g. Signature Oversized Tee"
+                    />
+                  </div>
 
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Description *
-                </label>
-                <textarea
-                  required
-                  rows={4}
-                  value={product.description}
-                  onChange={(e) => setProduct(prev => prev ? ({ ...prev, description: e.target.value }) : null)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Price * ($)
-                </label>
-                <input
-                  type="number"
-                  required
-                  min="0"
-                  step="0.01"
-                  value={product.price}
-                  onChange={(e) => setProduct(prev => prev ? ({ ...prev, price: parseFloat(e.target.value) || 0 }) : null)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Original Price ($) - Optional
-                </label>
-                <input
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={product.originalPrice || ''}
-                  onChange={(e) => setProduct(prev => prev ? ({ 
-                    ...prev, 
-                    originalPrice: e.target.value ? parseFloat(e.target.value) : undefined 
-                  }) : null)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Category *
-                </label>
-                <select
-                  required
-                  value={product.category}
-                  onChange={(e) => setProduct(prev => prev ? ({ ...prev, category: e.target.value }) : null)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="tshirts">T-Shirts</option>
-                  <option value="shirts">Shirts</option>
-                  <option value="jeans">Jeans</option>
-                  <option value="accessories">Accessories</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Subcategory
-                </label>
-                <select
-                  value={product.subcategory}
-                  onChange={(e) => setProduct(prev => prev ? ({ ...prev, subcategory: e.target.value }) : null)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="unisex">Unisex</option>
-                  <option value="men">Men</option>
-                  <option value="women">Women</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Stock Quantity *
-                </label>
-                <input
-                  type="number"
-                  required
-                  min="0"
-                  value={product.stock}
-                  onChange={(e) => setProduct(prev => prev ? ({ ...prev, stock: parseInt(e.target.value) || 0 }) : null)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            </div>
-
-            {/* Checkboxes */}
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={product.isFeatured}
-                  onChange={(e) => setProduct(prev => prev ? ({ ...prev, isFeatured: e.target.checked }) : null)}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label className="ml-2 block text-sm text-gray-900">
-                  Featured Product
-                </label>
-              </div>
-
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={product.isOnSale}
-                  onChange={(e) => setProduct(prev => prev ? ({ ...prev, isOnSale: e.target.checked }) : null)}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label className="ml-2 block text-sm text-gray-900">
-                  On Sale
-                </label>
-              </div>
-            </div>
-          </div>
-
-          {/* Product Images */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-6">Product Images</h2>
-            
-            <div className="space-y-4">
-              {/* Image Upload Options */}
-              <div className="flex space-x-4 justify-center">
-                {/* File Upload */}
-                <label className="relative cursor-pointer bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-md text-sm font-medium text-center">
-                  {uploadLoading ? 'Uploading...' : 'Upload File'}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileUpload}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    disabled={uploadLoading}
-                  />
-                </label>
-                
-                {/* Camera */}
-                <button
-                  type="button"
-                  onClick={handleCameraCapture}
-                  className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-md text-sm font-medium"
-                  disabled={showCamera}
-                >
-                  📷 Take Photo
-                </button>
-              </div>
-
-              {/* Camera Modal */}
-              {showCamera && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                  <div className="bg-white p-6 rounded-lg max-w-md w-full mx-4">
-                    <h3 className="text-lg font-medium text-gray-900 mb-4">Camera Access</h3>
-                    <p className="text-gray-600 mb-4">
-                      Camera functionality is being activated. In a production environment, this would open a camera interface for capturing photos.
-                    </p>
-                    <button
-                      onClick={() => setShowCamera(false)}
-                      className="w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                    >
-                      Close
-                    </button>
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                      Description Narrative
+                    </label>
+                    <textarea
+                      required
+                      rows={6}
+                      value={product.description}
+                      onChange={(e) => setProduct(prev => prev ? ({ ...prev, description: e.target.value }) : null)}
+                      className="w-full px-4 py-4 bg-gray-50 border border-black/[0.03] text-sm font-bold text-black focus:outline-none focus:border-black/10 transition-all placeholder:text-gray-300 resize-none"
+                      placeholder="Describe the essence of this piece..."
+                    />
                   </div>
                 </div>
-              )}
-
-              {product.images.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {product.images.map((image, index) => (
-                    <div key={index} className="relative">
-                      <img
-                        src={image}
-                        alt={`Product image ${index + 1}`}
-                        className="w-full h-32 object-cover rounded-lg"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeImage(index)}
-                        className="absolute top-2 right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-700"
-                      >
-                        ×
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Tags */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-6">Tags</h2>
-            
-            <div className="space-y-4">
-              <div className="flex space-x-2">
-                <input
-                  type="text"
-                  value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
-                  placeholder="Enter tag"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault()
-                      addTag()
-                    }
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={addTag}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                >
-                  Add Tag
-                </button>
               </div>
 
-              {product.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {product.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
-                    >
-                      {tag}
-                      <button
-                        type="button"
-                        onClick={() => removeTag(index)}
-                        className="ml-2 text-blue-600 hover:text-blue-800"
-                      >
-                        ×
-                      </button>
-                    </span>
-                  ))}
+              <div className="bg-white border border-black/[0.03] p-8 space-y-8">
+                <div className="flex items-center gap-3 pb-4 border-b border-black/[0.02]">
+                  <DollarSign className="h-4 w-4 text-black" />
+                  <h2 className="text-xl font-black text-black uppercase tracking-tighter italic">Valuation & Stock</h2>
                 </div>
-              )}
-            </div>
-          </div>
 
-          {/* Submit */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex justify-end space-x-4">
-              <Link
-                href="/admin/products"
-                className="px-6 py-2 text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-md"
-              >
-                Cancel
-              </Link>
-              <button
-                type="submit"
-                disabled={loading}
-                className="px-6 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? 'Updating...' : 'Update Product'}
-              </button>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                      Price Point (USD)
+                    </label>
+                    <input
+                      type="number"
+                      required
+                      min="0"
+                      step="0.01"
+                      value={product.price}
+                      onChange={(e) => setProduct(prev => prev ? ({ ...prev, price: parseFloat(e.target.value) || 0 }) : null)}
+                      className="w-full px-4 py-4 bg-gray-50 border border-black/[0.03] text-sm font-bold text-black focus:outline-none focus:border-black/10 transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                      Original / MSRP (Optional)
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={product.originalPrice || ''}
+                      onChange={(e) => setProduct(prev => prev ? ({
+                        ...prev,
+                        originalPrice: e.target.value ? parseFloat(e.target.value) : undefined
+                      }) : null)}
+                      className="w-full px-4 py-4 bg-gray-50 border border-black/[0.03] text-sm font-bold text-black focus:outline-none focus:border-black/10 transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                      Inventory Count
+                    </label>
+                    <input
+                      type="number"
+                      required
+                      min="0"
+                      value={product.stock}
+                      onChange={(e) => setProduct(prev => prev ? ({ ...prev, stock: parseInt(e.target.value) || 0 }) : null)}
+                      className="w-full px-4 py-4 bg-gray-50 border border-black/[0.03] text-sm font-bold text-black focus:outline-none focus:border-black/10 transition-all"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white border border-black/[0.03] p-8 space-y-8">
+                <div className="flex items-center gap-3 pb-4 border-b border-black/[0.02]">
+                  <Layers className="h-4 w-4 text-black" />
+                  <h2 className="text-xl font-black text-black uppercase tracking-tighter italic">Visual Assets</h2>
+                </div>
+
+                <div className="space-y-8">
+                  <div className="flex gap-4">
+                    <label className="flex-1 relative cursor-pointer bg-black text-white px-8 py-5 text-[10px] font-black uppercase tracking-widest text-center hover:bg-gray-900 transition-all">
+                      <div className="flex items-center justify-center gap-3">
+                        <Upload className="h-4 w-4" />
+                        {uploadLoading ? 'Processing...' : 'Upload Asset'}
+                      </div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileUpload}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        disabled={uploadLoading}
+                      />
+                    </label>
+
+                    <button
+                      type="button"
+                      onClick={handleCameraCapture}
+                      className="flex-1 bg-gray-50 border border-black/[0.03] text-black px-8 py-5 text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all flex items-center justify-center gap-3"
+                      disabled={showCamera}
+                    >
+                      <Camera className="h-4 w-4" />
+                      Studio Capture
+                    </button>
+                  </div>
+
+                  {product.images.length > 0 && (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {product.images.map((image, index) => (
+                        <div key={index} className="relative aspect-[3/4] group overflow-hidden border border-black/[0.03]">
+                          <img
+                            src={image}
+                            alt={`Asset ${index + 1}`}
+                            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeImage(index)}
+                            className="absolute top-2 right-2 bg-black text-white w-8 h-8 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-all"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Taxonomy & Actions */}
+            <div className="space-y-12">
+              <div className="bg-white border border-black/[0.03] p-8 space-y-8 sticky top-32">
+                <div className="flex items-center gap-3 pb-4 border-b border-black/[0.02]">
+                  <Package className="h-4 w-4 text-black" />
+                  <h2 className="text-xl font-black text-black uppercase tracking-tighter italic">Taxonomy</h2>
+                </div>
+
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                      Primary Category
+                    </label>
+                    <select
+                      required
+                      value={product.category}
+                      onChange={(e) => setProduct(prev => prev ? ({ ...prev, category: e.target.value }) : null)}
+                      className="w-full px-4 py-4 bg-gray-50 border border-black/[0.03] text-sm font-bold text-black focus:outline-none appearance-none cursor-pointer"
+                    >
+                      <option value="tshirts">T-Shirts</option>
+                      <option value="shirts">Shirts</option>
+                      <option value="jeans">Jeans</option>
+                      <option value="accessories">Accessories</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                      Sub-Division
+                    </label>
+                    <select
+                      value={product.subcategory}
+                      onChange={(e) => setProduct(prev => prev ? ({ ...prev, subcategory: e.target.value }) : null)}
+                      className="w-full px-4 py-4 bg-gray-50 border border-black/[0.03] text-sm font-bold text-black focus:outline-none appearance-none cursor-pointer"
+                    >
+                      <option value="unisex">Unisex Division</option>
+                      <option value="men">Menswear</option>
+                      <option value="women">Womenswear</option>
+                    </select>
+                  </div>
+
+                  <div className="pt-4 space-y-4">
+                    <div className="flex items-center justify-between p-4 bg-gray-50/50 border border-black/[0.02]">
+                      <span className="text-[10px] font-black uppercase tracking-widest text-black">Featured Status</span>
+                      <input
+                        type="checkbox"
+                        checked={product.isFeatured}
+                        onChange={(e) => setProduct(prev => prev ? ({ ...prev, isFeatured: e.target.checked }) : null)}
+                        className="w-5 h-5 border-black/[0.1] rounded-none checked:bg-black focus:ring-0 cursor-pointer"
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between p-4 bg-gray-50/50 border border-black/[0.02]">
+                      <span className="text-[10px] font-black uppercase tracking-widest text-black">Promotional Sale</span>
+                      <input
+                        type="checkbox"
+                        checked={product.isOnSale}
+                        onChange={(e) => setProduct(prev => prev ? ({ ...prev, isOnSale: e.target.checked }) : null)}
+                        className="w-5 h-5 border-black/[0.1] rounded-none checked:bg-black focus:ring-0 cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-8 border-t border-black/[0.02] space-y-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <TagIcon className="h-4 w-4 text-black" />
+                    <h2 className="text-lg font-black text-black uppercase tracking-tighter italic">Tagging</h2>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={tagInput}
+                      onChange={(e) => setTagInput(e.target.value)}
+                      placeholder="Add tag..."
+                      className="flex-1 px-4 py-3 bg-gray-50 border border-black/[0.03] text-xs font-bold text-black focus:outline-none focus:border-black/10"
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault()
+                          addTag()
+                        }
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={addTag}
+                      className="px-4 bg-black text-white text-[10px] font-black uppercase tracking-widest"
+                    >
+                      Add
+                    </button>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {product.tags.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center px-3 py-1 bg-gray-50 border border-black/[0.03] text-[9px] font-black uppercase tracking-widest text-black/60"
+                      >
+                        {tag}
+                        <button
+                          type="button"
+                          onClick={() => removeTag(index)}
+                          className="ml-2 hover:text-black"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-8 border-t border-black/[0.02] space-y-4">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="submit"
+                    disabled={loading}
+                    className="w-full bg-black text-white py-5 text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-3 disabled:opacity-50"
+                  >
+                    <Save className="h-4 w-4" />
+                    {loading ? 'Persisting Changes...' : 'Save Product Updates'}
+                  </motion.button>
+
+                  <Link href="/admin/products" className="block">
+                    <button
+                      type="button"
+                      className="w-full py-5 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-black border border-black/[0.03] hover:bg-gray-50 transition-all"
+                    >
+                      Discard & Exit
+                    </button>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </form>
       </div>
+
+      {/* Camera Modal - Minimalist */}
+      <AnimatePresence>
+        {showCamera && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center z-[100] px-4"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white border border-black/[0.05] p-12 max-w-md w-full text-center space-y-8"
+            >
+              <div className="w-20 h-20 bg-gray-50 mx-auto flex items-center justify-center border border-black/[0.02]">
+                <Camera className="h-8 w-8 text-black" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-black text-black uppercase tracking-tighter italic mb-4">Studio Connectivity</h3>
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 leading-relaxed">
+                  Connecting to boutique capture hardware. Camera integration is currently in simulation mode for this registry item.
+                </p>
+              </div>
+              <button
+                onClick={() => setShowCamera(false)}
+                className="w-full bg-black text-white py-5 text-[10px] font-black uppercase tracking-widest"
+              >
+                Close Studio
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
