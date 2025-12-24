@@ -30,15 +30,15 @@ export async function sendOTPEmail(
     const transporter = createTransporter()
 
     const subject = purpose === 'email_verification'
-      ? 'Verify Your Email - Limit//Up'
-      : 'Reset Your Password - Limit//Up'
+      ? 'Verify Your Email - Showroom Se Bhi Sasta'
+      : 'Reset Your Password - Showroom Se Bhi Sasta'
 
     const html = purpose === 'email_verification'
       ? getVerificationEmailTemplate(otp)
       : getPasswordResetEmailTemplate(otp)
 
     const mailOptions = {
-      from: `"Limit//Up" <${process.env.EMAIL_FROM}>`,
+      from: `"Showroom Se Bhi Sasta" <${process.env.EMAIL_FROM}>`,
       to: email,
       subject,
       html,
@@ -122,7 +122,7 @@ function getVerificationEmailTemplate(otp: string): string {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Verify Your Email - Limit//Up</title>
+      <title>Verify Your Email - Showroom Se Bhi Sasta</title>
       <style>
         body {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -190,12 +190,12 @@ function getVerificationEmailTemplate(otp: string): string {
       <div class="container">
         <div class="card">
           <div class="logo">
-            <h1>Limit//Up</h1>
+            <h1>Showroom Se Bhi Sasta</h1>
           </div>
           
           <h2 style="text-align: center; margin-bottom: 16px;">Verify Your Email</h2>
           
-          <p>Welcome to Limit//Up! Please verify your email address by entering the following code:</p>
+          <p>Welcome to Showroom Se Bhi Sasta! Please verify your email address by entering the following code:</p>
           
           <div class="otp-code">${otp}</div>
           
@@ -204,8 +204,8 @@ function getVerificationEmailTemplate(otp: string): string {
           </p>
           
           <div class="footer">
-            <p>If you didn't create an account with Limit//Up, please ignore this email.</p>
-            <p>&copy; 2025 Limit//Up. All rights reserved.</p>
+            <p>If you didn't create an account with Showroom Se Bhi Sasta, please ignore this email.</p>
+            <p>&copy; 2025 Showroom Se Bhi Sasta. All rights reserved.</p>
           </div>
         </div>
       </div>
@@ -221,7 +221,7 @@ function getPasswordResetEmailTemplate(otp: string): string {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Reset Your Password - Limit//Up</title>
+      <title>Reset Your Password - Showroom Se Bhi Sasta</title>
       <style>
         body {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -279,7 +279,7 @@ function getPasswordResetEmailTemplate(otp: string): string {
       <div class="container">
         <div class="card">
           <div class="logo">
-            <h1>Limit//Up</h1>
+            <h1>Showroom Se Bhi Sasta</h1>
           </div>
           
           <h2 style="text-align: center; margin-bottom: 16px;">Reset Your Password</h2>
@@ -294,7 +294,7 @@ function getPasswordResetEmailTemplate(otp: string): string {
           
           <div class="footer">
             <p>If you didn't request a password reset, please ignore this email.</p>
-            <p>&copy; 2025 Limit//Up. All rights reserved.</p>
+            <p>&copy; 2025 Showroom Se Bhi Sasta. All rights reserved.</p>
           </div>
         </div>
       </div>

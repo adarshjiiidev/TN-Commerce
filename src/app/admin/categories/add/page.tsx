@@ -5,6 +5,9 @@ import { redirect, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Category } from '@/types'
+import { ArrowLeft, Layers, CheckCircle, Power, Save, X } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { cn } from '@/lib/utils'
 
 export default function AddCategory() {
   const { data: session, status } = useSession()
@@ -22,7 +25,7 @@ export default function AddCategory() {
 
   useEffect(() => {
     if (status === 'loading') return
-    
+
     if (!session || !session.user.isAdmin) {
       redirect('/auth/signin')
       return
@@ -35,7 +38,7 @@ export default function AddCategory() {
     try {
       const response = await fetch('/api/admin/categories')
       const data = await response.json()
-      
+
       if (data.success) {
         setCategories(data.data)
       }
@@ -61,7 +64,7 @@ export default function AddCategory() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!formData.name || !formData.slug) {
       alert('Please fill in all required fields')
       return
@@ -78,15 +81,15 @@ export default function AddCategory() {
       })
 
       const data = await response.json()
-      
+
       if (data.success) {
-        alert('Category created successfully!')
+        alert('Category initialized successfully!')
         router.push('/admin/categories')
       } else {
-        alert('Failed to create category: ' + data.error)
+        alert('Failed to initialize: ' + data.error)
       }
     } catch (error) {
-      alert('Failed to create category: ' + error)
+      alert('Failed to initialize: ' + error)
     } finally {
       setLoading(false)
     }
@@ -94,8 +97,8 @@ export default function AddCategory() {
 
   if (status === 'loading') {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin h-12 w-12 border-2 border-black border-t-transparent mx-auto"></div>
       </div>
     )
   }
@@ -105,129 +108,129 @@ export default function AddCategory() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white pt-20">
       {/* Header */}
-      <div className="bg-white shadow">
+      <div className="border-b border-black/[0.03] bg-white sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center space-x-4">
-              <Link 
-                href="/admin/categories"
-                className="text-gray-600 hover:text-gray-900"
-              >
-                ← Back to Categories
+          <div className="flex justify-between items-center py-10">
+            <div className="flex items-center space-x-6">
+              <Link href="/admin/categories" className="p-3 bg-gray-50 border border-black/[0.03] text-gray-400 hover:text-black hover:bg-black hover:text-white transition-all">
+                <ArrowLeft className="h-5 w-5" />
               </Link>
-              <h1 className="text-3xl font-bold text-gray-900">Add New Category</h1>
+              <div>
+                <h1 className="text-4xl font-black text-black uppercase tracking-tighter italic">Initialize Taxonomy</h1>
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1">Registry of boutique collection hierarchies</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-lg shadow p-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Category Name *
-              </label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => handleNameChange(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter category name"
-                required
-              />
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="bg-gray-50/50 border border-black/[0.03] p-10 md:p-16">
+          <form onSubmit={handleSubmit} className="space-y-12">
+            <div className="grid grid-cols-1 gap-12">
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3 block">Taxonomy Name *</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => handleNameChange(e.target.value)}
+                  className="w-full bg-white border border-black/[0.03] px-6 py-5 text-sm font-bold text-black focus:outline-none focus:border-black/10 transition-all placeholder:text-gray-200"
+                  placeholder="e.g. LUXURY EYEWEAR"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3 block">Identifier Slug *</label>
+                <input
+                  type="text"
+                  value={formData.slug}
+                  onChange={(e) => setFormData(prev => ({ ...prev, slug: e.target.value }))}
+                  className="w-full bg-white border border-black/[0.03] px-6 py-5 text-sm font-bold text-black focus:outline-none focus:border-black/10 transition-all font-mono"
+                  placeholder="luxury-eyewear"
+                  required
+                />
+                <p className="text-[9px] font-black uppercase tracking-widest text-gray-300 mt-3 flex items-center gap-2">
+                  <span className="p-1 bg-gray-50 border border-black/[0.03]">URL-PTR</span> Auto-generated boutique pointer
+                </p>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3 block">Aesthetic Description</label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  rows={5}
+                  className="w-full bg-white border border-black/[0.03] px-6 py-5 text-sm font-bold text-black focus:outline-none focus:border-black/10 transition-all min-h-[150px]"
+                  placeholder="Detailed registry of the collection's visual and conceptual identity..."
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3 block">Visual Pointer (Image URL)</label>
+                <input
+                  type="url"
+                  value={formData.image}
+                  onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+                  className="w-full bg-white border border-black/[0.03] px-6 py-5 text-sm font-bold text-black focus:outline-none focus:border-black/10 transition-all font-mono"
+                  placeholder="https://cdn.boutique.com/assets/eyewear.jpg"
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3 block">Taxonomic Hierarchy</label>
+                <div className="relative">
+                  <select
+                    value={formData.parentId}
+                    onChange={(e) => setFormData(prev => ({ ...prev, parentId: e.target.value }))}
+                    className="w-full bg-white border border-black/[0.03] px-6 py-5 text-sm font-bold text-black appearance-none focus:outline-none focus:border-black/10 transition-all"
+                  >
+                    <option value="">None (Master Collection)</option>
+                    {categories.filter(cat => !cat.parentId).map((category) => (
+                      <option key={category._id} value={category._id}>
+                        {category.name.toUpperCase()}
+                      </option>
+                    ))}
+                  </select>
+                  <Layers className="absolute right-6 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-300 pointer-events-none" />
+                </div>
+              </div>
+
+              <div className="flex items-center pt-6">
+                <button
+                  type="button"
+                  onClick={() => setFormData(prev => ({ ...prev, isActive: !prev.isActive }))}
+                  className={cn(
+                    "px-8 py-4 text-[10px] font-black uppercase tracking-widest border transition-all flex items-center gap-3",
+                    formData.isActive
+                      ? "bg-black text-white border-black"
+                      : "bg-white text-gray-400 border-black/[0.03]"
+                  )}
+                >
+                  {formData.isActive ? <CheckCircle className="h-3.5 w-3.5" /> : <Power className="h-3.5 w-3.5" />}
+                  {formData.isActive ? 'Active Display' : 'Archived Registry'}
+                </button>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Slug *
-              </label>
-              <input
-                type="text"
-                value={formData.slug}
-                onChange={(e) => setFormData(prev => ({ ...prev, slug: e.target.value }))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="category-slug"
-                required
-              />
-              <p className="text-xs text-gray-500 mt-1">
-                URL-friendly version of the name (auto-generated)
-              </p>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Description
-              </label>
-              <textarea
-                value={formData.description}
-                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                rows={4}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter category description"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Image URL
-              </label>
-              <input
-                type="url"
-                value={formData.image}
-                onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="https://example.com/image.jpg"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Parent Category
-              </label>
-              <select
-                value={formData.parentId}
-                onChange={(e) => setFormData(prev => ({ ...prev, parentId: e.target.value }))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="">None (Top Level Category)</option>
-                {categories.filter(cat => !cat.parentId).map((category) => (
-                  <option key={category._id} value={category._id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="isActive"
-                checked={formData.isActive}
-                onChange={(e) => setFormData(prev => ({ ...prev, isActive: e.target.checked }))}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-              />
-              <label htmlFor="isActive" className="ml-2 block text-sm text-gray-900">
-                Category is active
-              </label>
-            </div>
-
-            <div className="flex space-x-4 pt-6">
-              <button
+            <div className="flex gap-6 pt-12 border-t border-black/[0.02]">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={loading}
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md text-sm font-medium disabled:opacity-50"
+                className="flex-1 bg-black text-white py-5 px-10 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 flex items-center justify-center gap-2"
               >
-                {loading ? 'Creating...' : 'Create Category'}
-              </button>
+                <Save className="h-4 w-4" /> {loading ? 'Initializing...' : 'Initialize Taxonomy'}
+              </motion.button>
               <Link
                 href="/admin/categories"
-                className="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-md text-sm font-medium text-center"
+                className="flex-1 bg-white border border-black/[0.03] text-gray-400 py-5 px-10 text-[10px] font-black uppercase tracking-widest hover:text-black hover:border-black/10 transition-all flex items-center justify-center gap-2"
               >
-                Cancel
+                <X className="h-4 w-4" /> Cancel Registry
               </Link>
             </div>
           </form>

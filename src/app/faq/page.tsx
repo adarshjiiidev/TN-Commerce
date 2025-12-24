@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Search, HelpCircle, MessageCircle, Mail } from 'lucide-react'
+import Link from 'next/link'
 
 export default function FAQPage() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -92,7 +93,7 @@ export default function FAQPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0d12] py-24">
+    <div className="min-h-screen bg-white pt-24 pb-12">
       {/* Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
         <motion.div
@@ -101,10 +102,10 @@ export default function FAQPage() {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 font-heading">
-            <span className="gradient-text">Frequently Asked Questions</span>
+          <h1 className="text-4xl sm:text-5xl font-black text-black mb-4 uppercase tracking-tighter italic">
+            Frequently Asked Questions
           </h1>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto font-bold uppercase text-[10px] tracking-widest">
             Find answers to common questions about our products and services
           </p>
         </motion.div>
@@ -119,13 +120,13 @@ export default function FAQPage() {
           className="mb-12"
         >
           <div className="relative group">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-purple-400 transition-colors" />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <input
               type="text"
-              placeholder="Search FAQs..."
+              placeholder="SEARCH FAQS..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 text-lg text-white placeholder:text-gray-500 transition-all"
+              className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-black/5 focus:outline-none focus:border-black/10 text-xs font-black text-black placeholder:text-gray-300 transition-all uppercase tracking-widest"
             />
           </div>
         </motion.div>
@@ -138,34 +139,33 @@ export default function FAQPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 + categoryIndex * 0.1 }}
-              className="glass-card rounded-2xl overflow-hidden"
+              className="border border-black/5 overflow-hidden bg-gray-50/50"
             >
-              <div className="p-6 border-b border-white/10 bg-gradient-to-r from-purple-500/10 to-pink-500/10">
-                <h2 className="text-xl font-bold text-white flex items-center font-heading">
-                  <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 mr-3">
-                    <HelpCircle className="h-5 w-5 text-white" />
+              <div className="p-6 border-b border-black/5 bg-white">
+                <h2 className="text-sm font-black text-black flex items-center uppercase tracking-widest italic">
+                  <div className="p-2 bg-black mr-3">
+                    <HelpCircle className="h-4 w-4 text-white" />
                   </div>
                   {category.category}
                 </h2>
               </div>
 
-              <div className="divide-y divide-white/10">
+              <div className="divide-y divide-black/5">
                 {category.questions.map((faq, faqIndex) => {
                   const globalIndex = categoryIndex * 100 + faqIndex
                   return (
                     <div key={faqIndex}>
                       <motion.button
                         onClick={() => toggleFAQ(globalIndex)}
-                        whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.03)' }}
-                        className="w-full px-6 py-5 text-left transition-colors"
+                        className="w-full px-6 py-5 text-left transition-colors hover:bg-white"
                       >
                         <div className="flex items-center justify-between">
-                          <h3 className="font-medium text-white pr-4">{faq.question}</h3>
+                          <h3 className="text-xs font-bold text-black uppercase tracking-tight pr-4">{faq.question}</h3>
                           <motion.div
                             animate={{ rotate: openFAQ === globalIndex ? 180 : 0 }}
                             transition={{ duration: 0.3 }}
                           >
-                            <ChevronDown className="h-5 w-5 text-gray-400 flex-shrink-0" />
+                            <ChevronDown className="h-4 w-4 text-gray-400 flex-shrink-0" />
                           </motion.div>
                         </div>
                       </motion.button>
@@ -179,8 +179,8 @@ export default function FAQPage() {
                             transition={{ duration: 0.3, ease: 'easeInOut' }}
                             className="overflow-hidden"
                           >
-                            <div className="px-6 pb-5 bg-white/5">
-                              <p className="text-gray-300">{faq.answer}</p>
+                            <div className="px-6 pb-5 bg-white">
+                              <p className="text-[11px] text-gray-500 font-semibold leading-relaxed uppercase tracking-tighter">{faq.answer}</p>
                             </div>
                           </motion.div>
                         )}
@@ -198,38 +198,36 @@ export default function FAQPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-12 glass-card rounded-3xl p-8 text-center bg-gradient-to-br from-purple-500/10 to-pink-500/10"
+          className="mt-16 p-8 sm:p-12 text-center bg-black border border-black"
         >
-          <motion.div
-            whileHover={{ rotate: 360 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 mb-4"
-          >
-            <MessageCircle className="h-8 w-8 text-white" />
-          </motion.div>
-          <h2 className="text-2xl font-bold text-white mb-2 font-heading">Still have questions?</h2>
-          <p className="text-gray-400 mb-6">
+          <div className="inline-flex p-4 bg-white mb-6">
+            <MessageCircle className="h-6 w-6 text-black" />
+          </div>
+          <h2 className="text-2xl font-black text-white mb-2 uppercase tracking-tighter italic">Still have questions?</h2>
+          <p className="text-gray-400 mb-8 font-bold uppercase text-[10px] tracking-widest">
             Can't find what you're looking for? Our customer service team is here to help.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.a
-              href="/contact"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-3 rounded-full font-semibold transition-all shadow-glow hover:shadow-glow-lg inline-flex items-center justify-center gap-2"
-            >
-              <MessageCircle className="w-5 h-5" />
-              Contact Support
-            </motion.a>
-            <motion.a
-              href="mailto:support@limitup.com"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-8 py-3 rounded-full font-semibold transition-all inline-flex items-center justify-center gap-2"
-            >
-              <Mail className="w-5 h-5" />
-              Email Us
-            </motion.a>
+            <Link href="/contact" className="contents">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="bg-white text-black px-10 py-4 rounded-none text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2"
+              >
+                <MessageCircle className="w-4 h-4" />
+                Contact Support
+              </motion.button>
+            </Link>
+            <Link href="mailto:support@showroom_sasta.com" className="contents">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="bg-transparent text-white border border-white/20 px-10 py-4 rounded-none text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2"
+              >
+                <Mail className="w-4 h-4" />
+                Email Us
+              </motion.button>
+            </Link>
           </div>
         </motion.div>
       </div>

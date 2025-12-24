@@ -20,36 +20,101 @@ interface Product {
 export default function FlashSale() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
-  const [timeLeft, setTimeLeft] = useState({ hours: 23, minutes: 59, seconds: 45 })
-
-  useEffect(() => { fetchSaleProducts() }, [])
+  const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 })
+  const [isEnabled, setIsEnabled] = useState(false)
+  const [saleTitle, setSaleTitle] = useState('Flash Sale')
+  const [saleDescription, setSaleDescription] = useState('Limited Time Collection')
 
   useEffect(() => {
+    fetchSettings()
+    fetchSaleProducts()
+  }, [])
+
+  const fetchSettings = async () => {
+    try {
+      const response = await fetch('/api/admin/settings')
+      const data = await response.json()
+      if (data.success) {
+        setIsEnabled(data.data.flashSaleEnabled || false)
+        setSaleTitle(data.data.flashSaleTitle || 'Flash Sale')
+        setSaleDescription(data.data.flashSaleDescription || 'Limited Time Collection')
+
+        // Calculate time left from end time
+        if (data.data.flashSaleEndTime) {
+          calculateTimeLeft(new Date(data.data.flashSaleEndTime))
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching settings:', err)
+    }
+  }
+
+  const calculateTimeLeft = (endTime: Date) => {
+    const now = new Date().getTime()
+    const end = endTime.getTime()
+    const difference = end - now
+
+    if (difference > 0) {
+      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24)
+      const minutes = Math.floor((difference / 1000 / 60) % 60)
+      const seconds = Math.floor((difference / 1000) % 60)
+      setTimeLeft({ hours, minutes, seconds })
+    } else {
+      setTimeLeft({ hours: 0, minutes: 0, seconds: 0 })
+      setIsEnabled(false)
+    }
+  }
+
+  useEffect(() => {
+    if (!isEnabled) return
+
     const timer = setInterval(() => {
       setTimeLeft(prev => {
         let { hours, minutes, seconds } = prev
         if (seconds > 0) seconds--
         else if (minutes > 0) { minutes--; seconds = 59 }
         else if (hours > 0) { hours--; minutes = 59; seconds = 59 }
+        else {
+          setIsEnabled(false)
+        }
         return { hours, minutes, seconds }
       })
     }, 1000)
     return () => clearInterval(timer)
-  }, [])
+  }, [isEnabled])
 
   const fetchSaleProducts = async () => {
     try {
-      const response = await fetch('/api/products?onSale=true&limit=4')
-      const data = await response.json()
-      if (data.success) setProducts(data.data.products)
-    } catch (err) { console.error('Error:', err) }
-    finally { setLoading(false) }
+      // First get settings to see which products are selected
+      const settingsResponse = await fetch('/api/admin/settings')
+      const settingsData = await settingsResponse.json()
+
+      if (settingsData.success && settingsData.data.flashSaleProducts?.length > 0) {
+        const productIds = settingsData.data.flashSaleProducts
+
+        // Fetch all selected products
+        const productPromises = productIds.map((id: string) =>
+          fetch(`/api/products/${id}`).then(res => res.json())
+        )
+
+        const productResults = await Promise.all(productPromises)
+        const validProducts = productResults
+          .filter(result => result.success)
+          .map(result => result.data.product)
+
+        setProducts(validProducts.slice(0, 4)) // Show max 4 products
+      }
+    } catch (err) {
+      console.error('Error:', err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const formatTime = (t: number) => t.toString().padStart(2, '0')
   const calcDiscount = (o: number, c: number) => Math.round(((o - c) / o) * 100)
 
-  if (loading || products.length === 0) return null
+  if (!isEnabled || loading || products.length === 0) return null
 
   return (
     <section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-black text-white overflow-hidden">
@@ -64,10 +129,10 @@ export default function FlashSale() {
           className="text-center mb-10"
         >
           <div className="flex items-center justify-center gap-4 mb-4">
-            <h2 className="text-6xl font-black text-white uppercase tracking-tighter italic italic">Flash Sale</h2>
+            <h2 className="text-6xl font-black text-white uppercase tracking-tighter italic italic">{saleTitle}</h2>
           </div>
 
-          <p className="text-gray-400 text-xs font-bold uppercase tracking-[0.3em] mb-12">Limited Time Collection</p>
+          <p className="text-gray-400 text-xs font-bold uppercase tracking-[0.3em] mb-12">{saleDescription}</p>
 
           {/* Countdown */}
           <div className="flex items-center justify-center gap-6 mb-12">
@@ -109,7 +174,7 @@ export default function FlashSale() {
                 >
                   <div className="relative aspect-[3/4] overflow-hidden">
                     <Image
-                      src={product.images[0] || '/placeholder-image.jpg'}
+                      src={product.images[0] || 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'}
                       alt={product.name}
                       fill
                       className="object-cover grayscale hover:grayscale-0 transition-all duration-700"

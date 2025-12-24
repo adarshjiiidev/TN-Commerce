@@ -35,6 +35,7 @@ interface SalesStats {
 
 interface SalesResponse {
   success: boolean
+  error?: string
   data: {
     products: Product[]
     pagination: {
@@ -74,7 +75,7 @@ export default function AdminSalesPage() {
 
   useEffect(() => {
     if (status === 'loading') return
-    
+
     if (!session || !session.user.isAdmin) {
       redirect('/auth/signin')
       return
@@ -117,8 +118,8 @@ export default function AdminSalesPage() {
   }
 
   const handleSelectProduct = (productId: string) => {
-    setSelectedProducts(prev => 
-      prev.includes(productId) 
+    setSelectedProducts(prev =>
+      prev.includes(productId)
         ? prev.filter(id => id !== productId)
         : [...prev, productId]
     )
@@ -126,7 +127,7 @@ export default function AdminSalesPage() {
 
   const handleBulkRemoveFromSale = async () => {
     if (selectedProducts.length === 0) return
-    
+
     if (!confirm(`Are you sure you want to remove ${selectedProducts.length} products from sale?`)) return
 
     setBulkLoading(true)
@@ -139,9 +140,9 @@ export default function AdminSalesPage() {
           saleData: { isOnSale: false }
         })
       })
-      
+
       const data = await response.json()
-      
+
       if (data.success) {
         alert(data.message)
         setSelectedProducts([])
@@ -166,7 +167,7 @@ export default function AdminSalesPage() {
       const updateData = productsToUpdate.map(product => ({
         id: product._id,
         originalPrice: product.originalPrice || product.price * 1.25,
-        salePrice: bulkSaleData.discountPercentage > 0 
+        salePrice: bulkSaleData.discountPercentage > 0
           ? Math.round(product.price * (1 - bulkSaleData.discountPercentage / 100))
           : bulkSaleData.newPrice
       }))
@@ -442,7 +443,7 @@ export default function AdminSalesPage() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {products.map((product) => {
-                    const discount = product.originalPrice 
+                    const discount = product.originalPrice
                       ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
                       : 0
 
@@ -460,7 +461,7 @@ export default function AdminSalesPage() {
                           <div className="flex items-center">
                             <div className="flex-shrink-0 h-16 w-16">
                               <Image
-                                src={product.images[0] || '/placeholder-image.jpg'}
+                                src={product.images[0] || 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'}
                                 alt={product.name}
                                 width={64}
                                 height={64}
@@ -558,7 +559,7 @@ export default function AdminSalesPage() {
             <h3 className="text-lg font-medium text-gray-900 mb-4">
               Apply Bulk Sale to {selectedProducts.length} Products
             </h3>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -569,9 +570,9 @@ export default function AdminSalesPage() {
                   min="0"
                   max="100"
                   value={bulkSaleData.discountPercentage}
-                  onChange={(e) => setBulkSaleData(prev => ({ 
-                    ...prev, 
-                    discountPercentage: parseInt(e.target.value) || 0 
+                  onChange={(e) => setBulkSaleData(prev => ({
+                    ...prev,
+                    discountPercentage: parseInt(e.target.value) || 0
                   }))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="e.g., 25 for 25% off"
@@ -588,9 +589,9 @@ export default function AdminSalesPage() {
                   type="number"
                   min="0"
                   value={bulkSaleData.newPrice}
-                  onChange={(e) => setBulkSaleData(prev => ({ 
-                    ...prev, 
-                    newPrice: parseInt(e.target.value) || 0 
+                  onChange={(e) => setBulkSaleData(prev => ({
+                    ...prev,
+                    newPrice: parseInt(e.target.value) || 0
                   }))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Fixed price for all selected products"

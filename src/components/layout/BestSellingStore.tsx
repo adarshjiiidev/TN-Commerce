@@ -93,17 +93,17 @@ export default function BestSellingStore() {
                     />
                   </motion.div>
 
-                  <h3 className="text-4xl font-black text-white mb-4 uppercase tracking-tighter italic">Limit//Up Originals</h3>
+                  <h3 className="text-4xl font-black text-white mb-4 uppercase tracking-tighter italic">Showroom Se Bhi Sasta Originals</h3>
                   <p className="text-gray-400 mb-10 max-w-xs mx-auto text-[10px] font-black uppercase tracking-widest">Premium blend of luxury and streetwear.</p>
 
                   <div className="grid grid-cols-2 gap-px w-full max-w-sm bg-white/10 border border-white/10">
                     <div className="bg-black p-6 text-center">
-                      <p className="text-3xl font-black text-white italic tracking-tighter">4.9</p>
-                      <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mt-1">Rating</p>
+                      <p className="text-xl font-black text-white italic tracking-tighter uppercase">Premium</p>
+                      <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mt-1">Quality</p>
                     </div>
                     <div className="bg-black p-6 text-center">
-                      <p className="text-3xl font-black text-white italic tracking-tighter">10K+</p>
-                      <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mt-1">Sold</p>
+                      <p className="text-xl font-black text-white italic tracking-tighter uppercase">Verified</p>
+                      <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mt-1">Authentic</p>
                     </div>
                   </div>
                 </div>
@@ -129,15 +129,15 @@ export default function BestSellingStore() {
             {/* Categories */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
-                { name: "Essentials", count: "128 Items", icon: Sparkles, color: "text-purple-400" },
-                { name: "Graphic", count: "84 Items", icon: Star, color: "text-pink-400" },
-                { name: "Limited", count: "12 Items", icon: Zap, color: "text-yellow-400" },
+                { name: "Essentials", count: "Shop Collection", icon: Sparkles },
+                { name: "Graphic", count: "Shop Collection", icon: Star },
+                { name: "Limited", count: "Shop Collection", icon: Zap },
               ].map((cat, idx) => (
                 <Link key={idx} href={`/products?category=tshirts&tag=${cat.name.toLowerCase()}`}>
-                  <div className="bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 rounded-2xl p-4 transition-all group cursor-pointer h-full">
-                    <cat.icon className={cn("h-6 w-6 mb-3", cat.color)} />
-                    <h4 className="font-semibold text-white">{cat.name}</h4>
-                    <p className="text-xs text-gray-500 mt-1">{cat.count}</p>
+                  <div className="bg-gray-50 hover:bg-gray-100 border border-black/5 rounded-none p-6 transition-all group cursor-pointer h-full flex flex-col items-center justify-center text-center">
+                    <cat.icon className="h-5 w-5 mb-3 text-black" />
+                    <h4 className="font-black text-black uppercase tracking-widest text-sm">{cat.name}</h4>
+                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1 group-hover:text-black transition-colors">{cat.count}</p>
                   </div>
                 </Link>
               ))}

@@ -183,11 +183,16 @@ export interface Campaign {
 
 export interface Analytics {
   totalRevenue: number;
+  revenueTrend: number;
   totalOrders: number;
+  ordersTrend: number;
   totalUsers: number;
+  usersTrend: number;
   totalProducts: number;
   conversionRate: number;
+  conversionTrend: number;
   averageOrderValue: number;
+  aovTrend: number;
   topSellingProducts: Product[];
   recentOrders: Order[];
   salesData: SalesData[];

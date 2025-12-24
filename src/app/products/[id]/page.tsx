@@ -72,6 +72,13 @@ export default function ProductDetailPage() {
     }
   }, [productId])
 
+  // Update document title when product loads
+  useEffect(() => {
+    if (product) {
+      document.title = `${product.name} | Showroom Se Bhi Sasta`
+    }
+  }, [product])
+
   const handleAddToCart = () => {
     if (product) {
       addItem(product, selectedVariant || undefined, quantity)

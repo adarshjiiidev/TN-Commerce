@@ -30,6 +30,12 @@ interface Product {
   updatedAt: string
 }
 
+interface Category {
+  _id: string
+  name: string
+  slug: string
+}
+
 interface ProductsResponse {
   success: boolean
   data: {
@@ -57,6 +63,7 @@ export default function AdminProductsPage() {
   const [category, setCategory] = useState('')
   const [selectedProducts, setSelectedProducts] = useState<string[]>([])
   const [bulkLoading, setBulkLoading] = useState(false)
+  const [categories, setCategories] = useState<Category[]>([])
 
   useEffect(() => {
     if (status === 'loading') return
@@ -67,7 +74,20 @@ export default function AdminProductsPage() {
     }
 
     fetchProducts()
+    fetchCategories()
   }, [session, status, pagination.current, search, category])
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('/api/admin/categories')
+      const data = await response.json()
+      if (data.success) {
+        setCategories(data.data)
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error)
+    }
+  }
 
   const fetchProducts = async () => {
     try {
@@ -280,10 +300,11 @@ export default function AdminProductsPage() {
                 className="w-full pl-12 pr-4 py-4 bg-white border border-black/[0.03] text-sm font-bold text-black appearance-none focus:outline-none focus:border-black/10 transition-all"
               >
                 <option value="">All Categories</option>
-                <option value="tshirts">T-Shirts</option>
-                <option value="shirts">Shirts</option>
-                <option value="jeans">Jeans</option>
-                <option value="accessories">Accessories</option>
+                {categories.map((cat) => (
+                  <option key={cat._id} value={cat.slug}>
+                    {cat.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="md:col-span-3">
@@ -405,10 +426,11 @@ export default function AdminProductsPage() {
                         <div className="flex items-center gap-6">
                           <div className="relative h-16 w-16 bg-gray-50 overflow-hidden shrink-0">
                             <Image
-                              src={product.images[0] || '/placeholder-image.jpg'}
+                              src={product.images[0] || 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'}
                               alt={product.name}
-                              fill
-                              className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                              width={64}
+                              height={64}
+                              className="h-16 w-16 rounded-xl object-cover border border-black/5"
                             />
                           </div>
                           <div>

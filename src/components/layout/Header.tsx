@@ -70,10 +70,14 @@ export default function Header() {
               whileHover={{ scale: 1.05 }}
               className="relative flex items-center"
             >
-              <span className="text-2xl font-black tracking-tight text-black font-horizon">
-                Limit<span className="text-gray-400">//</span>Up
+              <img
+                src="/lgt.png"
+                alt="Showroom Se Bhi Sasta"
+                className="h-14 w-auto object-contain"
+              />
+              <span className="hidden sm:block ml-3 text-xl font-black tracking-tight text-black font-horizon whitespace-nowrap">
+                Showroom <span className="text-gray-400">Se Bhi</span> Sasta
               </span>
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-black group-hover:w-full transition-all duration-300" />
             </motion.div>
           </Link>
 

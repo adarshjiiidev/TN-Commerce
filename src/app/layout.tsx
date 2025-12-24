@@ -17,12 +17,12 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Limit//Up - Redefine Your Style",
-    template: "%s | Limit//Up",
+    default: "Showroom Se Bhi Sasta - Redefine Your Style",
+    template: "%s | Showroom Se Bhi Sasta",
   },
   description: "Discover bold, minimal designs that speak to the modern lifestyle. Premium fashion and accessories for the contemporary wardrobe. Shop T-shirts, accessories, and more.",
   keywords: [
-    "Limit//Up fashion",
+    "Showroom Se Bhi Sasta fashion",
     "modern clothing",
     "minimal design",
     "contemporary fashion",
@@ -33,9 +33,9 @@ export const metadata: Metadata = {
     "trendy apparel",
     "quality clothing"
   ],
-  authors: [{ name: "Limit//Up Fashion" }],
-  creator: "Limit//Up Fashion",
-  publisher: "Limit//Up Fashion",
+  authors: [{ name: "Showroom Se Bhi Sasta Fashion" }],
+  creator: "Showroom Se Bhi Sasta Fashion",
+  publisher: "Showroom Se Bhi Sasta Fashion",
   metadataBase: new URL("https://tnfashion.vercel.app"),
   alternates: {
     canonical: "/",
@@ -44,23 +44,23 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://tnfashion.vercel.app",
-    title: "Limit//Up - Redefine Your Style",
+    title: "Showroom Se Bhi Sasta - Redefine Your Style",
     description: "Discover bold, minimal designs that speak to the modern lifestyle. Premium fashion and accessories for the contemporary wardrobe.",
-    siteName: "Limit//Up Fashion",
+    siteName: "Showroom Se Bhi Sasta Fashion",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Limit//Up Fashion - Modern Clothing Brand",
+        alt: "Showroom Se Bhi Sasta Fashion - Modern Clothing Brand",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Limit//Up - Redefine Your Style",
+    title: "Showroom Se Bhi Sasta - Redefine Your Style",
     description: "Discover bold, minimal designs that speak to the modern lifestyle.",
-    creator: "@tn_fashion",
+    creator: "@showroom_sasta",
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -74,6 +74,11 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  icons: {
+    icon: '/lgt.png',
+    shortcut: '/lgt.png',
+    apple: '/lgt.png',
+  },
   verification: {
     google: "your-google-verification-code",
   },
@@ -85,8 +90,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${orbitron.variable} dark`}>
-      <body className="font-sans bg-[#0d0d12] text-white antialiased">
+    <html lang="en" className={`${inter.variable} ${orbitron.variable}`}>
+      <body className="font-sans bg-white text-black antialiased">
         <ErrorBoundary>
           <Layout>
             {children}

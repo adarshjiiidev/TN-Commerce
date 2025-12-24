@@ -47,10 +47,10 @@ export default function HeroBannerSlideshow() {
   }
 
   const defaultContent = {
-    title: "Express Your Vibe",
-    subtitle: "Discover the Latest Styles",
-    description: "Discover the latest trends & express your style effortlessly. Shop exclusive collections with premium designs, just for you!",
-    buttonText: "Shop now",
+    title: "Showroom Se Bhi Sasta",
+    subtitle: "Premium Fashion. Hostel Prices.",
+    description: "Engineered from the heart of the hostel. Experience the new standard of affordable luxury with our premium collection.",
+    buttonText: "Shop Collection",
     link: "/products"
   }
 
@@ -58,7 +58,7 @@ export default function HeroBannerSlideshow() {
     return (
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-gray-100 animate-pulse h-[600px] w-full"></div>
+          <div className="bg-gray-50 animate-pulse h-[600px] w-full border border-black/5"></div>
         </div>
       </section>
     )
@@ -67,7 +67,7 @@ export default function HeroBannerSlideshow() {
   const currentBanner = banners.length > 0 ? banners[currentSlide] : null
 
   return (
-    <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-white text-black overflow-hidden">
+    <section className="relative pt-20 pb-8 sm:pt-24 sm:pb-12 px-4 sm:px-6 lg:px-8 bg-white text-black overflow-hidden border-b border-black/[0.03]">
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -86,12 +86,12 @@ export default function HeroBannerSlideshow() {
                 transition={{ duration: 0.4 }}
               >
                 <div className="inline-block px-0 py-1 text-black text-[10px] font-black tracking-[0.3em] uppercase mb-4 border-b-2 border-black">
-                  Autumn Winter 2024
+                  Autumn Winter 2025
                 </div>
 
                 <h1 className="text-[12vw] lg:text-9xl font-black text-black mb-8 leading-[0.85] tracking-tighter uppercase italic">
                   {currentBanner?.title || defaultContent.title}
-                  <span className="block not-italic text-gray-400 mt-4 selection:bg-black selection:text-white">
+                  <span className="block not-italic text-gray-300 mt-4 selection:bg-black selection:text-white">
                     {defaultContent.subtitle}
                   </span>
                 </h1>
@@ -105,7 +105,7 @@ export default function HeroBannerSlideshow() {
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="bg-black text-white px-12 py-6 rounded-none font-bold text-sm uppercase tracking-widest flex items-center gap-4 transition-all"
+                      className="bg-black text-white px-12 py-6 rounded-none font-bold text-sm uppercase tracking-widest flex items-center gap-4 transition-all hover:bg-gray-900"
                     >
                       {currentBanner?.buttonText || defaultContent.buttonText}
                       <ArrowRight className="h-4 w-4" />
@@ -122,7 +122,7 @@ export default function HeroBannerSlideshow() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1 }}
-              className="relative aspect-[3/4] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700"
+              className="relative aspect-[3/4] overflow-hidden bg-gray-50 border border-black/5"
             >
               <AnimatePresence mode="wait">
                 <motion.div
@@ -137,7 +137,7 @@ export default function HeroBannerSlideshow() {
                     src={currentBanner?.image || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
                     alt="Hero"
                     fill
-                    className="object-cover"
+                    className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
                     priority
                   />
                 </motion.div>

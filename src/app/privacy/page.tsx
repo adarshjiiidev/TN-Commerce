@@ -59,11 +59,11 @@ export default function PrivacyPolicyPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#0d0d12] py-24">
+    <div className="min-h-screen bg-white pt-24 pb-12">
       {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -74,15 +74,15 @@ export default function PrivacyPolicyPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-6 font-heading">
-            <span className="gradient-text">Privacy Policy</span>
+          <h1 className="text-4xl sm:text-5xl font-black text-black mb-6 uppercase tracking-tighter italic">
+            Privacy Policy
           </h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-8">
             Your privacy is important to us. Learn how we collect, use, and protect your information.
           </p>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-400">
-            <Clock className="h-4 w-4 text-purple-400" />
-            <span>Last updated: August 31, 2025</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black/5 text-xs text-gray-400">
+            <Clock className="h-4 w-4 text-black" />
+            <span className="font-bold uppercase tracking-widest">Last updated: August 31, 2025</span>
           </div>
         </motion.div>
 
@@ -92,14 +92,12 @@ export default function PrivacyPolicyPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="glass-card rounded-2xl p-8 sm:p-10 relative overflow-hidden group"
+            className="p-8 sm:p-10 bg-gray-50/50 border border-black/5 relative overflow-hidden group"
           >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full pointer-events-none" />
-
-            <h2 className="text-2xl font-bold text-white mb-6 font-heading">Introduction</h2>
-            <div className="space-y-4 text-gray-300 leading-relaxed">
+            <h2 className="text-2xl font-black text-black mb-6 uppercase tracking-tighter italic">Introduction</h2>
+            <div className="space-y-4 text-gray-500 font-semibold leading-relaxed">
               <p>
-                At Limit//Up, we are committed to protecting your privacy and ensuring the security of your personal information.
+                At Showroom Se Bhi Sasta, we are committed to protecting your privacy and ensuring the security of your personal information.
                 This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit
                 our website or make a purchase from us.
               </p>
@@ -118,14 +116,13 @@ export default function PrivacyPolicyPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-                whileHover={{ y: -4 }}
-                className="glass-card rounded-2xl p-8 hover-glow transition-all"
+                className="p-8 bg-gray-50/50 border border-black/5"
               >
                 <div className="flex items-start gap-4 mb-6">
-                  <div className={`p-3 rounded-xl bg-gradient-to-br ${section.gradient} shadow-lg`}>
-                    <section.icon className="h-6 w-6 text-white" />
+                  <div className={`p-3 bg-black shadow-lg`}>
+                    <section.icon className="h-4 w-4 text-white" />
                   </div>
-                  <h2 className="text-xl font-bold text-white mt-2 font-heading">
+                  <h2 className="text-xl font-black text-black mt-2 uppercase tracking-tighter italic">
                     {section.title}
                   </h2>
                 </div>
@@ -134,11 +131,10 @@ export default function PrivacyPolicyPage() {
                   {section.content.map((item, itemIndex) => (
                     <motion.li
                       key={itemIndex}
-                      className="flex items-start gap-3 text-gray-400 group"
-                      whileHover={{ x: 4, color: '#e5e7eb' }}
+                      className="flex items-start gap-3 text-gray-500 font-semibold"
                     >
-                      <div className={`w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-gradient-to-r ${section.gradient}`} />
-                      <span className="transition-colors">{item}</span>
+                      <div className="w-1 h-1 rounded-full mt-2 flex-shrink-0 bg-black" />
+                      <span>{item}</span>
                     </motion.li>
                   ))}
                 </ul>
@@ -151,10 +147,10 @@ export default function PrivacyPolicyPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
-            className="glass-card rounded-2xl p-8 sm:p-10"
+            className="p-8 sm:p-10 bg-gray-50/50 border border-black/5"
           >
-            <h2 className="text-xl font-bold text-white mb-6 font-heading">Your Rights</h2>
-            <p className="text-gray-400 mb-8">
+            <h2 className="text-xl font-black text-black mb-6 uppercase tracking-tighter italic">Your Rights</h2>
+            <p className="text-gray-400 mb-8 font-bold uppercase text-[10px] tracking-widest">
               You have the following rights regarding your personal information:
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -164,9 +160,9 @@ export default function PrivacyPolicyPage() {
                 { title: 'Opt-Out', desc: 'You can opt out of marketing communications at any time through email preferences.' },
                 { title: 'Data Portability', desc: 'You can request a copy of your data in a machine-readable format.' }
               ].map((right, idx) => (
-                <div key={idx} className="bg-white/5 rounded-xl p-5 border border-white/5 hover:border-white/10 transition-colors">
-                  <h3 className="font-semibold text-white mb-2">{right.title}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">
+                <div key={idx} className="bg-white p-5 border border-black/5 hover:border-black/10 transition-colors">
+                  <h3 className="font-black text-black text-sm uppercase mb-2 italic tracking-tight">{right.title}</h3>
+                  <p className="text-gray-500 text-xs font-semibold leading-relaxed">
                     {right.desc}
                   </p>
                 </div>
@@ -179,23 +175,23 @@ export default function PrivacyPolicyPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.0 }}
-            className="glass-card rounded-3xl p-8 sm:p-12 text-center bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border-blue-500/20"
+            className="p-8 sm:p-12 text-center bg-black border border-black"
           >
-            <div className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 mb-6 shadow-glow">
-              <Mail className="h-8 w-8 text-white" />
+            <div className="inline-flex p-4 bg-white mb-6">
+              <Mail className="h-6 w-6 text-black" />
             </div>
 
-            <h2 className="text-2xl font-bold text-white mb-4 font-heading">Questions About Privacy?</h2>
-            <p className="text-gray-400 mb-8 max-w-lg mx-auto">
+            <h2 className="text-2xl font-black text-white mb-4 uppercase tracking-tighter italic">Questions About Privacy?</h2>
+            <p className="text-gray-400 mb-8 max-w-lg mx-auto text-sm font-semibold">
               If you have any questions about this Privacy Policy or our data practices, please don't hesitate to reach out.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="mailto:privacy@limitup.com">
+              <Link href="mailto:privacy@showroom_sasta.com">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+                  className="bg-white text-black px-12 py-4 rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
                 >
                   <ArrowRight className="w-4 h-4" />
                   Email Privacy Team
@@ -205,7 +201,7 @@ export default function PrivacyPolicyPage() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-white/10 text-white border border-white/10 px-8 py-3 rounded-full font-semibold hover:bg-white/20 transition-colors"
+                  className="bg-transparent text-white border border-white/20 px-12 py-4 rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-colors"
                 >
                   Contact Support
                 </motion.button>

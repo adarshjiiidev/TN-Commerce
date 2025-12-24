@@ -15,19 +15,10 @@ const Settings = mongoose.models.Settings || mongoose.model('Settings', Settings
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
-    
-    if (!session || !session.user.isAdmin) {
-      return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
     await dbConnect()
 
     const settingsDoc = await Settings.findOne({ key: 'systemSettings' })
-    
+
     const defaultSettings = {
       siteName: 'TN E-Commerce',
       siteDescription: 'Your premier online shopping destination',
@@ -38,7 +29,12 @@ export async function GET(request: NextRequest) {
       maxOrderValue: 100000,
       emailNotifications: true,
       smsNotifications: false,
-      maintenanceMode: false
+      maintenanceMode: false,
+      flashSaleEnabled: false,
+      flashSaleEndTime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+      flashSaleTitle: 'Flash Sale',
+      flashSaleDescription: 'Limited Time Collection',
+      flashSaleProducts: []
     }
 
     return NextResponse.json({
@@ -57,7 +53,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    
+
     if (!session || !session.user.isAdmin) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
@@ -71,13 +67,13 @@ export async function POST(request: NextRequest) {
 
     const updatedSettings = await Settings.findOneAndUpdate(
       { key: 'systemSettings' },
-      { 
+      {
         key: 'systemSettings',
         value: body,
         updatedAt: new Date()
       },
-      { 
-        new: true, 
+      {
+        new: true,
         upsert: true,
         runValidators: true
       }

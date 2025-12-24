@@ -24,6 +24,7 @@ import {
   ArrowDownRight,
   Activity
 } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 const statCards = [
   {
@@ -39,10 +40,12 @@ const statCards = [
     icon: Users,
     gradient: 'from-vibrant-cyan to-vibrant-blue',
     bgGlow: 'shadow-glow-cyan',
+    trendKey: 'userTrend' as const
   },
   {
-    title: 'Inventory Value',
-    key: 'totalInventoryValue' as const,
+    title: 'Total Revenue',
+    key: 'totalRevenue' as const,
+    trendKey: 'revenueTrend' as const,
     icon: DollarSign,
     gradient: 'from-vibrant-orange to-vibrant-pink',
     bgGlow: 'shadow-glow-pink',
@@ -71,6 +74,7 @@ const secondaryStats = [
   {
     title: 'Total Orders',
     key: 'totalOrders' as const,
+    trendKey: 'orderTrend' as const,
     icon: ShoppingCart,
   },
 ]
@@ -130,19 +134,33 @@ const quickActions = [
       { label: 'Manage Banners', href: '/admin/banners', variant: 'primary' as const },
     ],
   },
+  {
+    title: 'Flash Sale',
+    description: 'Control flash sale visibility, timing, and content.',
+    icon: Tag,
+    actions: [
+      { label: 'Flash Sale Settings', href: '/admin/flash-sale', variant: 'danger' as const },
+    ],
+  },
 ]
 
 export default function AdminPanel() {
   const { data: session, status } = useSession()
   const [stats, setStats] = useState({
     totalUsers: 0,
+    userTrend: 0,
     totalProducts: 0,
+    productTrend: 0,
     totalInventoryValue: 0,
     featuredProducts: 0,
     onSaleProducts: 0,
     outOfStockProducts: 0,
     totalOrders: 0,
-    totalRevenue: 0
+    orderTrend: 0,
+    totalRevenue: 0,
+    revenueTrend: 0,
+    totalCategories: 0,
+    categoryTrend: 0
   })
 
   useEffect(() => {
@@ -250,7 +268,9 @@ export default function AdminPanel() {
           {statCards.map((stat, index) => {
             const Icon = stat.icon
             const value = (stats as any)[stat.key]
-            const displayValue = stat.prefix ? `${stat.prefix}${value}` : value
+            const trend = (stat as any).trendKey ? (stats as any)[(stat as any).trendKey] : 0
+            const displayValue = stat.prefix ? `${stat.prefix}${value.toLocaleString()}` : value
+            const isPositive = trend >= 0
 
             return (
               <motion.div
@@ -265,15 +285,20 @@ export default function AdminPanel() {
                   <div className="p-3 bg-black text-white">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: index * 0.1 + 0.3, type: 'spring' }}
-                    className="text-black flex items-center gap-1 text-[10px] font-black uppercase tracking-widest"
-                  >
-                    <ArrowUpRight className="w-3 h-3" />
-                    <span>+12%</span>
-                  </motion.div>
+                  {(stat as any).trendKey && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: index * 0.1 + 0.3, type: 'spring' }}
+                      className={cn(
+                        "flex items-center gap-1 text-[10px] font-black uppercase tracking-widest",
+                        isPositive ? "text-green-600" : "text-red-600"
+                      )}
+                    >
+                      {isPositive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                      <span>{isPositive ? '+' : ''}{trend}%</span>
+                    </motion.div>
+                  )}
                 </div>
                 <h3 className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{stat.title}</h3>
                 <p className="text-4xl font-black text-black tracking-tighter italic leading-none">{displayValue}</p>

@@ -23,7 +23,7 @@ export default function TermsOfServicePage() {
       icon: Scale,
       gradient: 'from-purple-500 to-pink-500',
       content: [
-        'Permission is granted to temporarily download one copy of the materials on Limit//Up\'s website for personal, non-commercial transitory viewing only',
+        'Permission is granted to temporarily download one copy of the materials on Showroom Se Bhi Sasta\'s website for personal, non-commercial transitory viewing only',
         'This is the grant of a license, not a transfer of title, and under this license you may not modify or copy the materials',
         'Use the materials for any commercial purpose or for any public display',
         'Attempt to reverse engineer any software contained on the website',
@@ -82,11 +82,11 @@ export default function TermsOfServicePage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#0d0d12] py-24">
+    <div className="min-h-screen bg-white pt-24 pb-12">
       {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -97,15 +97,15 @@ export default function TermsOfServicePage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-6 font-heading">
-            <span className="gradient-text">Terms of Service</span>
+          <h1 className="text-4xl sm:text-5xl font-black text-black mb-6 uppercase tracking-tighter italic">
+            Terms of Service
           </h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-8">
             Please read these terms and conditions carefully before using our service.
           </p>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-400">
-            <Clock className="h-4 w-4 text-purple-400" />
-            <span>Last updated: August 31, 2025</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black/5 text-xs text-gray-400">
+            <Clock className="h-4 w-4 text-black" />
+            <span className="font-bold uppercase tracking-widest">Last updated: August 31, 2025</span>
           </div>
         </motion.div>
 
@@ -115,15 +115,13 @@ export default function TermsOfServicePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="glass-card rounded-2xl p-8 sm:p-10 relative overflow-hidden group"
+            className="p-8 sm:p-10 bg-gray-50/50 border border-black/5 relative overflow-hidden group"
           >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-purple-500/10 to-transparent rounded-bl-full pointer-events-none" />
-
-            <h2 className="text-2xl font-bold text-white mb-6 font-heading">Welcome to Limit//Up</h2>
-            <div className="space-y-4 text-gray-300 leading-relaxed">
+            <h2 className="text-2xl font-black text-black mb-6 uppercase tracking-tighter italic">Welcome to Showroom Se Bhi Sasta</h2>
+            <div className="space-y-4 text-gray-500 font-semibold leading-relaxed">
               <p>
-                These Terms of Service ("Terms") govern your use of our website located at www.limitup.com
-                and any related services provided by Limit//Up ("we," "us," or "our").
+                These Terms of Service ("Terms") govern your use of our website located at www.showroom_sasta.com
+                and any related services provided by Showroom Se Bhi Sasta ("we," "us," or "our").
               </p>
               <p>
                 Please read these Terms carefully before using our service. By accessing or using our service,
@@ -141,14 +139,13 @@ export default function TermsOfServicePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-                whileHover={{ y: -4 }}
-                className="glass-card rounded-2xl p-8 hover-glow transition-all"
+                className="p-8 bg-gray-50/50 border border-black/5"
               >
                 <div className="flex items-start gap-4 mb-6">
-                  <div className={`p-3 rounded-xl bg-gradient-to-br ${section.gradient} shadow-lg`}>
-                    <section.icon className="h-6 w-6 text-white" />
+                  <div className={`p-3 bg-black shadow-lg`}>
+                    <section.icon className="h-4 w-4 text-white" />
                   </div>
-                  <h2 className="text-xl font-bold text-white mt-2 font-heading">
+                  <h2 className="text-xl font-black text-black mt-2 uppercase tracking-tighter italic">
                     {section.title}
                   </h2>
                 </div>
@@ -157,11 +154,10 @@ export default function TermsOfServicePage() {
                   {section.content.map((item, itemIndex) => (
                     <motion.li
                       key={itemIndex}
-                      className="flex items-start gap-3 text-gray-400 group"
-                      whileHover={{ x: 4, color: '#e5e7eb' }}
+                      className="flex items-start gap-3 text-gray-500 font-semibold"
                     >
-                      <div className={`w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-gradient-to-r ${section.gradient}`} />
-                      <span className="transition-colors">{item}</span>
+                      <div className="w-1 h-1 rounded-full mt-2 flex-shrink-0 bg-black" />
+                      <span>{item}</span>
                     </motion.li>
                   ))}
                 </ul>
@@ -174,12 +170,12 @@ export default function TermsOfServicePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.9 }}
-            className="glass-card rounded-2xl p-8"
+            className="p-8 bg-gray-50/50 border border-black/5"
           >
-            <h2 className="text-xl font-bold text-white mb-4 font-heading">Governing Law</h2>
-            <p className="text-gray-400 leading-relaxed">
+            <h2 className="text-xl font-black text-black mb-4 uppercase tracking-tighter italic">Governing Law</h2>
+            <p className="text-gray-500 font-semibold leading-relaxed">
               These terms and conditions are governed by and construed in accordance with the laws of the
-              jurisdiction in which Limit//Up operates, and you irrevocably submit to the exclusive jurisdiction
+              jurisdiction in which Showroom Se Bhi Sasta operates, and you irrevocably submit to the exclusive jurisdiction
               of the courts in that state or location.
             </p>
           </motion.div>
@@ -189,23 +185,23 @@ export default function TermsOfServicePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.0 }}
-            className="glass-card rounded-3xl p-8 sm:p-12 text-center bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/20"
+            className="p-8 sm:p-12 text-center bg-black border border-black"
           >
-            <div className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 mb-6 shadow-glow">
-              <FileText className="h-8 w-8 text-white" />
+            <div className="inline-flex p-4 bg-white mb-6">
+              <FileText className="h-6 w-6 text-black" />
             </div>
 
-            <h2 className="text-2xl font-bold text-white mb-4 font-heading">Questions About These Terms?</h2>
-            <p className="text-gray-400 mb-8 max-w-lg mx-auto">
+            <h2 className="text-2xl font-black text-white mb-4 uppercase tracking-tighter italic">Questions About These Terms?</h2>
+            <p className="text-gray-400 mb-8 max-w-lg mx-auto text-sm font-semibold">
               If you have any questions or concerns about these Terms of Service, please don't hesitate to reach out to our legal team.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="mailto:legal@limitup.com">
+              <Link href="mailto:legal@showroom_sasta.com">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+                  className="bg-white text-black px-12 py-4 rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
                 >
                   <ArrowRight className="w-4 h-4" />
                   Email Legal Team
@@ -215,7 +211,7 @@ export default function TermsOfServicePage() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-white/10 text-white border border-white/10 px-8 py-3 rounded-full font-semibold hover:bg-white/20 transition-colors"
+                  className="bg-transparent text-white border border-white/20 px-12 py-4 rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-colors"
                 >
                   Contact Support
                 </motion.button>

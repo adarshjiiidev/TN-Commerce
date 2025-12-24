@@ -1,6 +1,7 @@
 import HeroBannerSlideshow from '@/components/layout/HeroBannerSlideshow'
 import FeaturedProducts from '@/components/product/FeaturedProducts'
 import BrandStatement from '@/components/layout/BrandStatement'
+import FlashSale from '@/components/layout/FlashSale'
 
 export default function Home() {
   return (
@@ -13,6 +14,9 @@ export default function Home() {
 
       {/* Featured Products - Shopping Core */}
       <FeaturedProducts />
+
+      {/* Flash Sale - Limited Drops */}
+      <FlashSale />
     </div>
   )
 }

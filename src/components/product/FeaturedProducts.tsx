@@ -56,7 +56,7 @@ export default function FeaturedProducts() {
   if (products.length === 0) return null
 
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
+    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -64,7 +64,7 @@ export default function FeaturedProducts() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-left mb-16 border-b border-black/[0.03] pb-8"
+          className="text-left mb-12 border-b border-black/[0.03] pb-6"
         >
           <div className="flex justify-between items-end">
             <div>
@@ -78,7 +78,7 @@ export default function FeaturedProducts() {
         </motion.div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-12">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8">
           {products.map((product, index) => (
             <motion.div
               key={product._id}
@@ -94,7 +94,7 @@ export default function FeaturedProducts() {
                   {/* Product Image */}
                   <div className="relative aspect-[3/4] overflow-hidden bg-gray-50 border border-black/[0.03]">
                     <Image
-                      src={product.images[0] || '/placeholder-image.jpg'}
+                      src={product.images[0] || 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'}
                       alt={product.name}
                       fill
                       className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"

@@ -237,7 +237,7 @@ export default function SignUpModal({
                         </motion.div>
                         <DialogTitle className="text-2xl font-black mb-3 text-black uppercase tracking-tighter italic">Success</DialogTitle>
                         <p className="text-gray-500 text-sm font-bold uppercase tracking-widest leading-relaxed">
-                            Welcome to Limit//Up.<br />Signing you in...
+                            Welcome to Showroom Se Bhi Sasta.<br />Signing you in...
                         </p>
                     </div>
                 </DialogContent>

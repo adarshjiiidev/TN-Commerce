@@ -169,8 +169,8 @@ export default function SignInModal({
               initial={{ y: -10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
             >
-              <DialogTitle className="text-3xl font-black text-center text-black mb-2 uppercase tracking-tighter italic">
-                Limit<span className="text-gray-400">//</span>Up
+              <DialogTitle className="text-3xl font-black text-center text-black mb-2 uppercase tracking-tighter italic whitespace-nowrap">
+                Showroom <span className="text-gray-400">Se Bhi</span> Sasta
               </DialogTitle>
               <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
                 Access your account

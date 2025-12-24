@@ -4,7 +4,21 @@ import { useSession } from 'next-auth/react'
 import { redirect, useRouter } from 'next/navigation'
 import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
-import { Upload, X } from 'lucide-react'
+import {
+  ArrowLeft,
+  Upload,
+  X,
+  Save,
+  Package,
+  TrendingUp,
+  Camera,
+  Plus,
+  CheckCircle,
+  Tag,
+  LayoutGrid
+} from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { cn } from '@/lib/utils'
 import Image from 'next/image'
 
 interface ProductForm {
@@ -31,7 +45,7 @@ export default function AddProductPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string>('')
   const fileInputRef = useRef<HTMLInputElement>(null)
-  
+
   const [formData, setFormData] = useState<ProductForm>({
     name: '',
     description: '',
@@ -48,7 +62,7 @@ export default function AddProductPage() {
 
   useEffect(() => {
     if (status === 'loading') return
-    
+
     if (!session || !session.user.isAdmin) {
       redirect('/auth/signin')
       return
@@ -57,7 +71,7 @@ export default function AddProductPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!formData.name || !formData.description || formData.price <= 0) {
       alert('Please fill in all required fields')
       return
@@ -75,14 +89,14 @@ export default function AddProductPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       })
-      
+
       const data = await response.json()
-      
+
       if (data.success) {
-        alert('Product created successfully!')
+        alert('Product initialized successfully!')
         router.push('/admin/products')
       } else {
-        alert('Failed to create product: ' + data.error)
+        alert('Failed to initialize: ' + data.error)
       }
     } catch (error) {
       console.error('Error creating product:', error)
@@ -94,7 +108,7 @@ export default function AddProductPage() {
 
 
   const removeImage = (index: number) => {
-    setFormData(prev => ({
+    setFormData((prev: ProductForm) => ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index)
     }))
@@ -102,7 +116,7 @@ export default function AddProductPage() {
 
   const addTag = () => {
     if (tagInput.trim() && !formData.tags.includes(tagInput.trim())) {
-      setFormData(prev => ({
+      setFormData((prev: ProductForm) => ({
         ...prev,
         tags: [...prev.tags, tagInput.trim()]
       }))
@@ -111,7 +125,7 @@ export default function AddProductPage() {
   }
 
   const removeTag = (index: number) => {
-    setFormData(prev => ({
+    setFormData((prev: ProductForm) => ({
       ...prev,
       tags: prev.tags.filter((_, i) => i !== index)
     }))
@@ -137,13 +151,11 @@ export default function AddProductPage() {
   }
 
   const processFile = async (file: File) => {
-    // Validate file type
     if (!file.type.startsWith('image/')) {
       alert('Please select an image file')
       return
     }
 
-    // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
       alert('File size must be less than 5MB')
       return
@@ -152,30 +164,26 @@ export default function AddProductPage() {
     try {
       setUploadLoading(true)
       setSelectedFile(file)
-      
-      // Create preview
+
       const reader = new FileReader()
       reader.onload = (e) => {
         setImagePreview(e.target?.result as string)
       }
       reader.readAsDataURL(file)
-      
-      // Upload the image using API
+
       const uploadedImageUrl = await uploadImage(file)
-      
-      // Add to images array
-      setFormData(prev => ({
+
+      setFormData((prev: ProductForm) => ({
         ...prev,
         images: [...prev.images, uploadedImageUrl]
       }))
-      
-      // Clear preview states
+
       setSelectedFile(null)
       setImagePreview('')
       if (fileInputRef.current) {
         fileInputRef.current.value = ''
       }
-      
+
     } catch (error) {
       console.error('Error uploading file:', error)
       alert('Error uploading file: ' + error)
@@ -187,18 +195,18 @@ export default function AddProductPage() {
   const uploadImage = async (file: File): Promise<string> => {
     const formData = new FormData()
     formData.append('image', file)
-    
+
     const response = await fetch('/api/admin/upload/product', {
       method: 'POST',
       body: formData,
     })
-    
+
     const data = await response.json()
-    
+
     if (!data.success) {
       throw new Error(data.error || 'Upload failed')
     }
-    
+
     return data.imageUrl
   }
 
@@ -214,18 +222,13 @@ export default function AddProductPage() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true })
       setShowCamera(true)
-      
-      // Simple camera implementation - in production, use a proper camera library
-      const video = document.createElement('video')
-      video.srcObject = stream
-      video.play()
-      
-      // For now, just close the camera modal
+
+      // Simple camera implementation - would be more robust in production
       setTimeout(() => {
         setShowCamera(false)
         stream.getTracks().forEach(track => track.stop())
       }, 3000)
-      
+
     } catch (error) {
       console.error('Error accessing camera:', error)
       alert('Error accessing camera. Please check permissions.')
@@ -234,8 +237,8 @@ export default function AddProductPage() {
 
   if (status === 'loading') {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin h-12 w-12 border-2 border-black border-t-transparent mx-auto"></div>
       </div>
     )
   }
@@ -245,372 +248,302 @@ export default function AddProductPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white pt-20">
       {/* Header */}
-      <div className="bg-white shadow">
+      <div className="border-b border-black/[0.03] bg-white sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center space-x-4">
-              <Link href="/admin/products" className="text-blue-600 hover:text-blue-800">
-                ← Back to Products
+          <div className="flex justify-between items-center py-10">
+            <div className="flex items-center space-x-6">
+              <Link href="/admin/products" className="p-3 bg-gray-50 border border-black/[0.03] text-gray-400 hover:text-black hover:bg-black hover:text-white transition-all">
+                <ArrowLeft className="h-5 w-5" />
               </Link>
-              <h1 className="text-3xl font-bold text-gray-900">Add New Product</h1>
+              <div>
+                <h1 className="text-4xl font-black text-black uppercase tracking-tighter italic">Initialize Product</h1>
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1">Registry of boutique master assets & inventory control</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-6">
+              <div className="text-right">
+                <p className="text-[9px] font-black uppercase tracking-widest text-gray-400">Inventory Status</p>
+                <p className="text-xs font-black uppercase tracking-tight text-blue-600">Awaiting Entry</p>
+              </div>
+              <div className="h-10 w-px bg-black/[0.03]" />
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleSubmit}
+                disabled={loading}
+                className="bg-black text-white px-10 py-4 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 disabled:opacity-50"
+              >
+                <Save className="h-4 w-4" /> {loading ? 'Processing...' : 'Register Asset'}
+              </motion.button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-6">Basic Information</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Product Name *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter product name"
-                />
-              </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          {/* Main Column */}
+          <div className="lg:col-span-2 space-y-12">
+            <div className="bg-gray-50/50 border border-black/[0.03] p-10 space-y-10">
+              <h2 className="text-xl font-black text-black uppercase tracking-tighter italic border-b border-black/[0.03] pb-6">Product Registry</h2>
 
+              <div className="space-y-10">
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3 block">Asset Title *</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData((prev: ProductForm) => ({ ...prev, name: e.target.value }))}
+                    className="w-full bg-white border border-black/[0.03] px-6 py-5 text-sm font-bold text-black focus:outline-none focus:border-black/10 transition-all"
+                    placeholder="e.g. VINTAGE OVERSIZED SILK BLAZER"
+                  />
+                </div>
 
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Description *
-                </label>
-                <textarea
-                  required
-                  rows={4}
-                  value={formData.description}
-                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter product description"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Price * (₹)
-                </label>
-                <input
-                  type="number"
-                  required
-                  min="0"
-                  step="0.01"
-                  value={formData.price}
-                  onChange={(e) => setFormData(prev => ({ ...prev, price: parseFloat(e.target.value) || 0 }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="0.00"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Original Price (₹) - Optional
-                </label>
-                <input
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={formData.originalPrice || ''}
-                  onChange={(e) => setFormData(prev => ({ 
-                    ...prev, 
-                    originalPrice: e.target.value ? parseFloat(e.target.value) : undefined 
-                  }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="0.00"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Category *
-                </label>
-                <select
-                  required
-                  value={formData.category}
-                  onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="tshirts">T-Shirts</option>
-                  <option value="shirts">Shirts</option>
-                  <option value="accessories">Accessories</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Subcategory *
-                </label>
-                <select
-                  required
-                  value={formData.subcategory}
-                  onChange={(e) => setFormData(prev => ({ ...prev, subcategory: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="casual">Casual</option>
-                  <option value="formal">Formal</option>
-                  <option value="sports">Sports</option>
-                  <option value="vintage">Vintage</option>
-                  <option value="premium">Premium</option>
-                  <option value="graphic">Graphic</option>
-                  <option value="plain">Plain</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Stock Quantity *
-                </label>
-                <input
-                  type="number"
-                  required
-                  min="0"
-                  value={formData.stock}
-                  onChange={(e) => setFormData(prev => ({ ...prev, stock: parseInt(e.target.value) || 0 }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="0"
-                />
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3 block">Asset Description *</label>
+                  <textarea
+                    required
+                    rows={8}
+                    value={formData.description}
+                    onChange={(e) => setFormData((prev: ProductForm) => ({ ...prev, description: e.target.value }))}
+                    className="w-full bg-white border border-black/[0.03] px-6 py-5 text-sm font-bold text-black focus:outline-none focus:border-black/10 transition-all min-h-[200px]"
+                    placeholder="Detailed registry of materials, craftsmanship, and aesthetic purpose..."
+                  />
+                </div>
               </div>
             </div>
 
-            {/* Checkboxes */}
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={formData.isFeatured}
-                  onChange={(e) => setFormData(prev => ({ ...prev, isFeatured: e.target.checked }))}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label className="ml-2 block text-sm text-gray-900">
-                  Featured Product
-                </label>
-              </div>
+            <div className="bg-gray-50/50 border border-black/[0.03] p-10 space-y-10">
+              <h2 className="text-xl font-black text-black uppercase tracking-tighter italic border-b border-black/[0.03] pb-6">Visual Archives</h2>
 
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={formData.isOnSale}
-                  onChange={(e) => setFormData(prev => ({ ...prev, isOnSale: e.target.checked }))}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label className="ml-2 block text-sm text-gray-900">
-                  On Sale
-                </label>
+              <div className="space-y-8">
+                <div
+                  className="w-full border border-black/[0.03] bg-white p-16 text-center hover:bg-black group transition-all cursor-pointer relative"
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <AnimatePresence>
+                    {uploadLoading && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="absolute inset-0 bg-white/80 z-10 flex items-center justify-center flex-col gap-4"
+                      >
+                        <div className="animate-spin h-8 w-8 border-2 border-black border-t-transparent mx-auto"></div>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-black">Uploading to Archive...</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  <Upload className="h-10 w-10 text-gray-200 group-hover:text-white transition-colors mx-auto mb-6" />
+                  <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-white transition-colors">
+                    Drag Visual Assets or Initialize Browser Selection
+                  </p>
+                  <p className="text-[8px] font-black uppercase tracking-widest text-gray-300 mt-4 group-hover:text-gray-500">
+                    Max Size: 5MB Per Instance
+                  </p>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileSelect}
+                    className="hidden"
+                  />
+                </div>
+
+                {formData.images.length > 0 && (
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    {formData.images.map((image: string, index: number) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="relative group aspect-square bg-white border border-black/[0.03] overflow-hidden"
+                      >
+                        <Image
+                          src={image}
+                          alt={`Archive ${index + 1}`}
+                          fill
+                          className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                        />
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); removeImage(index); }}
+                          className="absolute top-2 right-2 bg-black text-white p-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="flex justify-center pt-8 border-t border-black/[0.02]">
+                  <button
+                    type="button"
+                    onClick={handleCameraCapture}
+                    className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-black transition-all flex items-center gap-3"
+                  >
+                    <Camera className="h-4 w-4" /> Initialize Live Capture
+                  </button>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Product Images */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-6">Product Images *</h2>
-            
-            <div className="space-y-4">
-              {/* Enhanced Upload Area */}
-              <div
-                className="w-full border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors"
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-              >
-                {imagePreview ? (
-                  <div className="space-y-4">
-                    <div className="relative w-full max-w-md mx-auto">
-                      <div className="relative h-48 w-full rounded-lg overflow-hidden">
-                        <Image
-                          src={imagePreview}
-                          alt="Preview"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <button
-                        type="button"
-                        onClick={removeSelectedImage}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                    <p className="text-sm text-gray-600">
-                      {selectedFile?.name} ({((selectedFile?.size || 0) / 1024 / 1024).toFixed(2)} MB)
-                    </p>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    <Upload className="w-12 h-12 text-gray-400 mx-auto" />
-                    <div>
-                      <p className="text-gray-600 mb-2">Drag and drop images here, or click to select</p>
-                      <button
-                        type="button"
-                        onClick={() => fileInputRef.current?.click()}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-sm font-medium"
-                        disabled={uploadLoading}
-                      >
-                        {uploadLoading ? (
-                          <>
-                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2 inline-block"></div>
-                            Uploading...
-                          </>
-                        ) : (
-                          <>
-                            <Upload className="w-4 h-4 mr-2 inline-block" />
-                            Choose Images
-                          </>
-                        )}
-                      </button>
-                    </div>
-                    <p className="text-xs text-gray-500">
-                      Supported formats: JPG, PNG, GIF. Max size: 5MB per image
-                    </p>
-                  </div>
-                )}
-                
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileSelect}
-                  className="hidden"
-                  disabled={uploadLoading}
-                />
-              </div>
+          {/* Sidebar Column */}
+          <div className="space-y-12">
+            <div className="bg-gray-50/50 border border-black/[0.03] p-10 space-y-10">
+              <h2 className="text-xl font-black text-black uppercase tracking-tighter italic border-b border-black/[0.03] pb-6">Valuation & Stock</h2>
 
-              {/* Uploaded Images Grid */}
-              {formData.images.length > 0 && (
+              <div className="space-y-10">
                 <div>
-                  <h3 className="text-sm font-medium text-gray-700 mb-3">
-                    Uploaded Images ({formData.images.length})
-                  </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {formData.images.map((image, index) => (
-                      <div key={index} className="relative">
-                        <div className="relative h-32 w-full rounded-lg overflow-hidden">
-                          <Image
-                            src={image}
-                            alt={`Product image ${index + 1}`}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => removeImage(index)}
-                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 text-xs"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3 block font-sans italic">Primary Valuation (₹)</label>
+                  <input
+                    type="number"
+                    required
+                    min="0"
+                    step="0.01"
+                    value={formData.price}
+                    onChange={(e) => setFormData((prev: ProductForm) => ({ ...prev, price: parseFloat(e.target.value) || 0 }))}
+                    className="w-full bg-white border border-black/[0.03] px-5 py-4 text-xl font-black text-black focus:outline-none focus:border-black/10 transition-all font-mono"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3 block font-sans italic">Registry Valuation (₹)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={formData.originalPrice || ''}
+                    onChange={(e) => setFormData((prev: ProductForm) => ({
+                      ...prev,
+                      originalPrice: e.target.value ? parseFloat(e.target.value) : undefined
+                    }))}
+                    className="w-full bg-white border border-black/[0.03] px-5 py-4 text-sm font-bold text-gray-400 focus:outline-none focus:border-black/10 transition-all font-mono"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3 block font-sans italic">Inventory Volume</label>
+                  <div className="flex items-center gap-4">
+                    <div className="p-4 bg-black text-white"><Package className="h-5 w-5" /></div>
+                    <input
+                      type="number"
+                      required
+                      min="0"
+                      value={formData.stock}
+                      onChange={(e) => setFormData((prev: ProductForm) => ({ ...prev, stock: parseInt(e.target.value) || 0 }))}
+                      className="flex-1 bg-white border border-black/[0.03] px-5 py-4 text-sm font-black text-black focus:outline-none focus:border-black/10 transition-all text-center"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-50/50 border border-black/[0.03] p-10 space-y-10">
+              <h2 className="text-xl font-black text-black uppercase tracking-tighter italic border-b border-black/[0.03] pb-6">Taxonomy & Pointer</h2>
+
+              <div className="space-y-10">
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3 block">Master Classification</label>
+                  <select
+                    required
+                    value={formData.category}
+                    onChange={(e) => setFormData((prev: ProductForm) => ({ ...prev, category: e.target.value }))}
+                    className="w-full bg-white border border-black/[0.03] px-6 py-5 text-[10px] font-black uppercase tracking-widest text-black appearance-none focus:outline-none focus:border-black/10 transition-all"
+                  >
+                    <option value="tshirts">T-SHIRTS</option>
+                    <option value="shirts">SHIRTS</option>
+                    <option value="accessories">ACCESSORIES</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3 block">Sub-Classification</label>
+                  <select
+                    required
+                    value={formData.subcategory}
+                    onChange={(e) => setFormData((prev: ProductForm) => ({ ...prev, subcategory: e.target.value }))}
+                    className="w-full bg-white border border-black/[0.03] px-6 py-5 text-[10px] font-black uppercase tracking-widest text-black appearance-none focus:outline-none focus:border-black/10 transition-all"
+                  >
+                    <option value="casual">CASUAL</option>
+                    <option value="premium">PREMIUM</option>
+                    <option value="vintage">VINTAGE</option>
+                    <option value="limited">LIMITED</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-50/50 border border-black/[0.03] p-10 space-y-10">
+              <h2 className="text-xl font-black text-black uppercase tracking-tighter italic border-b border-black/[0.03] pb-6">Strategic Metadata</h2>
+
+              <div className="space-y-8">
+                <div className="flex flex-col gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setFormData((prev: ProductForm) => ({ ...prev, isFeatured: !prev.isFeatured }))}
+                    className={cn(
+                      "w-full py-4 text-[9px] font-black uppercase tracking-widest border transition-all flex items-center justify-between px-6",
+                      formData.isFeatured ? "bg-black text-white border-black" : "bg-white text-gray-400 border-black/[0.03]"
+                    )}
+                  >
+                    <span>Featured Placement</span>
+                    <TrendingUp className="h-3 w-3" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setFormData((prev: ProductForm) => ({ ...prev, isOnSale: !prev.isOnSale }))}
+                    className={cn(
+                      "w-full py-4 text-[9px] font-black uppercase tracking-widest border transition-all flex items-center justify-between px-6",
+                      formData.isOnSale ? "bg-black text-white border-black" : "bg-white text-gray-400 border-black/[0.03]"
+                    )}
+                  >
+                    <span>Archive Sale Display</span>
+                    <Tag className="h-3 w-3" />
+                  </button>
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3 block">Metadata Tags</label>
+                  <div className="flex gap-2 mb-4">
+                    <input
+                      type="text"
+                      value={tagInput}
+                      onChange={(e) => setTagInput(e.target.value)}
+                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+                      className="flex-1 bg-white border border-black/[0.03] px-4 py-3 text-[10px] font-black uppercase tracking-widest text-black focus:outline-none"
+                      placeholder="e.g. SILK"
+                    />
+                    <button
+                      type="button"
+                      onClick={addTag}
+                      className="bg-black text-white px-6 py-3 text-[10px] font-black uppercase tracking-widest"
+                    >
+                      Initialize
+                    </button>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {formData.tags.map((tag: string, index: number) => (
+                      <span
+                        key={index}
+                        className="bg-gray-50 text-[9px] font-black uppercase tracking-widest text-gray-400 px-3 py-1.5 border border-black/[0.03] flex items-center gap-2 group hover:text-black hover:border-black/10 transition-all cursor-pointer"
+                        onClick={() => removeTag(index)}
+                      >
+                        {tag} <X className="h-2 w-2" />
+                      </span>
                     ))}
                   </div>
                 </div>
-              )}
-
-              {/* Camera Option */}
-              <div className="flex justify-center pt-4 border-t border-gray-200">
-                <button
-                  type="button"
-                  onClick={handleCameraCapture}
-                  className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-md text-sm font-medium"
-                  disabled={showCamera || uploadLoading}
-                >
-                  📷 Take Photo
-                </button>
               </div>
-
-              {/* Camera Modal */}
-              {showCamera && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                  <div className="bg-white p-6 rounded-lg max-w-md w-full mx-4">
-                    <h3 className="text-lg font-medium text-gray-900 mb-4">Camera Access</h3>
-                    <p className="text-gray-600 mb-4">
-                      Camera functionality is being activated. In a production environment, this would open a camera interface for capturing photos.
-                    </p>
-                    <button
-                      onClick={() => setShowCamera(false)}
-                      className="w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Tags */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-6">Tags</h2>
-            
-            <div className="space-y-4">
-              <div className="flex space-x-2">
-                <input
-                  type="text"
-                  value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
-                  placeholder="Enter tag"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault()
-                      addTag()
-                    }
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={addTag}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                >
-                  Add Tag
-                </button>
-              </div>
-
-              {formData.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {formData.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
-                    >
-                      {tag}
-                      <button
-                        type="button"
-                        onClick={() => removeTag(index)}
-                        className="ml-2 text-blue-600 hover:text-blue-800"
-                      >
-                        ×
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Submit */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex justify-end space-x-4">
-              <Link
-                href="/admin/products"
-                className="px-6 py-2 text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-md"
-              >
-                Cancel
-              </Link>
-              <button
-                type="submit"
-                disabled={loading}
-                className="px-6 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? 'Creating...' : 'Create Product'}
-              </button>
             </div>
           </div>
         </form>
