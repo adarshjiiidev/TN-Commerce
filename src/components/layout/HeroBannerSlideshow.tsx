@@ -48,8 +48,8 @@ export default function HeroBannerSlideshow() {
 
   const defaultContent = {
     title: "Showroom Se Bhi Sasta",
-    subtitle: "Premium Fashion. Hostel Prices.",
-    description: "Engineered from the heart of the hostel. Experience the new standard of affordable luxury with our premium collection.",
+    subtitle: "Discover the Latest Styles",
+    description: "Experience the new standard of affordable luxury with our premium collection. Shop exclusive designs crafted for you.",
     buttonText: "Shop Collection",
     link: "/products"
   }

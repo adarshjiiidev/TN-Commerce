@@ -9,6 +9,7 @@ import { useCartStore } from '@/stores/cart'
 import { useSearchParams } from 'next/navigation'
 import SignInModal from './SignInModal'
 import SignUpModal from './SignUpModal'
+import SearchBar from '@/components/search/SearchBar'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
@@ -101,16 +102,7 @@ export default function Header() {
           </nav>
 
           {/* Search Bar - Desktop */}
-          <div className="hidden md:flex flex-1 max-w-sm">
-            <div className="relative w-full group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-black transition-colors duration-300" />
-              <input
-                type="text"
-                placeholder="Search for products..."
-                className="w-full bg-gray-50/50 border border-black/[0.03] rounded-none pl-11 pr-4 py-2.5 text-black text-sm placeholder:text-gray-400 focus:outline-none focus:border-black/10 focus:bg-white transition-all duration-300"
-              />
-            </div>
-          </div>
+          <SearchBar />
 
           {/* Right Icons */}
           <div className="flex items-center gap-3">
@@ -270,14 +262,7 @@ export default function Header() {
           >
             <div className="px-4 py-8 space-y-6">
               {/* Mobile Search */}
-              <div className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="SEARCH..."
-                  className="w-full bg-gray-50 border border-black/5 rounded-none pl-11 pr-4 py-4 text-black text-sm uppercase font-bold tracking-widest placeholder:text-gray-400 focus:outline-none focus:border-black/20"
-                />
-              </div>
+              <SearchBar isMobile />
               {/* Mobile Nav Links */}
               <div className="space-y-0 border-t border-black/5">
                 {navLinks.map((link, index) => (

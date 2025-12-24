@@ -6,7 +6,7 @@ import { SearchFilters } from '@/types'
 export async function GET(request: NextRequest) {
   try {
     await dbConnect()
-    
+
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '12')
@@ -39,7 +39,12 @@ export async function GET(request: NextRequest) {
     }
 
     if (search) {
-      query.$text = { $search: search }
+      // Use word-boundary matching for more precise results
+      const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      query.$or = [
+        { name: { $regex: escapedSearch, $options: 'i' } },
+        { category: { $regex: escapedSearch, $options: 'i' } }
+      ]
     }
 
     // Build sort
