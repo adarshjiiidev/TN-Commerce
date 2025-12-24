@@ -132,7 +132,7 @@ export default function FlashSale() {
             <h2 className="text-6xl font-black text-white uppercase tracking-tighter italic italic">{saleTitle}</h2>
           </div>
 
-          <p className="text-gray-400 text-xs font-bold uppercase tracking-[0.3em] mb-12">{saleDescription}</p>
+          <p className="text-gray-300 text-xs font-bold uppercase tracking-[0.3em] mb-12">{saleDescription}</p>
 
           {/* Countdown */}
           <div className="flex items-center justify-center gap-6 mb-12">
@@ -145,7 +145,7 @@ export default function FlashSale() {
                 <div className="bg-white/5 border border-white/10 text-white px-6 py-4 text-4xl font-black min-w-[5rem]">
                   {formatTime(item.value)}
                 </div>
-                <span className="text-gray-500 text-[10px] uppercase font-bold tracking-widest mt-2">{item.label}</span>
+                <span className="text-gray-400 text-xs uppercase font-bold tracking-widest mt-2">{item.label}</span>
               </div>
             ))}
           </div>
@@ -180,17 +180,17 @@ export default function FlashSale() {
                       className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
                     />
                     {product.originalPrice && (
-                      <div className="absolute top-4 left-4 bg-white text-black px-2 py-1 text-[9px] font-black uppercase tracking-tighter shadow-lg">
+                      <div className="absolute top-4 left-4 bg-white text-black px-2 py-1 text-xs font-black uppercase tracking-tighter shadow-lg">
                         -{calcDiscount(product.originalPrice, product.price)}% OFF
                       </div>
                     )}
                   </div>
                   <div className="p-4 bg-black">
-                    <h3 className="text-white text-[10px] font-black uppercase tracking-widest leading-none mb-2">{product.name}</h3>
+                    <h3 className="text-white text-xs font-black uppercase tracking-widest leading-none mb-2">{product.name}</h3>
                     <div className="flex items-baseline gap-2">
                       <span className="text-white font-black text-sm tracking-tighter">₹{product.price}</span>
                       {product.originalPrice && (
-                        <span className="text-gray-600 text-[10px] line-through tracking-tighter">₹{product.originalPrice}</span>
+                        <span className="text-gray-400 text-xs line-through tracking-tighter">₹{product.originalPrice}</span>
                       )}
                     </div>
                   </div>

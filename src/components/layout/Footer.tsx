@@ -19,16 +19,16 @@ export default function Footer() {
                 className="h-20 w-auto object-contain"
               />
               <h3 className="text-xl sm:text-2xl font-black text-black uppercase tracking-tighter italic">
-                Showroom <span className="text-gray-400">Se Bhi</span> Sasta
+                Showroom <span className="text-gray-600">Se Bhi</span> Sasta
               </h3>
             </div>
 
-            <p className="text-gray-900 text-[10px] sm:text-xs leading-relaxed font-black uppercase tracking-tighter italic max-w-xs">
+            <p className="text-gray-900 text-xs sm:text-sm leading-relaxed font-black uppercase tracking-tighter italic max-w-xs">
               Premium commerce engineered<br />from the heart of the hostel.
             </p>
 
             <div className="space-y-4 pt-2">
-              <div className="flex items-start gap-3 text-[10px] font-black uppercase tracking-widest text-gray-400">
+              <div className="flex items-start gap-3 text-xs font-black uppercase tracking-widest text-gray-600">
                 <svg className="w-4 h-4 text-black flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -39,7 +39,7 @@ export default function Footer() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-gray-400">
+              <div className="flex items-center gap-3 text-xs font-black uppercase tracking-widest text-gray-600">
                 <svg className="w-4 h-4 text-black flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
@@ -69,7 +69,7 @@ export default function Footer() {
                   <Link href={link.href}>
                     <motion.span
                       whileHover={{ x: 4, color: '#000000' }}
-                      className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-black transition-colors inline-block cursor-pointer"
+                      className="text-xs font-black uppercase tracking-[0.2em] text-gray-700 hover:text-black transition-colors inline-block cursor-pointer"
                     >
                       {link.name}
                     </motion.span>
@@ -94,7 +94,7 @@ export default function Footer() {
                   <Link href={link.href}>
                     <motion.span
                       whileHover={{ x: 4, color: '#000000' }}
-                      className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-black transition-colors inline-block cursor-pointer"
+                      className="text-xs font-black uppercase tracking-[0.2em] text-gray-700 hover:text-black transition-colors inline-block cursor-pointer"
                     >
                       {link.name}
                     </motion.span>
@@ -132,12 +132,12 @@ export default function Footer() {
 
             <div className="p-6 bg-gray-50/50 border border-black/5">
               <h5 className="text-sm font-black text-black uppercase tracking-tighter italic mb-2">The Inner Circle</h5>
-              <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-4">Access limited drops first.</p>
+              <p className="text-xs font-black uppercase tracking-widest text-gray-700 mb-4">Access limited drops first.</p>
               <div className="relative">
                 <input
                   type="email"
                   placeholder="EMAIL ADDRESS"
-                  className="w-full bg-white border border-black/5 px-4 py-2.5 text-[10px] text-black placeholder:text-gray-300 focus:outline-none focus:border-black/10 transition-all font-black"
+                  className="w-full bg-white border-2 border-gray-200 px-4 py-2.5 text-xs text-black placeholder:text-gray-500 focus:outline-none focus:border-black transition-all font-black"
                 />
                 <button className="absolute right-1 top-1 bottom-1 px-3 bg-black text-white transition-all hover:bg-gray-800">
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -151,13 +151,13 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="mt-12 sm:mt-16 pt-8 border-t border-black/[0.05] flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-gray-400 text-[9px] font-black uppercase tracking-[0.2em]">
+          <p className="text-gray-700 text-xs font-black uppercase tracking-[0.2em]">
             © {new Date().getFullYear()} Showroom Se Bhi Sasta. Heritage in Room 302.
           </p>
           <div className="flex gap-6">
-            <Link href="/privacy" className="text-[9px] font-black uppercase tracking-widest text-gray-400 hover:text-black transition-colors">Privacy</Link>
-            <Link href="/terms" className="text-[9px] font-black uppercase tracking-widest text-gray-400 hover:text-black transition-colors">Terms</Link>
-            <Link href="/cookies" className="text-[9px] font-black uppercase tracking-widest text-gray-400 hover:text-black transition-colors">Cookies</Link>
+            <Link href="/privacy" className="text-xs font-black uppercase tracking-widest text-gray-700 hover:text-black transition-colors">Privacy</Link>
+            <Link href="/terms" className="text-xs font-black uppercase tracking-widest text-gray-700 hover:text-black transition-colors">Terms</Link>
+            <Link href="/cookies" className="text-xs font-black uppercase tracking-widest text-gray-700 hover:text-black transition-colors">Cookies</Link>
           </div>
         </div>
       </div>

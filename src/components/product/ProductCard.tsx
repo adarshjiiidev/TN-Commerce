@@ -63,7 +63,7 @@ export default function ProductCard({ product, className, priority = false }: Pr
           {/* Sale Badge */}
           {product.isOnSale && discountPercentage > 0 && (
             <div className="absolute top-4 left-4 z-10">
-              <div className="bg-black text-white text-[9px] font-black px-2 py-1 uppercase tracking-tighter shadow-lg">
+              <div className="bg-black text-white text-xs font-black px-2 py-1 uppercase tracking-tighter shadow-lg">
                 -{discountPercentage}% OFF
               </div>
             </div>
@@ -117,7 +117,7 @@ export default function ProductCard({ product, className, priority = false }: Pr
           {/* Out of Stock Overlay */}
           {product.stock === 0 && (
             <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-30">
-              <div className="bg-black text-white px-4 py-2 text-[10px] font-black uppercase tracking-widest">
+              <div className="bg-black text-white px-4 py-2 text-xs font-black uppercase tracking-widest">
                 Out of Stock
               </div>
             </div>
@@ -128,7 +128,7 @@ export default function ProductCard({ product, className, priority = false }: Pr
         <div className="flex-1 space-y-1 px-1">
           {/* Tags */}
           {product.tags && product.tags.length > 0 && (
-            <div className="text-[9px] uppercase tracking-[0.2em] text-gray-400 font-black">
+            <div className="text-xs uppercase tracking-[0.2em] text-gray-700 font-black">
               {product.tags[0]}
             </div>
           )}
@@ -140,8 +140,8 @@ export default function ProductCard({ product, className, priority = false }: Pr
             {/* Rating */}
             {product.reviewCount > 0 && (
               <div className="flex items-center gap-1 shrink-0">
-                <Star className="h-2.5 w-2.5 text-black fill-current" />
-                <span className="text-[10px] font-black text-black">{product.rating.toFixed(1)}</span>
+                <Star className="h-3 w-3 text-black fill-current" />
+                <span className="text-xs font-black text-black">{product.rating.toFixed(1)}</span>
               </div>
             )}
           </div>
@@ -152,7 +152,7 @@ export default function ProductCard({ product, className, priority = false }: Pr
               {formatPrice(product.price)}
             </span>
             {product.originalPrice && product.originalPrice > product.price && (
-              <span className="text-[10px] text-gray-400 line-through tracking-tighter">
+              <span className="text-xs text-gray-500 line-through tracking-tighter">
                 {formatPrice(product.originalPrice)}
               </span>
             )}

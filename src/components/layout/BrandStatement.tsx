@@ -14,7 +14,7 @@ export default function BrandStatement() {
                     viewport={{ once: true }}
                 >
                     <h2 className="text-4xl md:text-5xl font-black text-black leading-[1.1] tracking-tighter uppercase italic">
-                        Quality is the <span className="text-gray-500">New Cool</span>.
+                        Quality is the <span className="text-gray-700">New Cool</span>.
                         <br />
                         Minimalist <span className="not-italic">Store</span> for the
                         <br />

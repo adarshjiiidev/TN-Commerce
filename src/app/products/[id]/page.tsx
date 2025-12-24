@@ -124,7 +124,7 @@ export default function ProductDetailPage() {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-black text-black mb-4 uppercase tracking-tighter italic">Product Not Found</h1>
-          <p className="text-gray-500 text-[10px] font-bold uppercase tracking-widest mb-10">The product you're looking for doesn't exist.</p>
+          <p className="text-gray-700 text-xs font-bold uppercase tracking-widest mb-10">The product you're looking for doesn't exist.</p>
           <Button asChild className="bg-black text-white hover:bg-gray-900 rounded-none h-14 px-10">
             <Link href="/products">Browse Products</Link>
           </Button>
@@ -141,15 +141,15 @@ export default function ProductDetailPage() {
     <div className="min-h-screen bg-white text-black">
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">
         {/* Breadcrumb */}
-        <nav className="flex items-center space-x-2 text-[10px] text-gray-400 mb-12 font-bold uppercase tracking-widest">
+        <nav className="flex items-center space-x-2 text-xs text-gray-600 mb-12 font-bold uppercase tracking-widest">
           <Link href="/" className="hover:text-black transition-colors">Home</Link>
-          <span className="text-gray-200">/</span>
+          <span className="text-gray-300">/</span>
           <Link href="/products" className="hover:text-black transition-colors">Products</Link>
-          <span className="text-gray-200">/</span>
+          <span className="text-gray-300">/</span>
           <Link href={`/products?category=${product.category}`} className="hover:text-black transition-colors">
             {product.category}
           </Link>
-          <span className="text-gray-200">/</span>
+          <span className="text-gray-300">/</span>
           <span className="text-black truncate max-w-[200px]">{product.name}</span>
         </nav>
 
@@ -189,7 +189,7 @@ export default function ProductDetailPage() {
               {/* Badges */}
               <div className="absolute top-6 right-6 flex flex-col gap-2 z-10">
                 {product.isOnSale && discountPercentage > 0 && (
-                  <Badge className="bg-black text-white border-0 px-3 py-1 text-[10px] font-black uppercase tracking-tighter shadow-lg">
+                  <Badge className="bg-black text-white border-0 px-3 py-1 text-xs font-black uppercase tracking-tighter shadow-lg">
                     -{discountPercentage}%
                   </Badge>
                 )}
@@ -270,16 +270,16 @@ export default function ProductDetailPage() {
                 <div className="flex items-center gap-6">
                   <div className="flex items-center gap-1">
                     <Star className="h-4 w-4 text-black fill-current" />
-                    <span className="text-[10px] font-black uppercase tracking-widest text-black">{product.rating.toFixed(1)}</span>
-                    <span className="text-gray-400 text-[10px] font-bold uppercase tracking-widest ml-1">({product.reviewCount})</span>
+                    <span className="text-xs font-black uppercase tracking-widest text-black">{product.rating.toFixed(1)}</span>
+                    <span className="text-gray-600 text-xs font-bold uppercase tracking-widest ml-1">({product.reviewCount})</span>
                   </div>
                   {product.stock > 0 ? (
-                    <span className="flex items-center gap-2 text-black text-[10px] font-black uppercase tracking-widest">
+                    <span className="flex items-center gap-2 text-black text-xs font-black uppercase tracking-widest">
                       <span className="w-1.5 h-1.5 bg-black" />
                       Available
                     </span>
                   ) : (
-                    <span className="text-gray-400 text-[10px] font-black uppercase tracking-widest">Sold Out</span>
+                    <span className="text-gray-600 text-xs font-black uppercase tracking-widest">Sold Out</span>
                   )}
                 </div>
 
@@ -288,7 +288,7 @@ export default function ProductDetailPage() {
                     {formatPrice(product.price)}
                   </span>
                   {product.originalPrice && product.originalPrice > product.price && (
-                    <span className="text-xl text-gray-400 line-through tracking-tighter">
+                    <span className="text-xl text-gray-500 line-through tracking-tighter">
                       {formatPrice(product.originalPrice)}
                     </span>
                   )}
@@ -305,7 +305,7 @@ export default function ProductDetailPage() {
               {/* Variants */}
               {product.variants && product.variants.length > 0 && (
                 <div className="space-y-4">
-                  <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                  <h3 className="text-xs font-black text-gray-600 uppercase tracking-widest">
                     Select {product.variants[0].type}
                   </h3>
                   <div className="flex flex-wrap gap-2">
@@ -317,7 +317,7 @@ export default function ProductDetailPage() {
                           "px-6 py-4 border text-[10px] font-black uppercase tracking-widest transition-all min-w-[3.5rem]",
                           selectedVariant === variant.id
                             ? "border-black bg-black text-white"
-                            : "border-black/5 bg-gray-50 text-gray-400 hover:border-black/20 hover:text-black"
+                            : "border-gray-200 bg-gray-50 text-gray-600 hover:border-black hover:text-black"
                         )}
                       >
                         {variant.value}
@@ -365,10 +365,10 @@ export default function ProductDetailPage() {
                     { icon: Check, label: 'Authentic', desc: 'Guaranteed' },
                   ].map((feature, idx) => (
                     <div key={idx} className="flex items-start gap-3 p-5 bg-gray-50 border border-black/5">
-                      <feature.icon className="h-4 w-4 text-black mt-0.5" />
+                      <feature.icon className="h-5 w-5 text-black mt-0.5" />
                       <div>
-                        <p className="font-black text-black text-[10px] uppercase tracking-widest">{feature.label}</p>
-                        <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mt-1">{feature.desc}</p>
+                        <p className="font-black text-black text-xs uppercase tracking-widest">{feature.label}</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-600 mt-1">{feature.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -405,7 +405,7 @@ export default function ProductDetailPage() {
                 <h2 className="text-4xl font-black text-black uppercase tracking-tighter italic">
                   Recommended
                 </h2>
-                <Link href="/products" className="text-[10px] font-black uppercase tracking-[0.3em] text-black hover:underline flex items-center gap-1 transition-colors">
+                <Link href="/products" className="text-xs font-black uppercase tracking-[0.3em] text-black hover:underline flex items-center gap-1 transition-colors">
                   Shop All <ChevronRight className="h-3 w-3" />
                 </Link>
               </div>

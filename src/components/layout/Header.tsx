@@ -77,7 +77,7 @@ export default function Header() {
                 className="h-14 w-auto object-contain"
               />
               <span className="hidden sm:block ml-3 text-xl font-black tracking-tight text-black font-horizon whitespace-nowrap">
-                Showroom <span className="text-gray-400">Se Bhi</span> Sasta
+                Showroom <span className="text-gray-600">Se Bhi</span> Sasta
               </span>
             </motion.div>
           </Link>
@@ -159,7 +159,7 @@ export default function Header() {
                     <User className="h-4 w-4 m-2" />
                   )}
                 </span>
-                {session && <ChevronDown className="h-3 w-3 text-gray-400" />}
+                {session && <ChevronDown className="h-3 w-3 text-gray-600" />}
               </motion.button>
 
               <AnimatePresence>
@@ -174,8 +174,8 @@ export default function Header() {
                     {session ? (
                       <>
                         <div className="p-4 border-b border-black/5 bg-gray-50">
-                          <p className="text-[10px] font-black text-black uppercase tracking-tighter italic">{session.user?.name}</p>
-                          <p className="text-[9px] text-gray-400 truncate uppercase mt-1 font-bold tracking-widest">{session.user?.email}</p>
+                          <p className="text-xs font-black text-black uppercase tracking-tighter italic">{session.user?.name}</p>
+                          <p className="text-[10px] text-gray-700 truncate uppercase mt-1 font-bold tracking-widest">{session.user?.email}</p>
                         </div>
                         <div className="p-2 space-y-1">
                           <Link
@@ -225,7 +225,7 @@ export default function Header() {
                             setAuthModal('signup')
                             setIsUserMenuOpen(false)
                           }}
-                          className="w-full flex items-center gap-3 px-4 py-3 text-[10px] font-black text-gray-500 uppercase tracking-widest hover:bg-gray-50 hover:text-black transition-all"
+                          className="w-full flex items-center gap-3 px-4 py-3 text-xs font-black text-gray-600 uppercase tracking-widest hover:bg-gray-50 hover:text-black transition-all"
                         >
                           <PlusIcon className="h-4 w-4" />
                           Join Us
@@ -292,7 +292,7 @@ export default function Header() {
                   className="flex flex-col items-center justify-center p-8 bg-white hover:bg-gray-50 transition-colors"
                 >
                   <Globe className="h-5 w-5 text-black mb-3" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-black">Contact</span>
+                  <span className="text-xs font-black uppercase tracking-widest text-black">Contact</span>
                 </Link>
                 <Link
                   href="/wishlist"
@@ -300,7 +300,7 @@ export default function Header() {
                   className="flex flex-col items-center justify-center p-8 bg-white hover:bg-gray-50 transition-colors"
                 >
                   <Heart className="h-5 w-5 text-black mb-3" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-black">Wishlist</span>
+                  <span className="text-xs font-black uppercase tracking-widest text-black">Wishlist</span>
                 </Link>
               </div>
             </div>
