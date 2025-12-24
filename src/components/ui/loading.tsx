@@ -19,17 +19,14 @@ export default function Loading({ className, size = 'md', text }: LoadingProps) 
   }
 
   return (
-    <div className={cn('flex items-center justify-center', className)}>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="flex items-center gap-2"
-      >
-        <Loader2 className={cn('animate-spin', sizeClasses[size])} />
-        {text && (
-          <span className="text-sm text-gray-400">{text}</span>
-        )}
-      </motion.div>
+    <div className={cn('flex flex-col items-center justify-center gap-4', className)}>
+      <div className={cn(
+        'border-2 border-black border-t-transparent rounded-full animate-spin',
+        sizeClasses[size]
+      )} />
+      {text && (
+        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500 italic">{text}</span>
+      )}
     </div>
   )
 }

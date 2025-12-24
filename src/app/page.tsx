@@ -1,13 +1,17 @@
 import HeroBannerSlideshow from '@/components/layout/HeroBannerSlideshow'
 import FeaturedProducts from '@/components/product/FeaturedProducts'
+import BrandStatement from '@/components/layout/BrandStatement'
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#0d0d12] ">
-      {/* Hero Banner */}
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
       <HeroBannerSlideshow />
 
-      {/* Featured Products */}
+      {/* Brand Statement - Minimalist */}
+      <BrandStatement />
+
+      {/* Featured Products - Shopping Core */}
       <FeaturedProducts />
     </div>
   )

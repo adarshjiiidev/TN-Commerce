@@ -217,12 +217,11 @@ export default function SignUpModal({
     if (success) {
         return (
             <Dialog open={isOpen} onOpenChange={handleClose}>
-                <DialogContent className="sm:max-w-md bg-[#0d0d12]/90 backdrop-blur-3xl border border-white/10 text-white p-0 shadow-2xl overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10 pointer-events-none" />
+                <DialogContent className="sm:max-w-md bg-white border border-black/5 text-black p-0 shadow-2xl overflow-hidden">
 
                     <button
                         onClick={handleClose}
-                        className="absolute right-4 top-4 p-2 rounded-full hover:bg-white/10 text-gray-400 hover:text-white transition-all z-10"
+                        className="absolute right-4 top-4 p-2 text-gray-400 hover:text-black transition-all z-10"
                     >
                         <X className="h-4 w-4" />
                         <span className="sr-only">Close</span>
@@ -232,13 +231,13 @@ export default function SignUpModal({
                         <motion.div
                             initial={{ scale: 0.5, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-emerald-600 shadow-glow"
+                            className="mx-auto mb-6 flex h-16 w-16 items-center justify-center bg-black"
                         >
                             <CheckCircle className="h-8 w-8 text-white" />
                         </motion.div>
-                        <DialogTitle className="text-2xl font-bold mb-3 text-white font-heading">You're In!</DialogTitle>
-                        <p className="text-gray-400 text-lg leading-relaxed">
-                            Welcome to Limit//Up.<br />Signing you in now...
+                        <DialogTitle className="text-2xl font-black mb-3 text-black uppercase tracking-tighter italic">Success</DialogTitle>
+                        <p className="text-gray-500 text-sm font-bold uppercase tracking-widest leading-relaxed">
+                            Welcome to Limit//Up.<br />Signing you in...
                         </p>
                     </div>
                 </DialogContent>
@@ -248,18 +247,17 @@ export default function SignUpModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-md bg-[#0d0d12]/90 backdrop-blur-3xl border border-white/10 text-white p-0 gap-0 shadow-2xl overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
+            <DialogContent className="sm:max-w-md bg-white border border-black/5 text-black p-0 gap-0 shadow-2xl overflow-hidden">
 
                 <DialogHeader className="p-8 pb-4 relative z-10">
                     <div className="text-center">
-                        <DialogTitle className="text-3xl font-bold text-center text-white mb-2 font-heading tracking-tight">
-                            {step === 'signup' ? 'Create Account' : 'Verification'}
+                        <DialogTitle className="text-3xl font-black text-center text-black mb-2 uppercase tracking-tighter italic">
+                            {step === 'signup' ? 'Join Us' : 'Verify'}
                         </DialogTitle>
-                        <p className="text-sm text-gray-400">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
                             {step === 'signup'
-                                ? 'Join the community and start your journey'
-                                : `Enter the code sent to ${formData.email}`
+                                ? 'Join the community'
+                                : `Code sent to ${formData.email}`
                             }
                         </p>
                     </div>
@@ -272,18 +270,18 @@ export default function SignUpModal({
                             <Button
                                 onClick={handleGoogleSignUp}
                                 disabled={isLoading}
-                                className="w-full bg-white text-black hover:bg-gray-100 border-0 h-12 rounded-xl font-semibold shadow-lg hover:scale-[1.02] transition-all"
+                                className="w-full bg-gray-50 text-black hover:bg-gray-100 border border-black/5 h-12 rounded-none font-bold uppercase tracking-widest text-xs transition-all"
                             >
-                                <Chrome className="mr-2 h-5 w-5" />
-                                Sign up with Google
+                                <Chrome className="mr-2 h-4 w-4" />
+                                Google Sign Up
                             </Button>
 
                             <div className="relative">
                                 <div className="absolute inset-0 flex items-center">
-                                    <span className="w-full border-t border-white/10" />
+                                    <span className="w-full border-t border-black/5" />
                                 </div>
-                                <div className="relative flex justify-center text-xs uppercase tracking-wider">
-                                    <span className="bg-[#0e0e14] px-3 text-gray-500 font-medium">Or using email</span>
+                                <div className="relative flex justify-center text-[10px] uppercase tracking-widest">
+                                    <span className="bg-white px-3 text-gray-400 font-bold">Or</span>
                                 </div>
                             </div>
 
@@ -304,27 +302,27 @@ export default function SignUpModal({
 
                                 <div className="space-y-4">
                                     <div className="relative">
-                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                                         <Input
                                             type="text"
                                             name="name"
                                             placeholder="Full Name"
                                             value={formData.name}
                                             onChange={handleInputChange}
-                                            className="w-full pl-11 bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-purple-500/50 focus:bg-white/10 h-12 rounded-xl transition-all"
+                                            className="w-full pl-11 bg-gray-50 border-black/5 text-black placeholder:text-gray-400 focus:border-black/20 focus:bg-white h-12 rounded-none transition-all"
                                             required
                                         />
                                     </div>
 
                                     <div className="relative">
-                                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+                                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                                         <Input
                                             type="email"
                                             name="email"
                                             placeholder="Email Address"
                                             value={formData.email}
                                             onChange={handleInputChange}
-                                            className="w-full pl-11 bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-purple-500/50 focus:bg-white/10 h-12 rounded-xl transition-all"
+                                            className="w-full pl-11 bg-gray-50 border-black/5 text-black placeholder:text-gray-400 focus:border-black/20 focus:bg-white h-12 rounded-none transition-all"
                                             required
                                         />
                                     </div>
@@ -337,7 +335,7 @@ export default function SignUpModal({
                                                 placeholder="Password"
                                                 value={formData.password}
                                                 onChange={handleInputChange}
-                                                className="w-full pl-4 pr-10 bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-purple-500/50 focus:bg-white/10 h-12 rounded-xl transition-all text-sm"
+                                                className="w-full pl-4 pr-10 bg-gray-50 border-black/5 text-black placeholder:text-gray-400 focus:border-black/20 focus:bg-white h-12 rounded-none transition-all text-sm"
                                                 required
                                             />
                                             <button
@@ -356,42 +354,42 @@ export default function SignUpModal({
                                                 placeholder="Confirm"
                                                 value={formData.confirmPassword}
                                                 onChange={handleInputChange}
-                                                className="w-full pl-4 pr-10 bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-purple-500/50 focus:bg-white/10 h-12 rounded-xl transition-all text-sm"
+                                                className="w-full pl-4 pr-10 bg-gray-50 border-black/5 text-black placeholder:text-gray-400 focus:border-black/20 focus:bg-white h-12 rounded-none transition-all text-sm"
                                                 required
                                             />
                                             <button
                                                 type="button"
                                                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white transition-colors"
+                                                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-black transition-colors"
                                             >
                                                 {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                                             </button>
                                         </div>
                                     </div>
-                                    <p className="text-xs text-gray-500 pl-1">Password must be at least 6 characters</p>
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 pl-1">Min. 6 characters</p>
                                 </div>
 
                                 <Button
                                     type="submit"
                                     disabled={isLoading}
-                                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 h-12 rounded-xl font-bold shadow-lg hover:shadow-purple-500/25 transition-all mt-4"
+                                    className="w-full bg-black hover:bg-gray-900 text-white border-0 h-14 rounded-none font-black uppercase tracking-widest text-xs transition-all mt-4"
                                 >
                                     {isLoading ? (
-                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                        'Processing...'
                                     ) : (
                                         'Create Account'
                                     )}
                                 </Button>
                             </form>
 
-                            <p className="text-center text-sm text-gray-400 pb-2">
-                                Already have an account?{' '}
+                            <p className="text-center text-[10px] font-bold uppercase tracking-widest text-gray-500 pb-2">
+                                Already member?{' '}
                                 <button
                                     type="button"
                                     onClick={onSwitchToSignIn}
-                                    className="font-bold text-white hover:text-purple-400 transition-colors"
+                                    className="font-black text-black hover:underline transition-colors"
                                 >
-                                    Sign in
+                                    Sign In
                                 </button>
                             </p>
                         </>
@@ -402,9 +400,9 @@ export default function SignUpModal({
                                 <motion.div
                                     initial={{ scale: 0.8, opacity: 0 }}
                                     animate={{ scale: 1, opacity: 1 }}
-                                    className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/5 border border-white/10"
+                                    className="mx-auto mb-4 flex h-16 w-16 items-center justify-center bg-gray-50 border border-black/5"
                                 >
-                                    <Mail className="h-8 w-8 text-purple-400" />
+                                    <Mail className="h-8 w-8 text-black" />
                                 </motion.div>
                             </div>
 
@@ -433,7 +431,7 @@ export default function SignUpModal({
                                             setOtp(value)
                                             setError('')
                                         }}
-                                        className="w-full text-center text-3xl font-mono tracking-[0.5em] bg-white/5 border-white/10 text-white placeholder:text-white/10 focus:border-purple-500/50 focus:bg-white/10 h-16 rounded-xl"
+                                        className="w-full text-center text-4xl font-black tracking-[0.5em] bg-gray-50 border-black/5 text-black placeholder:text-gray-200 focus:border-black/20 focus:bg-white h-20 rounded-none shadow-inner"
                                         maxLength={6}
                                         autoFocus
                                         required
@@ -441,28 +439,28 @@ export default function SignUpModal({
                                 </div>
 
                                 {countdown > 0 && (
-                                    <div className="flex items-center justify-center text-sm text-gray-400 bg-white/5 py-2 rounded-lg">
-                                        <Clock className="h-4 w-4 mr-2 text-purple-400" />
-                                        Expire in <span className="ml-1 text-white font-mono">{formatTime(countdown)}</span>
+                                    <div className="flex items-center justify-center text-[10px] font-bold uppercase tracking-widest text-gray-500 bg-gray-50 py-3">
+                                        <Clock className="h-3 w-3 mr-2 text-black" />
+                                        Expire in <span className="ml-1 text-black font-black">{formatTime(countdown)}</span>
                                     </div>
                                 )}
 
                                 <Button
                                     type="submit"
                                     disabled={isLoading || otp.length !== 6}
-                                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 h-12 rounded-xl font-bold shadow-lg hover:shadow-purple-500/25 transition-all"
+                                    className="w-full bg-black hover:bg-gray-900 text-white border-0 h-14 rounded-none font-black uppercase tracking-widest text-xs transition-all"
                                 >
                                     {isLoading ? 'Verifying...' : 'Verify Code'}
                                 </Button>
                             </form>
 
                             <div className="text-center space-y-4 pt-4 border-t border-white/5">
-                                <div className="text-sm text-gray-400">
-                                    Didn't receive code?{' '}
+                                <div className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
+                                    No code?{' '}
                                     <button
                                         onClick={handleResendOTP}
                                         disabled={resendLoading || countdown > 540}
-                                        className="font-bold text-purple-400 hover:text-purple-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="font-black text-black hover:underline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {resendLoading ? 'Sending...' : 'Resend'}
                                     </button>
@@ -475,10 +473,10 @@ export default function SignUpModal({
                                         setError('')
                                         setCountdown(0)
                                     }}
-                                    className="flex items-center justify-center w-full text-sm text-gray-500 hover:text-white transition-colors gap-2 group"
+                                    className="flex items-center justify-center w-full text-[10px] font-black uppercase tracking-widest text-black hover:underline transition-colors gap-2 group"
                                 >
-                                    <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-                                    Change Email Address
+                                    <ArrowLeft className="h-3 w-3 group-hover:-translate-x-1 transition-transform" />
+                                    Change Email
                                 </button>
                             </div>
                         </>

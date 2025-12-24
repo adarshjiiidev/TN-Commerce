@@ -52,9 +52,7 @@ export default function FlashSale() {
   if (loading || products.length === 0) return null
 
   return (
-    <section className="relative py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-pink-500 to-orange-400" />
+    <section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-black text-white overflow-hidden">
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header with Timer */}
@@ -65,39 +63,32 @@ export default function FlashSale() {
           viewport={{ once: true }}
           className="text-center mb-10"
         >
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Zap className="h-8 w-8 text-white fill-current" />
-            <h2 className="text-4xl font-black text-white">FLASH SALE</h2>
-            <Zap className="h-8 w-8 text-white fill-current" />
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <h2 className="text-6xl font-black text-white uppercase tracking-tighter italic italic">Flash Sale</h2>
           </div>
 
-          <p className="text-white/90 text-lg mb-6">Massive discounts - Limited time only!</p>
+          <p className="text-gray-400 text-xs font-bold uppercase tracking-[0.3em] mb-12">Limited Time Collection</p>
 
           {/* Countdown */}
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <Clock className="h-6 w-6 text-white" />
-            <span className="text-white font-semibold text-lg">Ends in</span>
+          <div className="flex items-center justify-center gap-6 mb-12">
             {[
               { label: 'Hours', value: timeLeft.hours },
-              { label: 'Mins', value: timeLeft.minutes },
-              { label: 'Secs', value: timeLeft.seconds }
+              { label: 'Minutes', value: timeLeft.minutes },
+              { label: 'Seconds', value: timeLeft.seconds }
             ].map((item, i) => (
               <div key={i} className="flex flex-col items-center">
-                <div className="bg-black/40 backdrop-blur-md text-white px-5 py-3 rounded-xl text-3xl font-bold min-w-[4rem] text-center border border-white/20">
+                <div className="bg-white/5 border border-white/10 text-white px-6 py-4 text-4xl font-black min-w-[5rem]">
                   {formatTime(item.value)}
                 </div>
-                <span className="text-white/70 text-xs mt-1 font-medium">{item.label}</span>
+                <span className="text-gray-500 text-[10px] uppercase font-bold tracking-widest mt-2">{item.label}</span>
               </div>
             ))}
           </div>
 
           {/* Badges */}
-          <div className="flex flex-wrap gap-3 justify-center">
-            <span className="bg-white text-black px-6 py-2.5 rounded-full font-bold text-base shadow-lg">
+          <div className="flex flex-wrap gap-4 justify-center">
+            <span className="bg-white text-black px-8 py-3 font-black text-xs uppercase tracking-widest shadow-xl">
               UP TO 50% OFF
-            </span>
-            <span className="bg-white/20 backdrop-blur-md border border-white/30 text-white px-5 py-2.5 rounded-full font-semibold">
-              🔥 Limited Stock
             </span>
           </div>
         </motion.div>
@@ -107,36 +98,34 @@ export default function FlashSale() {
           {products.map((product, index) => (
             <motion.div
               key={product._id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
               <Link href={`/products/${product._id}`}>
                 <motion.div
-                  whileHover={{ y: -8, scale: 1.03 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-white rounded-3xl overflow-hidden shadow-2xl"
+                  className="bg-black border border-white/5 overflow-hidden transition-all duration-500"
                 >
-                  <div className="relative aspect-square overflow-hidden">
+                  <div className="relative aspect-[3/4] overflow-hidden">
                     <Image
                       src={product.images[0] || '/placeholder-image.jpg'}
                       alt={product.name}
                       fill
-                      className="object-cover"
+                      className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
                     />
                     {product.originalPrice && (
-                      <div className="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-2 rounded-full text-sm font-black shadow-lg">
+                      <div className="absolute top-4 left-4 bg-white text-black px-2 py-1 text-[9px] font-black uppercase tracking-tighter shadow-lg">
                         -{calcDiscount(product.originalPrice, product.price)}% OFF
                       </div>
                     )}
                   </div>
-                  <div className="p-4 bg-white">
-                    <h3 className="text-gray-900 font-semibold mb-2 truncate">{product.name}</h3>
-                    <div className="flex items-center gap-2">
-                      <span className="text-pink-500 font-bold text-xl">₹{product.price}</span>
+                  <div className="p-4 bg-black">
+                    <h3 className="text-white text-[10px] font-black uppercase tracking-widest leading-none mb-2">{product.name}</h3>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-white font-black text-sm tracking-tighter">₹{product.price}</span>
                       {product.originalPrice && (
-                        <span className="text-gray-500 text-sm line-through">₹{product.originalPrice}</span>
+                        <span className="text-gray-600 text-[10px] line-through tracking-tighter">₹{product.originalPrice}</span>
                       )}
                     </div>
                   </div>

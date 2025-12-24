@@ -40,15 +40,15 @@ export default function CartSidebar() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed right-0 top-0 h-full w-full max-w-md bg-[#0d0d12]/95 backdrop-blur-3xl border-l border-white/10 z-[101] shadow-2xl flex flex-col"
+            className="fixed right-0 top-0 h-full w-full max-w-md bg-white border-l border-black/5 z-[101] shadow-2xl flex flex-col"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-white/10">
+            <div className="flex items-center justify-between p-6 border-b border-black/5">
               <div className="flex items-center gap-3">
-                <h2 className="text-xl font-bold text-white font-heading">
-                  Shopping Cart
+                <h2 className="text-xl font-black text-black uppercase tracking-tighter">
+                  Shopping Bag
                 </h2>
-                <div className="bg-white/10 px-2 py-1 rounded-full text-xs text-white border border-white/5">
+                <div className="bg-gray-50 px-2 py-1 text-[10px] font-bold text-black border border-black/5">
                   {itemCount} items
                 </div>
               </div>
@@ -56,7 +56,7 @@ export default function CartSidebar() {
                 variant="ghost"
                 size="icon"
                 onClick={closeCart}
-                className="text-gray-400 hover:text-white hover:bg-white/10 rounded-full"
+                className="text-gray-400 hover:text-black hover:bg-gray-50 transition-colors"
               >
                 <X className="h-5 w-5" />
               </Button>
@@ -66,21 +66,21 @@ export default function CartSidebar() {
             <div className="flex-1 overflow-y-auto custom-scrollbar">
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full p-8 text-center">
-                  <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6">
-                    <ShoppingBag className="h-10 w-10 text-gray-500" />
+                  <div className="w-20 h-20 bg-gray-50 flex items-center justify-center mb-6">
+                    <ShoppingBag className="h-10 w-10 text-gray-300" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2 font-heading">
-                    Your cart is empty
+                  <h3 className="text-xl font-black text-black mb-4 uppercase tracking-tighter">
+                    Empty Bag
                   </h3>
-                  <p className="text-gray-400 mb-8 max-w-xs">
-                    Looks like you haven't added anything to your cart yet.
+                  <p className="text-gray-500 text-sm mb-8 max-w-xs font-medium">
+                    Your shopping bag is currently empty.
                   </p>
                   <Button
                     onClick={closeCart}
-                    className="bg-white text-black hover:bg-gray-100 px-8 py-6 rounded-full font-bold text-lg"
+                    className="bg-black text-white hover:bg-gray-900 px-12 py-6 rounded-none font-bold text-sm uppercase tracking-widest"
                     asChild
                   >
-                    <Link href="/products">Start Shopping</Link>
+                    <Link href="/products">Shop Now</Link>
                   </Button>
                 </div>
               ) : (
@@ -95,7 +95,7 @@ export default function CartSidebar() {
                       className="flex gap-4 group"
                     >
                       {/* Product Image */}
-                      <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl bg-white/5 border border-white/5 group-hover:border-white/10 transition-colors">
+                      <div className="relative h-24 w-24 flex-shrink-0 bg-gray-50 border border-black/5 grayscale hover:grayscale-0 transition-all duration-500">
                         <Image
                           src={item.image}
                           alt={item.name}
@@ -107,7 +107,7 @@ export default function CartSidebar() {
                       <div className="flex-1 flex flex-col justify-between py-1">
                         <div className="space-y-1">
                           <div className="flex justify-between items-start gap-2">
-                            <h4 className="text-sm font-semibold text-white leading-tight line-clamp-2">
+                            <h4 className="text-[10px] font-black uppercase tracking-widest text-black leading-tight line-clamp-2">
                               {item.name}
                             </h4>
                             <button
@@ -126,14 +126,14 @@ export default function CartSidebar() {
                         </div>
 
                         <div className="flex items-center justify-between mt-2">
-                          <p className="text-sm font-bold text-white font-heading">
+                          <p className="text-sm font-black text-black">
                             {formatPrice(item.price)}
                           </p>
 
                           {/* Quantity Controls */}
-                          <div className="flex items-center bg-white/5 rounded-lg border border-white/5">
+                          <div className="flex items-center bg-gray-50 border border-black/5">
                             <button
-                              className="p-1.5 text-gray-400 hover:text-white transition-colors"
+                              className="p-1.5 text-gray-400 hover:text-black transition-colors"
                               onClick={() => updateQuantity(
                                 item.productId,
                                 item.quantity - 1,
@@ -143,12 +143,12 @@ export default function CartSidebar() {
                               <Minus className="h-3 w-3" />
                             </button>
 
-                            <span className="w-8 text-center text-xs text-white font-medium">
+                            <span className="w-8 text-center text-xs text-black font-bold">
                               {item.quantity}
                             </span>
 
                             <button
-                              className="p-1.5 text-gray-400 hover:text-white transition-colors"
+                              className="p-1.5 text-gray-400 hover:text-black transition-colors"
                               onClick={() => updateQuantity(
                                 item.productId,
                                 item.quantity + 1,
@@ -168,39 +168,39 @@ export default function CartSidebar() {
 
             {/* Footer */}
             {items.length > 0 && (
-              <div className="border-t border-white/10 p-6 space-y-4 bg-[#0d0d12]/50 backdrop-blur-md">
+              <div className="border-t border-black/5 p-8 space-y-4 bg-white">
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between text-sm text-gray-400">
+                  <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-gray-500">
                     <span>Subtotal</span>
                     <span>{formatPrice(total)}</span>
                   </div>
-                  <div className="flex items-center justify-between text-sm text-gray-400">
+                  <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-gray-500">
                     <span>Shipping</span>
-                    <span className="text-green-400">Calculated at checkout</span>
+                    <span className="text-black">Calculated later</span>
                   </div>
-                  <div className="flex items-center justify-between text-xl font-bold text-white pt-2 border-t border-white/5">
+                  <div className="flex items-center justify-between text-xl font-black text-black pt-4 border-t border-black/5 uppercase tracking-tighter">
                     <span>Total</span>
                     <span>{formatPrice(total)}</span>
                   </div>
                 </div>
 
-                <div className="space-y-3 pt-2">
+                <div className="space-y-3 pt-4">
                   <Button
-                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold h-12 rounded-xl text-lg shadow-lg hover:shadow-purple-500/20 transition-all flex items-center justify-center gap-2"
+                    className="w-full bg-black hover:bg-gray-900 text-white font-black h-14 rounded-none text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-2"
                     onClick={closeCart}
                     asChild
                   >
                     <Link href="/checkout">
-                      Checkout <ArrowRight className="h-5 w-5" />
+                      Checkout <ArrowRight className="h-4 w-4" />
                     </Link>
                   </Button>
                   <Button
-                    variant="outline"
-                    className="w-full border-white/10 text-white hover:bg-white/5 h-12 rounded-xl"
+                    variant="ghost"
+                    className="w-full text-black hover:bg-gray-50 h-10 rounded-none text-[10px] font-black uppercase tracking-widest"
                     onClick={closeCart}
                     asChild
                   >
-                    <Link href="/cart">View Full Cart</Link>
+                    <Link href="/cart">View Cart</Link>
                   </Button>
                 </div>
               </div>

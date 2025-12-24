@@ -120,8 +120,7 @@ export default function SignInModal({
   if (emailSent) {
     return (
       <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className="sm:max-w-md bg-[#0d0d12]/90 backdrop-blur-3xl border border-white/10 text-white p-0 overflow-hidden shadow-2xl">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 pointer-events-none" />
+        <DialogContent className="sm:max-w-md bg-white border border-black/5 text-black p-0 overflow-hidden shadow-2xl">
 
           <div className="relative p-6 pt-12 text-center">
             <button
@@ -135,20 +134,20 @@ export default function SignInModal({
             <motion.div
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-blue-600 shadow-glow"
+              className="mx-auto mb-6 flex h-16 w-16 items-center justify-center bg-black"
             >
               <Mail className="h-8 w-8 text-white" />
             </motion.div>
 
-            <DialogTitle className="text-2xl font-bold mb-3 text-white font-heading">Check Your Inbox</DialogTitle>
-            <p className="text-gray-400 mb-8 max-w-sm mx-auto leading-relaxed">
+            <DialogTitle className="text-2xl font-black mb-3 text-black uppercase tracking-tighter italic">Check Your Inbox</DialogTitle>
+            <p className="text-gray-500 mb-8 max-w-sm mx-auto leading-relaxed font-medium">
               We've sent a magic link to <br />
-              <span className="text-white font-medium bg-white/5 px-2 py-1 rounded-md border border-white/5">{formData.email}</span>
+              <span className="text-black font-bold bg-gray-50 px-2 py-1 border border-black/5">{formData.email}</span>
             </p>
 
             <Button
               variant="outline"
-              className="w-full bg-white/5 border-white/10 text-white hover:bg-white/10 hover:border-white/20 h-12 rounded-xl"
+              className="w-full bg-black text-white hover:bg-gray-900 h-14 rounded-none font-bold uppercase tracking-widest text-xs"
               onClick={() => setEmailSent(false)}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -162,8 +161,7 @@ export default function SignInModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md bg-[#0d0d12]/90 backdrop-blur-3xl border border-white/10 text-white p-0 gap-0 shadow-2xl overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
+      <DialogContent className="sm:max-w-md bg-white border border-black/5 text-black p-0 gap-0 shadow-2xl overflow-hidden">
 
         <DialogHeader className="p-8 pb-4 relative z-10">
           <div className="text-center">
@@ -171,11 +169,11 @@ export default function SignInModal({
               initial={{ y: -10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
             >
-              <DialogTitle className="text-3xl font-bold text-center text-white mb-2 font-heading tracking-tight">
-                Welcome to Limit<span className="text-purple-500">//</span>Up
+              <DialogTitle className="text-3xl font-black text-center text-black mb-2 uppercase tracking-tighter italic">
+                Limit<span className="text-gray-400">//</span>Up
               </DialogTitle>
-              <p className="text-sm text-gray-400">
-                Enter your details to access your account
+              <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
+                Access your account
               </p>
             </motion.div>
           </div>
@@ -186,28 +184,28 @@ export default function SignInModal({
           <Button
             onClick={handleGoogleSignIn}
             disabled={isLoading}
-            className="w-full bg-white text-black hover:bg-gray-100 border-0 h-12 rounded-xl font-semibold shadow-lg hover:scale-[1.02] transition-all"
+            className="w-full bg-gray-50 text-black hover:bg-gray-100 border border-black/5 h-12 rounded-none font-bold uppercase tracking-widest text-xs transition-all"
           >
-            <Chrome className="mr-2 h-5 w-5" />
+            <Chrome className="mr-2 h-4 w-4" />
             Continue with Google
           </Button>
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-white/10" />
+              <span className="w-full border-t border-black/5" />
             </div>
-            <div className="relative flex justify-center text-xs uppercase tracking-wider">
-              <span className="bg-[#0e0e14] px-3 text-gray-500 font-medium">Or continue with</span>
+            <div className="relative flex justify-center text-[10px] uppercase tracking-widest">
+              <span className="bg-white px-3 text-gray-400 font-bold">Or</span>
             </div>
           </div>
 
           {/* Auth Mode Toggle */}
-          <div className="flex bg-white/5 p-1 rounded-xl">
+          <div className="flex bg-gray-50 p-1 border border-black/5">
             <button
               onClick={() => setAuthMode('password')}
               className={cn(
-                "flex-1 py-2 text-sm font-medium rounded-lg transition-all",
-                authMode === 'password' ? "bg-white/10 text-white shadow-sm" : "text-gray-400 hover:text-white"
+                "flex-1 py-2 text-[10px] font-black uppercase tracking-widest transition-all",
+                authMode === 'password' ? "bg-black text-white" : "text-gray-400 hover:text-black"
               )}
             >
               Password
@@ -215,8 +213,8 @@ export default function SignInModal({
             <button
               onClick={() => setAuthMode('email')}
               className={cn(
-                "flex-1 py-2 text-sm font-medium rounded-lg transition-all",
-                authMode === 'email' ? "bg-white/10 text-white shadow-sm" : "text-gray-400 hover:text-white"
+                "flex-1 py-2 text-[10px] font-black uppercase tracking-widest transition-all",
+                authMode === 'email' ? "bg-black text-white" : "text-gray-400 hover:text-black"
               )}
             >
               Magic Link
@@ -230,9 +228,8 @@ export default function SignInModal({
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="p-3 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-2"
+                className="p-3 text-[10px] font-bold uppercase tracking-widest text-red-600 bg-red-50 border border-red-100 flex items-center gap-2"
               >
-                <div className="w-1.5 h-1.5 rounded-full bg-red-400" />
                 {error}
               </motion.div>
             )}
@@ -242,16 +239,16 @@ export default function SignInModal({
           <form onSubmit={authMode === 'password' ? handlePasswordSignIn : handleEmailSignIn} className="space-y-4">
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-xs font-medium text-gray-400 ml-1">Email Address</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 ml-1">Email</label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input
                     type="email"
                     name="email"
                     placeholder="name@example.com"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full pl-11 bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-purple-500/50 focus:bg-white/10 h-12 rounded-xl transition-all"
+                    className="w-full pl-11 bg-gray-50 border-black/5 text-black placeholder:text-gray-400 focus:border-black/20 focus:bg-white h-12 rounded-none transition-all"
                     required
                   />
                 </div>
@@ -260,24 +257,24 @@ export default function SignInModal({
               {authMode === 'password' && (
                 <div className="space-y-2">
                   <div className="flex items-center justify-between ml-1">
-                    <label className="text-xs font-medium text-gray-400">Password</label>
-                    <a href="/auth/reset-password" className="text-xs text-purple-400 hover:text-purple-300 transition-colors">Forgot?</a>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Password</label>
+                    <a href="/auth/reset-password" className="text-[10px] font-black uppercase tracking-widest text-black hover:underline transition-colors">Forgot?</a>
                   </div>
                   <div className="relative">
-                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <Input
                       type={showPassword ? 'text' : 'password'}
                       name="password"
                       placeholder="Enter your password"
                       value={formData.password}
                       onChange={handleInputChange}
-                      className="w-full pl-11 pr-10 bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-purple-500/50 focus:bg-white/10 h-12 rounded-xl transition-all"
+                      className="w-full pl-11 pr-10 bg-gray-50 border-black/5 text-black placeholder:text-gray-400 focus:border-black/20 focus:bg-white h-12 rounded-none transition-all"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white transition-colors"
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-black transition-colors"
                     >
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
@@ -289,7 +286,7 @@ export default function SignInModal({
             <Button
               type="submit"
               disabled={isLoading || !formData.email || (authMode === 'password' && !formData.password)}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 h-12 rounded-xl font-bold shadow-lg hover:shadow-purple-500/25 transition-all mt-2"
+              className="w-full bg-black hover:bg-gray-900 text-white border-0 h-14 rounded-none font-black uppercase tracking-widest text-xs transition-all mt-4"
             >
               {isLoading ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -299,14 +296,14 @@ export default function SignInModal({
             </Button>
           </form>
 
-          <p className="text-center text-sm text-gray-400 pb-2">
-            New here?{' '}
+          <p className="text-center text-[10px] font-bold uppercase tracking-widest text-gray-500 pb-2">
+            No account?{' '}
             <button
               type="button"
               onClick={onSwitchToSignUp}
-              className="font-bold text-white hover:text-purple-400 transition-colors"
+              className="font-black text-black hover:underline transition-colors"
             >
-              Create an account
+              Create One
             </button>
           </p>
         </div>

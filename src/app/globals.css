@@ -36,14 +36,8 @@
   /* Radius */
   --radius: 0.75rem;
 
-  /* Custom Vibrant Gradients */
-  --gradient-purple: 271 91% 65%;
-  --gradient-cyan: 189 94% 43%;
-  --gradient-pink: 330 81% 60%;
-  --gradient-blue: 217 91% 60%;
-  --gradient-orange: 14 100% 60%;
-  --gradient-green: 142 76% 36%;
-  --gradient-yellow: 45 93% 47%;
+  /* Radius */
+  --radius: 0.75rem;
 }
 
 .dark {
@@ -78,8 +72,8 @@ html {
 }
 
 body {
-  background-color: #0d0d12;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #000000;
   min-height: 100vh;
 }
 
@@ -142,380 +136,18 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Custom scrollbar - Dark & Vibrant */
+/* Custom scrollbar - Minimalist */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--background));
+  background: white;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, hsl(var(--gradient-purple)), hsl(var(--gradient-pink)));
-  border-radius: 4px;
-  transition: background 0.3s ease;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, hsl(var(--gradient-cyan)), hsl(var(--gradient-blue)));
-}
-
-/* Line clamp utilities */
-.line-clamp-1 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-}
-
-.line-clamp-2 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.line-clamp-3 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-}
-
-.line-clamp-4 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-}
-
-/* Loading spinner */
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-/* Focus visible styles */
-.focus-visible {
-  outline: 2px solid hsl(var(--ring));
-  outline-offset: 2px;
-}
-
-/* ============================================
-   PRODUCTION-READY ANIMATION UTILITIES
-   ============================================ */
-
-/* Fade Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Scale Animations */
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes scaleOut {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-}
-
-/* Slide Animations */
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideOutRight {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-}
-
-@keyframes slideOutLeft {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-}
-
-/* Pulse & Glow Effects */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 20px hsl(var(--gradient-purple) / 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px hsl(var(--gradient-purple) / 0.6);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
-}
-
-/* Shake Animation */
-@keyframes shake {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  10%, 30%, 50%, 70%, 90% {
-    transform: translateX(-10px);
-  }
-  20%, 40%, 60%, 80% {
-    transform: translateX(10px);
-  }
-}
-
-/* Bounce Animations */
-@keyframes bounceIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-  70% {
-    transform: scale(0.9);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* Rotate Animations */
-@keyframes rotate360 {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Utility Classes */
-.animate-fadeIn {
-  animation: fadeIn 0.5s ease-out;
-}
-
-.animate-fadeInUp {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-.animate-fadeInDown {
-  animation: fadeInDown 0.6s ease-out;
-}
-
-.animate-scaleIn {
-  animation: scaleIn 0.3s ease-out;
-}
-
-.animate-slideInRight {
-  animation: slideInRight 0.4s ease-out;
-}
-
-.animate-slideInLeft {
-  animation: slideInLeft 0.4s ease-out;
-}
-
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.animate-pulseGlow {
-  animation: pulseGlow 2s ease-in-out infinite;
-}
-
-.animate-shimmer {
-  animation: shimmer 2s linear infinite;
-}
-
-.animate-shake {
-  animation: shake 0.5s ease-in-out;
-}
-
-.animate-bounceIn {
-  animation: bounceIn 0.6s ease-out;
-}
-
-.animate-bounce {
-  animation: bounce 1s infinite;
-}
-
-.animate-rotate {
-  animation: rotate360 1s linear infinite;
-}
-
-/* ============================================
-   GLASSMORPHISM UTILITIES
-   ============================================ */
-
-.glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.glass-strong {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.glass-card {
-  background: rgba(26, 26, 36, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* ============================================
-   GRADIENT UTILITIES
-   ============================================ */
-
-.gradient-purple-pink {
-  background: linear-gradient(135deg, hsl(var(--gradient-purple)), hsl(var(--gradient-pink)));
-}
-
-.gradient-cyan-blue {
-  background: linear-gradient(135deg, hsl(var(--gradient-cyan)), hsl(var(--gradient-blue)));
-}
-
-.gradient-orange-pink {
-  background: linear-gradient(135deg, hsl(var(--gradient-orange)), hsl(var(--gradient-pink)));
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, hsl(var(--gradient-purple)), hsl(var(--gradient-cyan)));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.gradient-border {
-  position: relative;
-  background: hsl(var(--card));
-  border-radius: var(--radius);
-}
-
-.gradient-border::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, hsl(var(--gradient-purple)), hsl(var(--gradient-pink)));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
+  background: black;
 }
 
 /* ============================================
@@ -552,12 +184,10 @@ body {
    ============================================ */
 
 .skeleton {
-  background: linear-gradient(
-    90deg,
-    hsl(var(--muted)) 0%,
-    hsl(var(--muted) / 0.5) 50%,
-    hsl(var(--muted)) 100%
-  );
+  background: linear-gradient(90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted) / 0.5) 50%,
+      hsl(var(--muted)) 100%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
@@ -568,16 +198,22 @@ body {
 }
 
 @keyframes loadingDots {
-  0%, 20% {
+
+  0%,
+  20% {
     content: '';
   }
+
   40% {
     content: '.';
   }
+
   60% {
     content: '..';
   }
-  80%, 100% {
+
+  80%,
+  100% {
     content: '...';
   }
 }
@@ -612,6 +248,7 @@ body {
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {

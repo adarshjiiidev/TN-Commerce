@@ -47,7 +47,7 @@ function ProductsContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0d12] pt-20">
+    <div className="min-h-screen bg-white pt-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">
         {/* Header */}
         <motion.div
@@ -57,22 +57,22 @@ function ProductsContent() {
           className="flex items-center justify-between mb-8"
         >
           <div>
-            <h1 className="text-3xl font-bold text-white">
+            <h1 className="text-4xl font-black text-black uppercase tracking-tighter italic">
               {getPageTitle()}
             </h1>
-            <p className="text-gray-400 mt-1">
-              {products.length} product{products.length !== 1 ? 's' : ''} found
+            <p className="text-[10px] uppercase font-bold tracking-[0.2em] text-gray-500 mt-2">
+              Showing {products.length} Items
             </p>
           </div>
 
           <div className="flex items-center gap-2">
             {/* View Mode Toggle */}
-            <div className="hidden sm:flex bg-white/5 backdrop-blur-md border border-white/10 rounded-md p-1">
+            <div className="hidden sm:flex bg-gray-50 border border-black/5 p-1 gap-1">
               <Button
                 variant={viewMode === 'grid' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => setViewMode('grid')}
-                className={viewMode === 'grid' ? 'bg-white text-black hover:bg-white' : 'text-gray-400 hover:text-white hover:bg-white/10'}
+                className={viewMode === 'grid' ? 'bg-black text-white hover:bg-black rounded-none shadow-none' : 'text-gray-400 hover:text-black hover:bg-gray-100 rounded-none'}
               >
                 <Grid className="h-4 w-4" />
               </Button>
@@ -80,7 +80,7 @@ function ProductsContent() {
                 variant={viewMode === 'list' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => setViewMode('list')}
-                className={viewMode === 'list' ? 'bg-white text-black hover:bg-white' : 'text-gray-400 hover:text-white hover:bg-white/10'}
+                className={viewMode === 'list' ? 'bg-black text-white hover:bg-black rounded-none shadow-none' : 'text-gray-400 hover:text-black hover:bg-gray-100 rounded-none'}
               >
                 <List className="h-4 w-4" />
               </Button>
@@ -90,7 +90,7 @@ function ProductsContent() {
             <Button
               variant="outline"
               onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className="bg-white/5 border-white/10 text-white hover:bg-white/10"
+              className="bg-gray-50 border-black/5 text-black hover:bg-black hover:text-white rounded-none font-bold uppercase tracking-widest text-[10px] h-10 shadow-none px-6"
             >
               <SlidersHorizontal className="mr-2 h-4 w-4" />
               Filters
@@ -132,13 +132,13 @@ function ProductsContent() {
                 transition={{ duration: 0.6 }}
                 className="text-center py-16"
               >
-                <h3 className="text-lg font-medium text-white mb-2">
+                <h3 className="text-xl font-black text-black uppercase tracking-tighter italic mb-2">
                   No products found
                 </h3>
-                <p className="text-gray-400 mb-6">
-                  Try adjusting your filters or search terms.
+                <p className="text-gray-500 text-[10px] font-bold uppercase tracking-widest mb-10">
+                  Try adjusting filters or search.
                 </p>
-                <Button variant="outline" asChild className="bg-white/5 border-white/10 text-white hover:bg-white/10">
+                <Button variant="outline" asChild className="bg-black text-white hover:bg-gray-900 border-0 rounded-none h-14 px-10 font-bold uppercase tracking-widest text-[10px]">
                   <a href="/products">Clear Filters</a>
                 </Button>
               </motion.div>
@@ -153,12 +153,12 @@ function ProductsContent() {
 export default function ProductsPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#0d0d12] pt-20">
+      <div className="min-h-screen bg-white pt-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">
           <div className="flex items-center justify-center py-16">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-              <p className="text-gray-400">Loading products...</p>
+              <div className="animate-spin h-8 w-8 border-2 border-black border-t-transparent mx-auto mb-4"></div>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Loading...</p>
             </div>
           </div>
         </div>

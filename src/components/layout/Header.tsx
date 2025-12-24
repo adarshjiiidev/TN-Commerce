@@ -56,7 +56,7 @@ export default function Header() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300",
-        scrolled ? "bg-[#0d0d12]/80 backdrop-blur-xl border-b border-white/5 py-2" : "bg-transparent py-4"
+        scrolled ? "bg-white/90 backdrop-blur-xl border-b border-black/[0.03] py-2" : "bg-transparent py-4"
       )}
     >
       <Suspense fallback={null}>
@@ -70,10 +70,10 @@ export default function Header() {
               whileHover={{ scale: 1.05 }}
               className="relative flex items-center"
             >
-              <span className="text-2xl font-black tracking-tight text-white font-horizon">
-                Limit<span className="text-purple-500">//</span>Up
+              <span className="text-2xl font-black tracking-tight text-black font-horizon">
+                Limit<span className="text-gray-400">//</span>Up
               </span>
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 group-hover:w-full transition-all duration-300" />
+              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-black group-hover:w-full transition-all duration-300" />
             </motion.div>
           </Link>
 
@@ -84,10 +84,10 @@ export default function Header() {
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   className={cn(
-                    "px-4 py-2 text-sm font-medium rounded-full transition-all duration-200",
+                    "px-4 py-2 text-sm font-black uppercase tracking-tighter italic transition-all duration-200",
                     link.highlight
-                      ? "text-red-400 hover:text-red-300 hover:bg-red-500/10"
-                      : "text-gray-300 hover:text-white hover:bg-white/5"
+                      ? "text-red-600 hover:text-red-700 hover:bg-red-50"
+                      : "text-black hover:bg-black/5"
                   )}
                 >
                   {link.name}
@@ -99,11 +99,11 @@ export default function Header() {
           {/* Search Bar - Desktop */}
           <div className="hidden md:flex flex-1 max-w-sm">
             <div className="relative w-full group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 group-focus-within:text-purple-400 transition-colors duration-300" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-black transition-colors duration-300" />
               <input
                 type="text"
                 placeholder="Search for products..."
-                className="w-full bg-white/5 border border-white/10 rounded-full pl-11 pr-4 py-2.5 text-white text-sm placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 focus:bg-white/10 focus:ring-1 focus:ring-purple-500/50 transition-all duration-300"
+                className="w-full bg-gray-50/50 border border-black/[0.03] rounded-none pl-11 pr-4 py-2.5 text-black text-sm placeholder:text-gray-400 focus:outline-none focus:border-black/10 focus:bg-white transition-all duration-300"
               />
             </div>
           </div>
@@ -114,7 +114,7 @@ export default function Header() {
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className="hidden sm:flex w-10 h-10 items-center justify-center rounded-full bg-white/5 border border-white/5 text-gray-300 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+              className="hidden sm:flex w-10 h-10 items-center justify-center rounded-none bg-gray-50/50 border border-black/[0.03] text-black hover:bg-black hover:text-white transition-all duration-200"
             >
               <Heart className="h-4 w-4" />
             </motion.button>
@@ -124,14 +124,14 @@ export default function Header() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleCart}
-              className="relative w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/5 text-gray-300 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+              className="relative w-10 h-10 flex items-center justify-center rounded-none bg-gray-50/50 border border-black/[0.03] text-black hover:bg-black hover:text-white transition-all duration-200"
             >
               <ShoppingCart className="h-4 w-4" />
               {itemCount > 0 && (
                 <motion.span
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500 text-white text-[10px] font-bold rounded-full shadow-lg"
+                  className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center bg-black text-white text-[10px] font-bold rounded-full"
                 >
                   {itemCount}
                 </motion.span>
@@ -145,14 +145,14 @@ export default function Header() {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                 className={cn(
-                  "flex items-center gap-2 pl-1 pr-1 sm:pl-1 sm:pr-3 h-10 rounded-full bg-white/5 border border-white/5 text-gray-300 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-200",
+                  "flex items-center gap-2 pl-1 pr-1 sm:pl-1 sm:pr-3 h-10 rounded-none bg-gray-50/50 border border-black/[0.03] text-black hover:bg-black hover:text-white transition-all duration-200",
                   session?.user && "pr-4"
                 )}
               >
                 {session?.user?.image ? (
                   <img src={session.user.image} alt={session.user.name || "User"} className="w-8 h-8 rounded-full object-cover" />
                 ) : (
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-xs font-bold">
+                  <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white text-xs font-bold">
                     {(session?.user?.name || "U").charAt(0).toUpperCase()}
                   </div>
                 )}
@@ -173,18 +173,18 @@ export default function Header() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-2 w-64 glass-card rounded-2xl shadow-2xl overflow-hidden border border-white/10 z-50 origin-top-right"
+                    className="absolute right-0 mt-2 w-64 bg-white shadow-2xl overflow-hidden border border-black/5 z-50 origin-top-right"
                   >
                     {session ? (
                       <>
-                        <div className="p-4 border-b border-white/10 bg-white/5">
-                          <p className="text-sm font-semibold text-white truncate font-heading">{session.user?.name}</p>
-                          <p className="text-xs text-gray-400 truncate">{session.user?.email}</p>
+                        <div className="p-4 border-b border-black/5 bg-gray-50">
+                          <p className="text-[10px] font-black text-black uppercase tracking-tighter italic">{session.user?.name}</p>
+                          <p className="text-[9px] text-gray-400 truncate uppercase mt-1 font-bold tracking-widest">{session.user?.email}</p>
                         </div>
                         <div className="p-2 space-y-1">
                           <Link
                             href="/orders"
-                            className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition-colors"
+                            className="flex items-center gap-3 px-3 py-2 text-sm text-black hover:bg-gray-50 transition-colors"
                             onClick={() => setIsUserMenuOpen(false)}
                           >
                             <ShoppingBagIcon className="h-4 w-4" />
@@ -192,20 +192,20 @@ export default function Header() {
                           </Link>
                           <Link
                             href="/wishlist"
-                            className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition-colors"
+                            className="flex items-center gap-3 px-3 py-2 text-sm text-black hover:bg-gray-50 transition-colors"
                             onClick={() => setIsUserMenuOpen(false)}
                           >
                             <Heart className="h-4 w-4" />
                             Wishlist
                           </Link>
                         </div>
-                        <div className="p-2 border-t border-white/10">
+                        <div className="p-2 border-t border-black/5">
                           <button
                             onClick={() => {
                               signOut()
                               setIsUserMenuOpen(false)
                             }}
-                            className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-lg transition-colors"
+                            className="w-full flex items-center gap-3 px-4 py-3 text-[10px] font-black text-red-600 hover:bg-red-50 uppercase tracking-widest transition-all"
                           >
                             <LogOut className="h-4 w-4" />
                             Sign Out
@@ -219,7 +219,7 @@ export default function Header() {
                             setAuthModal('signin')
                             setIsUserMenuOpen(false)
                           }}
-                          className="w-full flex items-center gap-3 px-3 py-2 text-sm text-white font-medium hover:bg-white/5 rounded-lg transition-colors"
+                          className="w-full flex items-center gap-3 px-4 py-3 text-[10px] font-black text-black uppercase tracking-widest hover:bg-gray-50 transition-all border-b border-black/5 last:border-0"
                         >
                           <User className="h-4 w-4" />
                           Sign In
@@ -229,10 +229,10 @@ export default function Header() {
                             setAuthModal('signup')
                             setIsUserMenuOpen(false)
                           }}
-                          className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition-colors"
+                          className="w-full flex items-center gap-3 px-4 py-3 text-[10px] font-black text-gray-500 uppercase tracking-widest hover:bg-gray-50 hover:text-black transition-all"
                         >
-                          <div className="w-4 h-4 rounded-full border border-gray-400 flex items-center justify-center text-[8px]">+</div>
-                          Create Account
+                          <PlusIcon className="h-4 w-4" />
+                          Join Us
                         </button>
                       </div>
                     )}
@@ -246,7 +246,7 @@ export default function Header() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/5 text-gray-300 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+              className="lg:hidden w-10 h-10 flex items-center justify-center rounded-none bg-gray-50 border border-black/5 text-black hover:bg-black hover:text-white transition-all duration-200"
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </motion.button>
@@ -262,7 +262,7 @@ export default function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden bg-[#0d0d12]/95 backdrop-blur-3xl border-b border-white/10 overflow-hidden"
+            className="lg:hidden bg-white border-b border-black/5 overflow-hidden"
           >
             <div className="px-4 py-8 space-y-6">
               {/* Mobile Search */}
@@ -270,13 +270,12 @@ export default function Header() {
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Search products..."
-                  className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-white text-base placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50"
+                  placeholder="SEARCH..."
+                  className="w-full bg-gray-50 border border-black/5 rounded-none pl-11 pr-4 py-4 text-black text-sm uppercase font-bold tracking-widest placeholder:text-gray-400 focus:outline-none focus:border-black/20"
                 />
               </div>
-
               {/* Mobile Nav Links */}
-              <div className="space-y-2">
+              <div className="space-y-0 border-t border-black/5">
                 {navLinks.map((link, index) => (
                   <motion.div
                     key={link.name}
@@ -287,8 +286,8 @@ export default function Header() {
                     <Link
                       href={link.href}
                       className={cn(
-                        "block py-3 px-4 rounded-xl transition-colors font-medium text-lg",
-                        link.highlight ? "text-red-400 bg-red-400/5" : "text-gray-300 hover:bg-white/5 hover:text-white"
+                        "block py-5 px-4 transition-all font-black text-xs uppercase tracking-[0.3em] border-b border-black/5",
+                        link.highlight ? "text-red-600 bg-red-50" : "text-black hover:bg-gray-50"
                       )}
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -297,23 +296,22 @@ export default function Header() {
                   </motion.div>
                 ))}
               </div>
-
-              <div className="pt-6 border-t border-white/10 grid grid-cols-2 gap-4">
+              <div className="pt-0 grid grid-cols-2 gap-px bg-black/5">
                 <Link
                   href="/contact"
                   onClick={() => setIsMenuOpen(false)}
-                  className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors"
+                  className="flex flex-col items-center justify-center p-8 bg-white hover:bg-gray-50 transition-colors"
                 >
-                  <Globe className="h-6 w-6 text-purple-400 mb-2" />
-                  <span className="text-sm text-gray-300">Contact</span>
+                  <Globe className="h-5 w-5 text-black mb-3" />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-black">Contact</span>
                 </Link>
                 <Link
                   href="/wishlist"
                   onClick={() => setIsMenuOpen(false)}
-                  className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors"
+                  className="flex flex-col items-center justify-center p-8 bg-white hover:bg-gray-50 transition-colors"
                 >
-                  <Heart className="h-6 w-6 text-pink-400 mb-2" />
-                  <span className="text-sm text-gray-300">Wishlist</span>
+                  <Heart className="h-5 w-5 text-black mb-3" />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-black">Wishlist</span>
                 </Link>
               </div>
             </div>
@@ -339,5 +337,11 @@ export default function Header() {
 function ShoppingBagIcon({ className }: { className?: string }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" /><path d="M3 6h18" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>
+  )
+}
+
+function PlusIcon({ className }: { className?: string }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M5 12h14" /><path d="M12 5v14" /></svg>
   )
 }

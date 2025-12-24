@@ -174,10 +174,10 @@ export default function AdminPanel() {
 
   if (status === 'loading') {
     return (
-      <div className="min-h-screen bg-[#0d0d12] flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500 mx-auto mb-4"></div>
-          <p className="text-gray-400">Loading admin panel...</p>
+          <div className="animate-spin h-12 w-12 border-2 border-black border-t-transparent mx-auto mb-4"></div>
+          <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Loading admin panel...</p>
         </div>
       </div>
     )
@@ -190,49 +190,51 @@ export default function AdminPanel() {
   const getVariantClasses = (variant: string) => {
     switch (variant) {
       case 'primary':
-        return 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white'
+        return 'bg-black text-white hover:bg-gray-900 border border-transparent'
       case 'success':
-        return 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white'
+        return 'bg-green-600 text-white hover:bg-green-700 border border-transparent'
       case 'danger':
-        return 'bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600 text-white'
+        return 'bg-red-600 text-white hover:bg-red-700 border border-transparent'
       case 'warning':
-        return 'bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white'
+        return 'bg-amber-500 text-white hover:bg-amber-600 border border-transparent'
       case 'secondary':
-        return 'bg-white/5 border border-white/10 text-white hover:bg-white/10'
+        return 'bg-gray-50 border border-black/[0.03] text-black hover:bg-black hover:text-white'
       default:
-        return 'bg-white/5 border border-white/10 text-white hover:bg-white/10'
+        return 'bg-gray-50 border border-black/[0.03] text-black hover:bg-black hover:text-white'
     }
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0d12] pt-20">
+    <div className="min-h-screen bg-white pt-20">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="glass-card border-b border-white/10"
+        className="bg-white border-b border-black/[0.03]"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center gap-3">
+          <div className="flex justify-between items-center py-10">
+            <div className="flex items-center gap-4">
               <motion.div
-                whileHover={{ rotate: 180 }}
+                whileHover={{ rotate: 90 }}
                 transition={{ duration: 0.3 }}
-                className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center"
+                className="w-12 h-12 bg-black flex items-center justify-center"
               >
-                <LayoutDashboard className="w-5 h-5 text-white" />
+                <LayoutDashboard className="w-6 h-6 text-white" />
               </motion.div>
               <div>
-                <h1 className="text-2xl font-bold text-white font-heading">Admin Dashboard</h1>
-                <p className="text-sm text-gray-400">Welcome back, {session.user.name}</p>
+                <h1 className="text-4xl font-black text-black uppercase tracking-tighter italic">Admin Dashboard</h1>
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1">
+                  Access Level: <span className="text-black">Administrator</span> — {session.user.name}
+                </p>
               </div>
             </div>
             <Link href="/">
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-glow hover:shadow-glow-lg transition-all"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="bg-black text-white px-8 py-3 text-[10px] font-black uppercase tracking-widest transition-all"
               >
                 Back to Store
               </motion.button>
@@ -242,12 +244,12 @@ export default function AdminPanel() {
       </motion.div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
           {statCards.map((stat, index) => {
             const Icon = stat.icon
-            const value = stats[stat.key]
+            const value = (stats as any)[stat.key]
             const displayValue = stat.prefix ? `${stat.prefix}${value}` : value
 
             return (
@@ -256,25 +258,25 @@ export default function AdminPanel() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -4, scale: 1.02 }}
-                className="glass-card rounded-2xl p-6 hover-glow transition-all cursor-pointer"
+                whileHover={{ y: -2 }}
+                className="bg-gray-50/50 border border-black/[0.03] p-8 transition-all group cursor-pointer"
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div className={`p-3 rounded-xl bg-gradient-to-br ${stat.gradient}`}>
-                    <Icon className="w-6 h-6 text-white" />
+                <div className="flex items-start justify-between mb-8">
+                  <div className="p-3 bg-black text-white">
+                    <Icon className="w-5 h-5" />
                   </div>
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: index * 0.1 + 0.3, type: 'spring' }}
-                    className="text-green-400 flex items-center gap-1 text-sm font-medium"
+                    className="text-black flex items-center gap-1 text-[10px] font-black uppercase tracking-widest"
                   >
-                    <ArrowUpRight className="w-4 h-4" />
-                    <span>12%</span>
+                    <ArrowUpRight className="w-3 h-3" />
+                    <span>+12%</span>
                   </motion.div>
                 </div>
-                <h3 className="text-gray-400 text-sm font-medium mb-1">{stat.title}</h3>
-                <p className="text-3xl font-bold text-white">{displayValue}</p>
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{stat.title}</h3>
+                <p className="text-4xl font-black text-black tracking-tighter italic leading-none">{displayValue}</p>
               </motion.div>
             )
           })}
@@ -285,24 +287,24 @@ export default function AdminPanel() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12"
         >
           {secondaryStats.map((stat, index) => {
             const Icon = stat.icon
-            const value = stats[stat.key]
+            const value = (stats as any)[stat.key]
 
             return (
               <motion.div
                 key={stat.key}
-                whileHover={{ scale: 1.02 }}
-                className="glass-card rounded-2xl p-6 flex items-center gap-4 cursor-pointer"
+                whileHover={{ y: -2 }}
+                className="bg-gray-50/50 border border-black/[0.03] p-8 flex items-center gap-6 cursor-pointer"
               >
-                <div className="p-3 rounded-xl bg-white/5">
-                  <Icon className="w-6 h-6 text-gray-400" />
+                <div className="p-3 bg-black text-white">
+                  <Icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-gray-400 text-sm font-medium">{stat.title}</h3>
-                  <p className="text-2xl font-bold text-white">{value}</p>
+                  <h3 className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">{stat.title}</h3>
+                  <p className="text-3xl font-black text-black tracking-tighter italic leading-none">{value}</p>
                 </div>
               </motion.div>
             )
@@ -315,8 +317,8 @@ export default function AdminPanel() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
-          <h2 className="text-xl font-bold text-white mb-6 font-heading">Quick Actions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <h2 className="text-3xl font-black text-black uppercase tracking-tighter italic mb-8">Quick Actions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
             {quickActions.map((action, index) => {
               const Icon = action.icon
 
@@ -326,23 +328,23 @@ export default function AdminPanel() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 + index * 0.05 }}
-                  whileHover={{ y: -4 }}
-                  className="glass-card rounded-2xl p-6 hover-lift transition-all"
+                  whileHover={{ y: -2 }}
+                  className="bg-gray-50/50 border border-black/[0.03] p-8 transition-all"
                 >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2 rounded-lg bg-white/5">
-                      <Icon className="w-5 h-5 text-purple-400" />
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="p-2 bg-black text-white">
+                      <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white">{action.title}</h3>
+                    <h3 className="text-xl font-black text-black uppercase tracking-tighter italic">{action.title}</h3>
                   </div>
-                  <p className="text-sm text-gray-400 mb-4">{action.description}</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-8 leading-relaxed">{action.description}</p>
                   <div className="space-y-2">
                     {action.actions.map((btn) => (
                       <Link key={btn.href} href={btn.href}>
                         <motion.button
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          className={`w-full py-2.5 px-4 rounded-xl text-sm font-semibold transition-all ${getVariantClasses(btn.variant)}`}
+                          className={`w-full py-4 text-[10px] font-black uppercase tracking-widest transition-all ${getVariantClasses(btn.variant)}`}
                         >
                           {btn.label}
                         </motion.button>
@@ -360,20 +362,20 @@ export default function AdminPanel() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.9 }}
-          className="glass-card rounded-2xl p-6"
+          className="bg-gray-50/50 border border-black/[0.03] p-8"
         >
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-orange-500 to-red-500">
-              <SettingsIcon className="w-5 h-5 text-white" />
+          <div className="flex items-center gap-4 mb-10">
+            <div className="p-2 bg-black text-white">
+              <SettingsIcon className="w-5 h-5" />
             </div>
-            <h3 className="text-lg font-semibold text-white font-heading">System Settings</h3>
+            <h3 className="text-2xl font-black text-black uppercase tracking-tighter italic">System Settings</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Link href="/admin/settings">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full bg-white/5 border border-white/10 text-white py-3 px-4 rounded-xl text-sm font-semibold hover:bg-white/10 transition-all"
+                className="w-full bg-gray-50 border border-black/[0.03] text-black py-4 text-[10px] font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all"
               >
                 <SettingsIcon className="w-4 h-4 inline-block mr-2" />
                 System Settings
@@ -393,7 +395,7 @@ export default function AdminPanel() {
                     .catch(err => alert('Error: ' + err.message))
                 }
               }}
-              className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-3 px-4 rounded-xl text-sm font-semibold hover:from-yellow-600 hover:to-orange-600 transition-all"
+              className="w-full bg-black text-white py-4 text-[10px] font-black uppercase tracking-widest hover:bg-gray-900 transition-all font-bold"
             >
               <Activity className="w-4 h-4 inline-block mr-2" />
               Seed Database
@@ -416,7 +418,7 @@ export default function AdminPanel() {
                     .catch(err => alert('Error: ' + err.message))
                 }
               }}
-              className="w-full bg-gradient-to-r from-red-500 to-rose-500 text-white py-3 px-4 rounded-xl text-sm font-semibold hover:from-red-600 hover:to-rose-600 transition-all"
+              className="w-full bg-red-600 text-white py-4 text-[10px] font-black uppercase tracking-widest hover:bg-red-700 transition-all font-bold"
             >
               <AlertTriangle className="w-4 h-4 inline-block mr-2" />
               Clear All Products

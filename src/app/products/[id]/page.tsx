@@ -106,7 +106,7 @@ export default function ProductDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0d0d12] ">
+      <div className="min-h-screen bg-white pt-20">
         <Loading className="h-64" text="Loading product details..." />
       </div>
     )
@@ -114,11 +114,11 @@ export default function ProductDetailPage() {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-[#0d0d12] flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">Product Not Found</h1>
-          <p className="text-gray-400 mb-6">The product you're looking for doesn't exist.</p>
-          <Button asChild className="bg-white text-black hover:bg-gray-200">
+          <h1 className="text-2xl font-black text-black mb-4 uppercase tracking-tighter italic">Product Not Found</h1>
+          <p className="text-gray-500 text-[10px] font-bold uppercase tracking-widest mb-10">The product you're looking for doesn't exist.</p>
+          <Button asChild className="bg-black text-white hover:bg-gray-900 rounded-none h-14 px-10">
             <Link href="/products">Browse Products</Link>
           </Button>
         </div>
@@ -131,35 +131,29 @@ export default function ProductDetailPage() {
     : 0
 
   return (
-    <div className="min-h-screen bg-[#0d0d12] text-white">
-      {/* Background Ambience */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[100px]" />
-      </div>
-
+    <div className="min-h-screen bg-white text-black">
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">
         {/* Breadcrumb */}
-        <nav className="flex items-center space-x-2 text-sm text-gray-500 mb-8 font-medium">
-          <Link href="/" className="hover:text-white transition-colors">Home</Link>
-          <span className="text-gray-700">/</span>
-          <Link href="/products" className="hover:text-white transition-colors">Products</Link>
-          <span className="text-gray-700">/</span>
-          <Link href={`/products?category=${product.category}`} className="hover:text-white transition-colors capitalize">
+        <nav className="flex items-center space-x-2 text-[10px] text-gray-400 mb-12 font-bold uppercase tracking-widest">
+          <Link href="/" className="hover:text-black transition-colors">Home</Link>
+          <span className="text-gray-200">/</span>
+          <Link href="/products" className="hover:text-black transition-colors">Products</Link>
+          <span className="text-gray-200">/</span>
+          <Link href={`/products?category=${product.category}`} className="hover:text-black transition-colors">
             {product.category}
           </Link>
-          <span className="text-gray-700">/</span>
-          <span className="text-white truncate max-w-[200px]">{product.name}</span>
+          <span className="text-gray-200">/</span>
+          <span className="text-black truncate max-w-[200px]">{product.name}</span>
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-16">
           {/* Left Column: Images */}
           <div className="space-y-6">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="relative aspect-square overflow-hidden rounded-3xl bg-[#15151a] border border-white/5 group"
+              className="relative aspect-square overflow-hidden bg-gray-50 border border-black/5 group"
             >
               <AnimatePresence mode="wait">
                 <motion.div
@@ -186,15 +180,10 @@ export default function ProductDetailPage() {
               </AnimatePresence>
 
               {/* Badges */}
-              <div className="absolute top-4 right-4 flex flex-col gap-2 z-10">
+              <div className="absolute top-6 right-6 flex flex-col gap-2 z-10">
                 {product.isOnSale && discountPercentage > 0 && (
-                  <Badge className="bg-red-500 text-white border-0 px-3 py-1 text-sm font-bold shadow-lg">
+                  <Badge className="bg-black text-white border-0 px-3 py-1 text-[10px] font-black uppercase tracking-tighter shadow-lg">
                     -{discountPercentage}%
-                  </Badge>
-                )}
-                {product.tags.includes('New Arrival') && (
-                  <Badge className="bg-blue-500 text-white border-0 px-3 py-1 text-sm font-bold shadow-lg">
-                    New
                   </Badge>
                 )}
               </div>
@@ -204,13 +193,13 @@ export default function ProductDetailPage() {
                 <>
                   <button
                     onClick={(e) => { e.stopPropagation(); previousImage(); }}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/20 backdrop-blur-md border border-white/10 text-white hover:bg-black/40 transition-all opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 duration-300"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 p-4 bg-white border border-black/5 text-black hover:bg-black hover:text-white transition-all opacity-0 group-hover:opacity-100 duration-300"
                   >
                     <ChevronLeft className="h-5 w-5" />
                   </button>
                   <button
                     onClick={(e) => { e.stopPropagation(); nextImage(); }}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/20 backdrop-blur-md border border-white/10 text-white hover:bg-black/40 transition-all opacity-0 group-hover:opacity-100 translate-x-[10px] group-hover:translate-x-0 duration-300"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-4 bg-white border border-black/5 text-black hover:bg-black hover:text-white transition-all opacity-0 group-hover:opacity-100 duration-300"
                   >
                     <ChevronRight className="h-5 w-5" />
                   </button>
@@ -226,10 +215,10 @@ export default function ProductDetailPage() {
                     key={index}
                     onClick={() => setSelectedImageIndex(index)}
                     className={cn(
-                      "relative flex-shrink-0 w-24 h-24 rounded-2xl overflow-hidden border-2 transition-all duration-300",
+                      "relative flex-shrink-0 w-24 h-24 overflow-hidden border-2 transition-all duration-300",
                       selectedImageIndex === index
-                        ? "border-purple-500 ring-2 ring-purple-500/20 scale-105"
-                        : "border-transparent opacity-60 hover:opacity-100 hover:border-white/20"
+                        ? "border-black scale-105"
+                        : "border-transparent opacity-40 hover:opacity-100"
                     )}
                   >
                     <Image
@@ -254,74 +243,74 @@ export default function ProductDetailPage() {
             <div className="sticky top-24 space-y-8">
               {/* Header Info */}
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h1 className="text-4xl md:text-5xl font-bold font-heading text-white tracking-tight leading-tight">
+                <div className="flex items-start justify-between">
+                  <h1 className="text-4xl md:text-6xl font-black font-heading text-black uppercase tracking-tighter leading-[0.9] italic">
                     {product.name}
                   </h1>
                   <button
                     onClick={handleWishlistToggle}
-                    className="p-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors group"
+                    className="p-4 bg-gray-50 border border-black/5 hover:bg-black hover:text-white transition-colors group"
                   >
                     <Heart
                       className={cn(
                         "h-6 w-6 transition-all duration-300",
-                        isWishlisted ? "fill-red-500 text-red-500 scale-110" : "text-gray-400 group-hover:text-white"
+                        isWishlisted ? "fill-current" : ""
                       )}
                     />
                   </button>
                 </div>
 
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-1 bg-white/5 px-3 py-1.5 rounded-full">
-                    <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
-                    <span className="font-semibold text-white">{product.rating.toFixed(1)}</span>
-                    <span className="text-gray-400 text-sm">({product.reviewCount} reviews)</span>
+                <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-1">
+                    <Star className="h-4 w-4 text-black fill-current" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-black">{product.rating.toFixed(1)}</span>
+                    <span className="text-gray-400 text-[10px] font-bold uppercase tracking-widest ml-1">({product.reviewCount})</span>
                   </div>
                   {product.stock > 0 ? (
-                    <span className="flex items-center gap-2 text-green-400 text-sm font-medium">
-                      <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                      In Stock
+                    <span className="flex items-center gap-2 text-black text-[10px] font-black uppercase tracking-widest">
+                      <span className="w-1.5 h-1.5 bg-black" />
+                      Available
                     </span>
                   ) : (
-                    <span className="text-red-400 text-sm font-medium">Out of Stock</span>
+                    <span className="text-gray-400 text-[10px] font-black uppercase tracking-widest">Sold Out</span>
                   )}
                 </div>
 
                 <div className="flex items-baseline gap-4">
-                  <span className="text-4xl font-bold text-white font-heading">
+                  <span className="text-4xl font-black text-black tracking-tighter italic">
                     {formatPrice(product.price)}
                   </span>
                   {product.originalPrice && product.originalPrice > product.price && (
-                    <span className="text-xl text-gray-500 line-through">
+                    <span className="text-xl text-gray-400 line-through tracking-tighter">
                       {formatPrice(product.originalPrice)}
                     </span>
                   )}
                 </div>
               </div>
 
-              <div className="h-px bg-white/10" />
+              <div className="h-px bg-black/5" />
 
               {/* Description */}
-              <p className="text-gray-400 text-lg leading-relaxed">
+              <p className="text-gray-600 text-sm font-medium leading-relaxed uppercase tracking-wide">
                 {product.description}
               </p>
 
               {/* Variants */}
               {product.variants && product.variants.length > 0 && (
                 <div className="space-y-4">
-                  <h3 className="text-sm font-medium text-gray-300 uppercase tracking-wider">
+                  <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
                     Select {product.variants[0].type}
                   </h3>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-2">
                     {product.variants.map((variant) => (
                       <button
                         key={variant.id}
                         onClick={() => setSelectedVariant(variant.id)}
                         className={cn(
-                          "px-6 py-3 rounded-xl border text-sm font-semibold transition-all duration-200 min-w-[3rem]",
+                          "px-6 py-4 border text-[10px] font-black uppercase tracking-widest transition-all min-w-[3.5rem]",
                           selectedVariant === variant.id
-                            ? "border-purple-500 bg-purple-500 text-white shadow-glow"
-                            : "border-white/10 bg-white/5 text-gray-400 hover:border-white/30 hover:text-white"
+                            ? "border-black bg-black text-white"
+                            : "border-black/5 bg-gray-50 text-gray-400 hover:border-black/20 hover:text-black"
                         )}
                       >
                         {variant.value}
@@ -335,17 +324,17 @@ export default function ProductDetailPage() {
               <div className="space-y-6 pt-4">
                 <div className="flex flex-col sm:flex-row gap-4">
                   {/* Quantity */}
-                  <div className="flex items-center justify-between sm:justify-start bg-white/5 rounded-full p-1 border border-white/10 sm:w-auto">
+                  <div className="flex items-center border border-black/5 bg-gray-50 p-1 sm:w-auto">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 text-white transition-colors"
+                      className="w-12 h-12 flex items-center justify-center text-gray-400 hover:text-black transition-colors"
                     >
                       <Minus className="h-4 w-4" />
                     </button>
-                    <span className="w-12 text-center font-bold text-white">{quantity}</span>
+                    <span className="w-12 text-center font-black text-black text-sm">{quantity}</span>
                     <button
                       onClick={() => setQuantity(quantity + 1)}
-                      className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 text-white transition-colors"
+                      className="w-12 h-12 flex items-center justify-center text-gray-400 hover:text-black transition-colors"
                     >
                       <Plus className="h-4 w-4" />
                     </button>
@@ -355,25 +344,24 @@ export default function ProductDetailPage() {
                   <Button
                     onClick={handleAddToCart}
                     disabled={product.stock === 0}
-                    className="flex-1 rounded-full h-12 text-base font-bold bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 shadow-glow hover:shadow-glow-lg transition-all duration-300"
+                    className="flex-1 h-14 text-xs font-black uppercase tracking-widest bg-black text-white hover:bg-gray-900 rounded-none transition-all duration-300"
                   >
                     Add to Cart • {formatPrice(product.price * quantity)}
                   </Button>
                 </div>
 
-                {/* Features Grid */}
                 <div className="grid grid-cols-2 gap-4">
                   {[
-                    { icon: Truck, label: 'Free Shipping', desc: 'On orders over ₹2000' },
-                    { icon: RotateCcw, label: 'Free Returns', desc: 'Within 30 days' },
-                    { icon: Shield, label: 'Secure Checkout', desc: 'SSL Encry  ed' },
-                    { icon: Check, label: 'Authentic', desc: '100% Original' },
+                    { icon: Truck, label: 'Free Delivery', desc: 'Over ₹2000' },
+                    { icon: RotateCcw, label: '30 Day Returns', desc: 'Easy process' },
+                    { icon: Shield, label: 'Secure Payment', desc: 'Verified' },
+                    { icon: Check, label: 'Authentic', desc: 'Guaranteed' },
                   ].map((feature, idx) => (
-                    <div key={idx} className="flex items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/5">
-                      <feature.icon className="h-5 w-5 text-purple-400 mt-0.5" />
+                    <div key={idx} className="flex items-start gap-3 p-5 bg-gray-50 border border-black/5">
+                      <feature.icon className="h-4 w-4 text-black mt-0.5" />
                       <div>
-                        <p className="font-semibold text-white text-sm">{feature.label}</p>
-                        <p className="text-xs text-gray-500">{feature.desc}</p>
+                        <p className="font-black text-black text-[10px] uppercase tracking-widest">{feature.label}</p>
+                        <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mt-1">{feature.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -406,12 +394,12 @@ export default function ProductDetailPage() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-3xl font-bold text-white font-heading">
-                  You Might Also Like
+              <div className="flex items-center justify-between mb-12 border-b border-black/5 pb-8">
+                <h2 className="text-4xl font-black text-black uppercase tracking-tighter italic">
+                  Recommended
                 </h2>
-                <Link href="/products" className="text-purple-400 hover:text-purple-300 font-medium flex items-center gap-1 transition-colors">
-                  View All <ChevronRight className="h-4 w-4" />
+                <Link href="/products" className="text-[10px] font-black uppercase tracking-[0.3em] text-black hover:underline flex items-center gap-1 transition-colors">
+                  Shop All <ChevronRight className="h-3 w-3" />
                 </Link>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

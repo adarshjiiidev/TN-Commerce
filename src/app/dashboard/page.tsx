@@ -221,7 +221,7 @@ function DashboardContent() {
 
   if (status === 'loading' || isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-white">
         <Loading className="h-64" text="Loading dashboard..." />
       </div>
     )
@@ -229,11 +229,11 @@ function DashboardContent() {
 
   if (!session?.user) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Access Denied</h1>
-          <p className="text-gray-600 mb-6">Please sign in to access your dashboard.</p>
-          <Button asChild>
+          <h1 className="text-4xl font-black text-black uppercase tracking-tighter italic mb-4">Access Denied</h1>
+          <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-8">Please sign in to access your dashboard.</p>
+          <Button className="bg-black text-white hover:bg-gray-900 rounded-none px-8 py-6 text-[10px] font-black uppercase tracking-widest">
             <Link href="/auth/signin">Sign In</Link>
           </Button>
         </div>
@@ -251,57 +251,57 @@ function DashboardContent() {
 
   const getStatusColor = (status: Order['status']) => {
     switch (status) {
-      case 'confirmed': return 'bg-blue-100 text-blue-800'
-      case 'preparing': return 'bg-yellow-100 text-yellow-800'
-      case 'picked_up': return 'bg-orange-100 text-orange-800'
-      case 'delivered': return 'bg-green-100 text-green-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case 'confirmed': return 'text-blue-600'
+      case 'preparing': return 'text-yellow-600'
+      case 'picked_up': return 'text-orange-600'
+      case 'delivered': return 'text-green-600'
+      default: return 'text-gray-600'
     }
   }
 
   const getStatusIcon = (status: Order['status']) => {
     switch (status) {
-      case 'confirmed': return <div className="w-3 h-3 bg-blue-500 rounded-full" />
-      case 'preparing': return <div className="w-3 h-3 bg-yellow-500 rounded-full" />
-      case 'picked_up': return <div className="w-3 h-3 bg-orange-500 rounded-full" />
-      case 'delivered': return <div className="w-3 h-3 bg-green-500 rounded-full" />
-      default: return <div className="w-3 h-3 bg-gray-500 rounded-full" />
+      case 'confirmed': return <div className="w-2 h-2 bg-blue-600" />
+      case 'preparing': return <div className="w-2 h-2 bg-yellow-600" />
+      case 'picked_up': return <div className="w-2 h-2 bg-orange-600" />
+      case 'delivered': return <div className="w-2 h-2 bg-green-600" />
+      default: return <div className="w-2 h-2 bg-gray-600" />
     }
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0d12] pt-20">
+    <div className="min-h-screen bg-white pt-20">
       <div className="flex">
         {/* Sidebar */}
         <motion.div
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="w-64 glass-card min-h-screen p-6 border-r border-white/10"
+          className="w-80 min-h-screen p-8 border-r border-black/[0.03]"
         >
           {/* Profile Section */}
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="flex items-center space-x-3 mb-8"
+            className="flex items-center space-x-4 mb-12"
           >
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center ring-2 ring-purple-500/20">
+            <div className="w-14 h-14 bg-black flex items-center justify-center rounded-none group overflow-hidden">
               {session.user.image ? (
                 <Image
                   src={session.user.image}
                   alt={session.user.name || 'User'}
-                  width={48}
-                  height={48}
-                  className="rounded-full"
+                  width={56}
+                  height={56}
+                  className="grayscale group-hover:grayscale-0 transition-all duration-500"
                 />
               ) : (
                 <User className="w-6 h-6 text-white" />
               )}
             </div>
             <div>
-              <h3 className="font-semibold text-white">{session.user.name}</h3>
-              <p className="text-sm text-gray-400 truncate">{session.user.email}</p>
+              <h3 className="text-sm font-black text-black uppercase tracking-tighter italic leading-none">{session.user.name}</h3>
+              <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1 truncate max-w-[150px]">{session.user.email}</p>
             </div>
           </motion.div>
 
@@ -316,22 +316,22 @@ function DashboardContent() {
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.3 + idx * 0.05 }}
                   onClick={() => router.push(`/dashboard?section=${item.key}`)}
-                  className={`w-full text-left flex items-center justify-between p-3 rounded-xl transition-all ${isActive
-                    ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-white border border-purple-500/30 shadow-glow'
-                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                  className={`w-full text-left flex items-center justify-between p-4 transition-all ${isActive
+                    ? 'bg-black text-white'
+                    : 'text-gray-400 hover:bg-gray-50 hover:text-black'
                     }`}
                 >
-                  <div className="flex items-center space-x-3">
-                    <item.icon className="w-5 h-5" />
-                    <span className="font-medium">{item.label}</span>
+                  <div className="flex items-center space-x-4">
+                    <item.icon className="w-4 h-4" />
+                    <span className="text-[10px] font-black uppercase tracking-widest leading-none">{item.label}</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     {'badge' in item && item.badge && (
-                      <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
+                      <span className={`text-[9px] font-black uppercase tracking-tighter px-2 py-0.5 ${isActive ? 'bg-white text-black' : 'bg-black text-white'}`}>
                         {item.badge}
                       </span>
                     )}
-                    <ChevronRight className={`w-4 h-4 transition-transform ${isActive ? 'rotate-90' : ''}`} />
+                    <ChevronRight className={`w-3 h-3 transition-transform ${isActive ? 'rotate-90' : ''}`} />
                   </div>
                 </motion.button>
               )
@@ -340,15 +340,15 @@ function DashboardContent() {
         </motion.div>
 
         {/* Main Content */}
-        <div className="flex-1 p-8">
+        <div className="flex-1 p-12">
           {/* Header */}
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="mb-8"
+            className="mb-12"
           >
-            <h1 className="text-3xl font-bold text-white mb-2 font-heading">
+            <h1 className="text-4xl font-black text-black uppercase tracking-tighter italic mb-2">
               {section === 'orders' && 'My Orders'}
               {section === 'profile' && 'My Profile'}
               {section === 'list' && 'My List'}
@@ -360,30 +360,30 @@ function DashboardContent() {
           {/* Orders Section */}
           {section === 'orders' && (
             <div>
-              <div className="flex border-b border-white/10 mb-6">
+              <div className="flex border-b border-black/[0.03] mb-10">
                 <button
                   onClick={() => setActiveTab('upcoming')}
-                  className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'upcoming'
-                    ? 'border-purple-500 text-white'
-                    : 'border-transparent text-gray-400 hover:text-white'
+                  className={`px-8 py-4 text-[10px] font-black uppercase tracking-widest border-b-2 transition-colors ${activeTab === 'upcoming'
+                    ? 'border-black text-black'
+                    : 'border-transparent text-gray-400 hover:text-black'
                     }`}
                 >
                   Upcoming Orders (1)
                 </button>
                 <button
                   onClick={() => setActiveTab('previous')}
-                  className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ml-8 ${activeTab === 'previous'
-                    ? 'border-purple-500 text-white'
-                    : 'border-transparent text-gray-400 hover:text-white'
+                  className={`px-8 py-4 text-[10px] font-black uppercase tracking-widest border-b-2 transition-colors ml-8 ${activeTab === 'previous'
+                    ? 'border-black text-black'
+                    : 'border-transparent text-gray-400 hover:text-black'
                     }`}
                 >
                   Previous Orders (2)
                 </button>
                 <button
                   onClick={() => setActiveTab('scheduled')}
-                  className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ml-8 ${activeTab === 'scheduled'
-                    ? 'border-purple-500 text-white'
-                    : 'border-transparent text-gray-400 hover:text-white'
+                  className={`px-8 py-4 text-[10px] font-black uppercase tracking-widest border-b-2 transition-colors ml-8 ${activeTab === 'scheduled'
+                    ? 'border-black text-black'
+                    : 'border-transparent text-gray-400 hover:text-black'
                     }`}
                 >
                   Scheduled Orders (0)
@@ -396,16 +396,16 @@ function DashboardContent() {
                   <motion.div
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="glass-card rounded-2xl p-12 text-center"
+                    className="bg-gray-50/50 border border-black/[0.03] p-24 text-center"
                   >
-                    <Package className="mx-auto h-16 w-16 text-gray-600 mb-4" />
-                    <h3 className="text-lg font-medium text-white mb-2">No orders yet</h3>
-                    <p className="text-gray-400 mb-6">When you place your first order, it will appear here.</p>
+                    <Package className="mx-auto h-16 w-16 text-gray-200 mb-6" />
+                    <h3 className="text-2xl font-black text-black uppercase tracking-tighter italic mb-2">No orders yet</h3>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-10">When you place your first order, it will appear here.</p>
                     <Link href="/products">
                       <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-6 py-3 rounded-full font-semibold inline-flex items-center gap-2 shadow-glow"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="bg-black text-white px-10 py-4 text-[10px] font-black uppercase tracking-widest inline-flex items-center gap-2"
                       >
                         <ShoppingBag className="h-4 w-4" />
                         Start Shopping
@@ -419,72 +419,59 @@ function DashboardContent() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3 }}
+                      className="bg-white border border-black/[0.03] p-8"
                     >
-                      <Card className="hover:shadow-md transition-shadow">
-                        <CardContent className="p-6">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-4">
-                              {/* Order Icon */}
-                              <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
-                                <Package className="w-6 h-6 text-gray-600" />
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-8">
+                          {/* Order Icon */}
+                          <div className="w-16 h-16 bg-gray-50 flex items-center justify-center">
+                            <Package className="w-6 h-6 text-black" />
+                          </div>
+
+                          {/* Order Details */}
+                          <div>
+                            <div className="flex items-center space-x-4 mb-2">
+                              <h3 className="text-sm font-black text-black uppercase tracking-widest">Order no {order.orderNumber}</h3>
+                              <span className="text-xl font-black text-black tracking-tighter">₹{order.total.toFixed(2)}</span>
+                            </div>
+
+                            {/* Status Progress */}
+                            <div className="flex items-center space-x-6 mb-4">
+                              <div className="flex items-center space-x-2">
+                                {getStatusIcon('confirmed')}
+                                <span className="text-[10px] font-black uppercase tracking-widest text-black">Confirmed</span>
                               </div>
-
-                              {/* Order Details */}
-                              <div>
-                                <div className="flex items-center space-x-2 mb-1">
-                                  <h3 className="font-semibold text-gray-900">Order no {order.orderNumber}</h3>
-                                  <span className="text-lg font-bold">EGP {order.total.toFixed(2)}</span>
-                                </div>
-
-                                {/* Status Progress */}
-                                <div className="flex items-center space-x-4 mb-3">
-                                  <div className="flex items-center space-x-2">
-                                    {getStatusIcon('confirmed')}
-                                    <span className="text-sm text-gray-600">Confirmed</span>
-                                  </div>
-                                  <div className="flex-1 h-px bg-gray-200"></div>
-                                  <div className="flex items-center space-x-2">
-                                    {getStatusIcon('preparing')}
-                                    <span className="text-sm text-gray-600">Preparing</span>
-                                  </div>
-                                  <div className="flex-1 h-px bg-gray-200"></div>
-                                  <div className="flex items-center space-x-2">
-                                    {getStatusIcon('picked_up')}
-                                    <span className="text-sm text-gray-600">Picked up</span>
-                                  </div>
-                                  <div className="flex-1 h-px bg-gray-200"></div>
-                                  <div className="flex items-center space-x-2">
-                                    {getStatusIcon('delivered')}
-                                    <span className="text-sm text-gray-600">Delivered</span>
-                                  </div>
-                                </div>
-
-                                {/* Order Info */}
-                                <div className="flex items-center space-x-4 text-sm text-gray-600">
-                                  <span>{order.items} Items</span>
-                                  <span>•</span>
-                                  <span>{order.deliveryTime}</span>
-                                  <span>•</span>
-                                  <span className="flex items-center space-x-1">
-                                    <Truck className="w-4 h-4" />
-                                    <span>{order.estimatedDelivery}</span>
-                                  </span>
-                                </div>
+                              <div className="h-px w-8 bg-black/[0.03]"></div>
+                              <div className="flex items-center space-x-2 opacity-50">
+                                {getStatusIcon('preparing')}
+                                <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Preparing</span>
                               </div>
                             </div>
 
-                            {/* Action Buttons */}
-                            <div className="flex space-x-3">
-                              <Button variant="outline" size="sm">
-                                Cancel Order
-                              </Button>
-                              <Button className="bg-gray-900 hover:bg-gray-800" size="sm">
-                                Order Details
-                              </Button>
+                            {/* Order Info */}
+                            <div className="flex items-center space-x-6 text-[10px] font-black uppercase tracking-widest text-gray-400 font-bold">
+                              <span>{order.items} Items</span>
+                              <span className="w-1 h-1 bg-gray-200 rounded-full"></span>
+                              <span>{order.deliveryTime}</span>
+                              <span className="w-1 h-1 bg-gray-200 rounded-full"></span>
+                              <span className="flex items-center space-x-1">
+                                <Truck className="h-3 w-3" />
+                                <span>{order.estimatedDelivery}</span>
+                              </span>
                             </div>
                           </div>
-                        </CardContent>
-                      </Card>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex space-x-3">
+                          <button className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border border-black/[0.03] text-gray-400 hover:text-black transition-all">
+                            Cancel Order
+                          </button>
+                          <button className="px-6 py-3 text-[10px] font-black uppercase tracking-widest bg-black text-white hover:bg-gray-900 transition-all">
+                            Order Details
+                          </button>
+                        </div>
+                      </div>
                     </motion.div>
                   ))
                 )}
@@ -494,112 +481,120 @@ function DashboardContent() {
 
           {/* Profile Section */}
           {section === 'profile' && (
-            <div className="space-y-6">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle>Personal Information</CardTitle>
-                  <Button
-                    variant="outline"
-                    size="sm"
+            <div className="max-w-4xl space-y-12">
+              <div className="bg-white border border-black/[0.03] p-10">
+                <div className="flex items-center justify-between mb-10">
+                  <h2 className="text-2xl font-black text-black uppercase tracking-tighter italic">Personal Information</h2>
+                  <button
                     onClick={() => isEditing ? handleSaveProfile() : setIsEditing(true)}
+                    className="flex items-center gap-2 px-6 py-2 text-[10px] font-black uppercase tracking-widest border border-black/[0.03] hover:bg-black hover:text-white transition-all"
                   >
-                    {isEditing ? <Save className="w-4 h-4 mr-2" /> : <Edit3 className="w-4 h-4 mr-2" />}
+                    {isEditing ? <Save className="w-3 h-3" /> : <Edit3 className="w-3 h-3" />}
                     {isEditing ? 'Save' : 'Edit'}
-                  </Button>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-sm font-medium text-gray-700 mb-1 block">Full Name</label>
-                      <Input
-                        value={userProfile.name}
-                        onChange={(e) => setUserProfile({ ...userProfile, name: e.target.value })}
-                        disabled={!isEditing}
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-gray-700 mb-1 block">Email</label>
-                      <Input value={userProfile.email} disabled />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-gray-700 mb-1 block">Phone</label>
-                      <Input
-                        value={userProfile.phone}
-                        onChange={(e) => setUserProfile({ ...userProfile, phone: e.target.value })}
-                        disabled={!isEditing}
-                        placeholder="+1 (555) 123-4567"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-gray-700 mb-1 block">Date of Birth</label>
-                      <Input
-                        type="date"
-                        value={userProfile.dateOfBirth}
-                        onChange={(e) => setUserProfile({ ...userProfile, dateOfBirth: e.target.value })}
-                        disabled={!isEditing}
-                      />
-                    </div>
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Full Name</label>
+                    <input
+                      value={userProfile.name}
+                      onChange={(e) => setUserProfile({ ...userProfile, name: e.target.value })}
+                      disabled={!isEditing}
+                      className="w-full bg-gray-50 border border-black/[0.03] p-4 text-sm font-bold text-black focus:outline-none focus:border-black/10 transition-all disabled:opacity-50"
+                    />
                   </div>
-                </CardContent>
-              </Card>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Email Address</label>
+                    <input value={userProfile.email} disabled className="w-full bg-gray-50 border border-black/[0.03] p-4 text-sm font-bold text-black opacity-50" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Phone</label>
+                    <input
+                      value={userProfile.phone}
+                      onChange={(e) => setUserProfile({ ...userProfile, phone: e.target.value })}
+                      disabled={!isEditing}
+                      placeholder="+91 00000 00000"
+                      className="w-full bg-gray-50 border border-black/[0.03] p-4 text-sm font-bold text-black focus:outline-none focus:border-black/10 transition-all disabled:opacity-50"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Date of Birth</label>
+                    <input
+                      type="date"
+                      value={userProfile.dateOfBirth}
+                      onChange={(e) => setUserProfile({ ...userProfile, dateOfBirth: e.target.value })}
+                      disabled={!isEditing}
+                      className="w-full bg-gray-50 border border-black/[0.03] p-4 text-sm font-bold text-black focus:outline-none focus:border-black/10 transition-all disabled:opacity-50"
+                    />
+                  </div>
+                </div>
+              </div>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Account Actions</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center justify-between">
+              <div className="bg-white border border-black/[0.03] p-10">
+                <h2 className="text-2xl font-black text-black uppercase tracking-tighter italic mb-10">Account Actions</h2>
+                <div className="space-y-8">
+                  <div className="flex items-center justify-between pb-8 border-b border-black/[0.03]">
                     <div>
-                      <h4 className="font-medium">Change Password</h4>
-                      <p className="text-sm text-gray-600">Update your account password</p>
+                      <h4 className="text-sm font-black text-black uppercase tracking-widest mb-1">Change Password</h4>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Update your security credentials</p>
                     </div>
-                    <Button variant="outline">Change Password</Button>
+                    <button className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border border-black/[0.03] hover:bg-black hover:text-white transition-all">
+                      Update
+                    </button>
                   </div>
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="font-medium">Sign Out</h4>
-                      <p className="text-sm text-gray-600">Sign out from your account</p>
+                      <h4 className="text-sm font-black text-black uppercase tracking-widest mb-1">Sign Out</h4>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Logout from this device</p>
                     </div>
-                    <Button variant="outline" onClick={() => signOut()}>Sign Out</Button>
+                    <button onClick={() => signOut()} className="px-6 py-3 text-[10px] font-black uppercase tracking-widest bg-black text-white hover:bg-gray-900 transition-all">
+                      Sign Out
+                    </button>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           )}
 
           {/* Wishlist Section */}
           {section === 'list' && (
-            <div className="space-y-6">
+            <div className="space-y-8">
               {wishlist.length === 0 ? (
-                <Card>
-                  <CardContent className="p-12 text-center">
-                    <Heart className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Your wishlist is empty</h3>
-                    <p className="text-gray-600 mb-6">Start adding items to your wishlist to keep track of products you love.</p>
-                    <Button asChild className="bg-gray-900 hover:bg-gray-800">
-                      <Link href="/products">
-                        <ShoppingBag className="mr-2 h-4 w-4" />
-                        Continue Shopping
-                      </Link>
-                    </Button>
-                  </CardContent>
-                </Card>
+                <div className="bg-gray-50/50 border border-black/[0.03] p-24 text-center">
+                  <Heart className="mx-auto h-16 w-16 text-gray-200 mb-6" />
+                  <h3 className="text-2xl font-black text-black uppercase tracking-tighter italic mb-2">Your wishlist is empty</h3>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-10">Start adding items you love to keep track of them.</p>
+                  <Link href="/products">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="bg-black text-white px-10 py-4 text-[10px] font-black uppercase tracking-widest inline-flex items-center gap-2"
+                    >
+                      <ShoppingBag className="h-4 w-4" />
+                      Continue Shopping
+                    </motion.button>
+                  </Link>
+                </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {wishlist.map((item) => (
-                    <Card key={item.id}>
-                      <CardContent className="p-4">
-                        <div className="aspect-square bg-gray-100 rounded-lg mb-4"></div>
-                        <h3 className="font-medium mb-2">{item.name}</h3>
-                        <p className="text-lg font-bold mb-2">EGP {item.price}</p>
-                        <div className="flex space-x-2">
-                          <Button size="sm" className="flex-1">Add to Cart</Button>
-                          <Button size="sm" variant="outline">
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
+                    <div key={item.id} className="bg-white border border-black/[0.03] p-6 group">
+                      <div className="aspect-square bg-gray-50 mb-6 overflow-hidden relative">
+                        {item.image && (
+                          <Image src={item.image} alt={item.name} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                        )}
+                      </div>
+                      <h3 className="text-[10px] font-black text-black uppercase tracking-widest mb-2 leading-none">{item.name}</h3>
+                      <p className="text-xl font-black text-black tracking-tighter italic mb-6">₹{item.price}</p>
+                      <div className="flex gap-2">
+                        <button className="flex-1 bg-black text-white py-4 text-[10px] font-black uppercase tracking-widest hover:bg-gray-900 transition-all">
+                          Add to Cart
+                        </button>
+                        <button className="p-4 border border-black/[0.03] text-gray-400 hover:text-black transition-all">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
                   ))}
                 </div>
               )}
@@ -608,50 +603,49 @@ function DashboardContent() {
 
           {/* Payments Section */}
           {section === 'payments' && (
-            <div className="space-y-6">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle>Payment Methods</CardTitle>
-                  <Button onClick={addPaymentMethod}>
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add Payment Method
-                  </Button>
-                </CardHeader>
-                <CardContent>
-                  {paymentMethods.length === 0 ? (
-                    <div className="text-center py-8">
-                      <CreditCard className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">No payment methods</h3>
-                      <p className="text-gray-600">Add a payment method to make purchases easier.</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {paymentMethods.map((method) => (
-                        <div key={method.id} className="flex items-center justify-between p-4 border rounded-lg">
-                          <div className="flex items-center space-x-3">
-                            <CreditCard className="w-6 h-6 text-gray-400" />
-                            <div>
-                              <p className="font-medium">
-                                {method.brand} ending in {method.last4}
-                              </p>
-                              {method.isDefault && (
-                                <span className="text-sm text-gray-600">Default</span>
-                              )}
-                            </div>
+            <div className="max-w-4xl space-y-8">
+              <div className="bg-white border border-black/[0.03] p-10">
+                <div className="flex items-center justify-between mb-10">
+                  <h2 className="text-2xl font-black text-black uppercase tracking-tighter italic">Payment Methods</h2>
+                  <button onClick={addPaymentMethod} className="flex items-center gap-2 px-6 py-2 text-[10px] font-black uppercase tracking-widest border border-black/[0.03] hover:bg-black hover:text-white transition-all">
+                    <Plus className="w-3 h-3" />
+                    New Method
+                  </button>
+                </div>
+                {paymentMethods.length === 0 ? (
+                  <div className="text-center py-12">
+                    <CreditCard className="mx-auto h-12 w-12 text-gray-200 mb-6" />
+                    <h3 className="text-sm font-black text-black uppercase tracking-widest mb-1">No payment methods</h3>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Add a method to make purchases easier.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {paymentMethods.map((method) => (
+                      <div key={method.id} className="flex items-center justify-between p-6 bg-gray-50 border border-black/[0.03]">
+                        <div className="flex items-center space-x-4">
+                          <div className="p-3 bg-black text-white">
+                            <CreditCard className="w-5 h-5" />
                           </div>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => removePaymentMethod(method.id)}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
+                          <div>
+                            <p className="text-sm font-black text-black uppercase tracking-widest">
+                              {method.brand} •••• {method.last4}
+                            </p>
+                            {method.isDefault && (
+                              <span className="text-[9px] font-black uppercase tracking-tighter text-gray-400">Default Method</span>
+                            )}
+                          </div>
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+                        <button
+                          onClick={() => removePaymentMethod(method.id)}
+                          className="p-3 text-gray-400 hover:text-red-600 transition-all"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
@@ -664,23 +658,19 @@ function DashboardContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="mt-8"
+              className="mt-20"
             >
-              <Card className="border-l-4 border-l-blue-500 bg-blue-50">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-semibold text-blue-900">Admin Access</h3>
-                      <p className="text-sm text-blue-700">
-                        You have administrative privileges
-                      </p>
-                    </div>
-                    <Button asChild size="sm">
-                      <Link href="/admin">Admin Panel</Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              <div className="bg-black p-10 flex items-center justify-between">
+                <div>
+                  <h3 className="text-2xl font-black text-white uppercase tracking-tighter italic mb-1">Admin Access</h3>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">
+                    You have administrative privileges for this platform.
+                  </p>
+                </div>
+                <button className="px-10 py-4 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-gray-100 transition-all font-bold">
+                  <Link href="/admin">Admin Panel</Link>
+                </button>
+              </div>
             </motion.div>
           )}
         </div>
@@ -692,7 +682,7 @@ function DashboardContent() {
 export default function DashboardPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-white">
         <Loading className="h-64" text="Loading dashboard..." />
       </div>
     }>

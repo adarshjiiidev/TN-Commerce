@@ -86,7 +86,7 @@ export default function AdminProductsPage() {
         setProducts(data.data.products)
         setPagination(data.data.pagination)
       } else {
-        console.error('Failed to fetch products:', data.error) //data.error might not exist on interface but assume it does for now or strict types issue
+        console.error('Failed to fetch products')
       }
     } catch (error) {
       console.error('Error fetching products:', error)
@@ -219,8 +219,8 @@ export default function AdminProductsPage() {
 
   if (status === 'loading' && loading) {
     return (
-      <div className="min-h-screen bg-[#0d0d12] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin h-12 w-12 border-2 border-black border-t-transparent mx-auto"></div>
       </div>
     )
   }
@@ -230,50 +230,54 @@ export default function AdminProductsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0d12] text-white pt-20">
+    <div className="min-h-screen bg-white pt-20">
       {/* Header */}
-      <div className="border-b border-white/10 bg-[#0d0d12]/50 backdrop-blur-xl sticky top-0 z-20">
+      <div className="border-b border-black/[0.03] bg-white sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center space-x-4">
-              <Link href="/admin" className="p-2 rounded-full hover:bg-white/10 text-gray-400 hover:text-white transition-all">
+          <div className="flex justify-between items-center py-10">
+            <div className="flex items-center space-x-6">
+              <Link href="/admin" className="p-3 bg-gray-50 border border-black/[0.03] text-gray-400 hover:text-black hover:bg-black hover:text-white transition-all">
                 <ArrowLeft className="h-5 w-5" />
               </Link>
               <div>
-                <h1 className="text-2xl font-bold font-heading">Product Management</h1>
-                <p className="text-sm text-gray-400">Manage your inventory, prices, and listings</p>
+                <h1 className="text-4xl font-black text-black uppercase tracking-tighter italic">Product Management</h1>
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1">Manage your boutique inventory and listings</p>
               </div>
             </div>
             <Link href="/admin/products/add">
-              <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg hover:shadow-purple-500/25 border-0">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="bg-black text-white px-8 py-4 text-[10px] font-black uppercase tracking-widest transition-all inline-flex items-center"
+              >
                 <Plus className="h-4 w-4 mr-2" />
                 Add Product
-              </Button>
+              </motion.button>
             </Link>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
         {/* Filters */}
-        <div className="bg-[#1a1a24]/80 backdrop-blur-md rounded-2xl border border-white/5 p-6 shadow-xl">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+        <div className="bg-gray-50/50 border border-black/[0.03] p-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             <div className="md:col-span-5 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search products..."
-                className="w-full pl-10 pr-4 py-2.5 bg-black/20 border border-white/10 rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                className="w-full pl-12 pr-4 py-4 bg-white border border-black/[0.03] text-sm font-bold text-black placeholder:text-gray-400 focus:outline-none focus:border-black/10 transition-all"
               />
             </div>
             <div className="md:col-span-4 relative">
-              <Filter className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+              <Filter className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-black/20 border border-white/10 rounded-xl text-white appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                className="w-full pl-12 pr-4 py-4 bg-white border border-black/[0.03] text-sm font-bold text-black appearance-none focus:outline-none focus:border-black/10 transition-all"
               >
                 <option value="">All Categories</option>
                 <option value="tshirts">T-Shirts</option>
@@ -289,7 +293,7 @@ export default function AdminProductsPage() {
                   setCategory('')
                   setPagination(prev => ({ ...prev, current: 1 }))
                 }}
-                className="w-full py-2.5 px-4 bg-white/5 hover:bg-white/10 text-gray-300 rounded-xl transition-colors text-sm font-medium border border-white/5"
+                className="w-full py-4 text-[10px] font-black uppercase tracking-widest border border-black/[0.03] text-gray-400 hover:text-black hover:bg-white transition-all"
               >
                 Clear Filters
               </button>
@@ -301,150 +305,163 @@ export default function AdminProductsPage() {
         <AnimatePresence>
           {selectedProducts.length > 0 && (
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              className="bg-black p-6 flex flex-wrap items-center justify-between gap-6"
             >
-              <div className="flex items-center space-x-4">
-                <span className="text-sm font-medium text-blue-400 pl-2">
-                  {selectedProducts.length} selected
+              <div className="flex items-center space-x-6">
+                <span className="text-[10px] font-black uppercase tracking-widest text-white">
+                  {selectedProducts.length} Products selected
                 </span>
                 <button
                   onClick={() => setSelectedProducts([])}
-                  className="text-sm text-gray-400 hover:text-white transition-colors"
+                  className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white transition-colors"
                 >
-                  Clear selection
+                  Clear Selection
                 </button>
               </div>
               <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" onClick={() => handleBulkSale(true)} disabled={bulkLoading}>
-                  <Tag className="h-4 w-4 mr-2" />
+                <button
+                  onClick={() => handleBulkSale(true)}
+                  disabled={bulkLoading}
+                  className="px-6 py-3 text-[10px] font-black uppercase tracking-widest bg-white text-black hover:bg-gray-100 transition-all disabled:opacity-50"
+                >
                   Set Sale
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => handleBulkSale(false)} disabled={bulkLoading}>
-                  <Tag className="h-4 w-4 mr-2" />
+                </button>
+                <button
+                  onClick={() => handleBulkSale(false)}
+                  disabled={bulkLoading}
+                  className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border border-white/20 text-white hover:bg-white hover:text-black transition-all disabled:opacity-50"
+                >
                   Remove Sale
-                </Button>
-                <Button variant="destructive" size="sm" onClick={handleBulkDelete} disabled={bulkLoading}>
-                  <Trash2 className="h-4 w-4 mr-2" />
+                </button>
+                <button
+                  onClick={handleBulkDelete}
+                  disabled={bulkLoading}
+                  className="px-6 py-3 text-[10px] font-black uppercase tracking-widest bg-red-600 text-white hover:bg-red-700 transition-all disabled:opacity-50"
+                >
                   Delete Selected
-                </Button>
+                </button>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
 
         {/* Products List */}
-        <div className="bg-[#1a1a24]/80 backdrop-blur-xl rounded-2xl border border-white/5 shadow-2xl overflow-hidden">
+        <div className="bg-white border border-black/[0.03] overflow-hidden">
           {products.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-              <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-4">
-                <Box className="h-10 w-10 text-gray-600" />
+            <div className="flex flex-col items-center justify-center py-32 text-center">
+              <div className="w-24 h-24 bg-gray-50 flex items-center justify-center mb-8">
+                <Box className="h-10 w-10 text-gray-200" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">No products found</h3>
-              <p className="text-gray-400 max-w-sm mb-6">
-                Try adjusting your filters or add a new product to your inventory.
+              <h3 className="text-2xl font-black text-black uppercase tracking-tighter italic mb-2">No products found</h3>
+              <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 max-w-sm mb-12">
+                Adjust your search or category filters to find what you're looking for.
               </p>
               <Link href="/admin/products/add">
-                <Button>Add New Product</Button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-black text-white px-10 py-4 text-[10px] font-black uppercase tracking-widest"
+                >
+                  Add New Product
+                </motion.button>
               </Link>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-white/5 border-b border-white/10 text-xs uppercase text-gray-400 font-medium">
+                <thead className="bg-gray-50 border-b border-black/[0.03]">
                   <tr>
-                    <th className="px-6 py-4 text-left w-10">
+                    <th className="px-8 py-6 text-left w-10">
                       <input
                         type="checkbox"
                         checked={selectedProducts.length === products.length && products.length > 0}
                         onChange={handleSelectAll}
-                        className="rounded border-white/20 bg-white/5 checked:bg-purple-500 text-purple-500 focus:ring-0 focus:ring-offset-0"
+                        className="w-4 h-4 border-black/[0.1] rounded-none checked:bg-black focus:ring-0"
                       />
                     </th>
-                    <th className="px-6 py-4 text-left">Product</th>
-                    <th className="px-6 py-4 text-left">Category</th>
-                    <th className="px-6 py-4 text-left">Price</th>
-                    <th className="px-6 py-4 text-left">Stock</th>
-                    <th className="px-6 py-4 text-left">Status</th>
-                    <th className="px-6 py-4 text-right">Actions</th>
+                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-gray-400 text-left">Product / SKU</th>
+                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-gray-400 text-left">Category</th>
+                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-gray-400 text-left">Price</th>
+                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-gray-400 text-left">Inventory</th>
+                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-gray-400 text-left">Status</th>
+                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-gray-400 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
+                <tbody className="divide-y divide-black/[0.03]">
                   {products.map((product) => (
-                    <tr key={product._id} className="hover:bg-white/5 transition-colors group">
-                      <td className="px-6 py-4">
+                    <tr key={product._id} className="hover:bg-gray-50 transition-colors group">
+                      <td className="px-8 py-8">
                         <input
                           type="checkbox"
                           checked={selectedProducts.includes(product._id)}
                           onChange={() => handleSelectProduct(product._id)}
-                          className="rounded border-white/20 bg-white/5 checked:bg-purple-500 text-purple-500 focus:ring-0 focus:ring-offset-0"
+                          className="w-4 h-4 border-black/[0.1] rounded-none checked:bg-black focus:ring-0"
                         />
                       </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-4">
-                          <div className="relative h-12 w-12 rounded-lg overflow-hidden bg-white/5 border border-white/10 shrink-0">
+                      <td className="px-8 py-8">
+                        <div className="flex items-center gap-6">
+                          <div className="relative h-16 w-16 bg-gray-50 overflow-hidden shrink-0">
                             <Image
                               src={product.images[0] || '/placeholder-image.jpg'}
                               alt={product.name}
                               fill
-                              className="object-cover"
+                              className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                             />
                           </div>
                           <div>
-                            <div className="font-medium text-white group-hover:text-purple-400 transition-colors line-clamp-1">
+                            <div className="text-sm font-black text-black uppercase tracking-tight line-clamp-1">
                               {product.name}
                             </div>
-                            <div className="text-xs text-gray-500 line-clamp-1">
-                              {product._id}
+                            <div className="text-[9px] font-black uppercase tracking-widest text-gray-400 mt-1">
+                              ID: {product._id.slice(-8).toUpperCase()}
                             </div>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/5 text-gray-300 border border-white/10">
+                      <td className="px-8 py-8">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 border border-black/[0.03] px-3 py-1 bg-gray-50/50">
                           {product.category}
                         </span>
                       </td>
-                      <td className="px-6 py-4">
-                        <div className="font-medium text-white font-heading">
+                      <td className="px-8 py-8">
+                        <div className="text-sm font-black text-black">
                           {formatPrice(product.price)}
                         </div>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-8 py-8">
                         <div className={cn(
-                          "text-sm font-medium",
-                          product.stock > 10 ? "text-green-400" : product.stock > 0 ? "text-yellow-400" : "text-red-400"
+                          "text-[10px] font-black uppercase tracking-widest",
+                          product.stock > 10 ? "text-green-600" : product.stock > 0 ? "text-orange-500" : "text-red-600"
                         )}>
                           {product.stock} units
                         </div>
                       </td>
-                      <td className="px-6 py-4">
-                        <div className="flex flex-wrap gap-1">
+                      <td className="px-8 py-8">
+                        <div className="flex flex-wrap gap-2">
                           {product.isOnSale && (
-                            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-red-500/20 text-red-400 border border-red-500/20">SALE</span>
+                            <span className="px-2 py-0.5 text-[9px] font-black bg-red-600 text-white uppercase tracking-widest">SALE</span>
                           )}
                           {product.isFeatured && (
-                            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-400 border border-purple-500/20">FEATURED</span>
+                            <span className="px-2 py-0.5 text-[9px] font-black bg-black text-white uppercase tracking-widest">FEATURED</span>
                           )}
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-right">
-                        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <td className="px-8 py-8 text-right">
+                        <div className="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
                           <Link href={`/admin/products/edit/${product._id}`}>
-                            <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-400 hover:text-white hover:bg-white/10">
+                            <button className="p-2 text-gray-400 hover:text-black hover:bg-white border border-transparent hover:border-black/[0.03] transition-all">
                               <Edit className="h-4 w-4" />
-                            </Button>
+                            </button>
                           </Link>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 text-gray-400 hover:text-red-400 hover:bg-red-500/10"
+                          <button
+                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 transition-all"
                             onClick={() => handleDelete(product._id)}
                           >
                             <Trash2 className="h-4 w-4" />
-                          </Button>
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -456,30 +473,26 @@ export default function AdminProductsPage() {
 
           {/* Pagination */}
           {pagination.total > 1 && (
-            <div className="px-6 py-4 border-t border-white/5 bg-white/5">
+            <div className="px-8 py-10 bg-gray-50/50 border-t border-black/[0.03]">
               <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-400">
-                  Showing {((pagination.current - 1) * 10) + 1} to {Math.min(pagination.current * 10, pagination.totalItems)} of {pagination.totalItems} products
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">
+                  Showing {((pagination.current - 1) * 10) + 1} to {Math.min(pagination.current * 10, pagination.totalItems)} of {pagination.totalItems} Boutique Products
                 </p>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
+                <div className="flex gap-4">
+                  <button
                     onClick={() => setPagination(prev => ({ ...prev, current: prev.current - 1 }))}
                     disabled={pagination.current === 1}
-                    className="border-white/10 hover:bg-white/10"
+                    className="px-8 py-3 text-[10px] font-black uppercase tracking-widest border border-black/[0.03] text-gray-400 hover:text-black hover:bg-white disabled:opacity-30 disabled:hover:bg-transparent"
                   >
                     Previous
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
+                  </button>
+                  <button
                     onClick={() => setPagination(prev => ({ ...prev, current: prev.current + 1 }))}
                     disabled={pagination.current === pagination.total}
-                    className="border-white/10 hover:bg-white/10"
+                    className="px-8 py-3 text-[10px] font-black uppercase tracking-widest border border-black/[0.03] text-gray-400 hover:text-black hover:bg-white disabled:opacity-30 disabled:hover:bg-transparent"
                   >
                     Next
-                  </Button>
+                  </button>
                 </div>
               </div>
             </div>

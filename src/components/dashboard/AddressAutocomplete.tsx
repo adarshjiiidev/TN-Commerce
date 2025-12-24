@@ -68,7 +68,7 @@ export default function AddressAutocomplete({
       const response = await fetch(
         `https://api.maptiler.com/geocoding/${encodeURIComponent(query)}.json?key=${apiKey}&types=address&limit=5&country=us,ca,gb,au,in`
       )
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch addresses')
       }
@@ -141,7 +141,7 @@ export default function AddressAutocomplete({
   const handlePredictionSelect = (feature: MapTilerFeature) => {
     setInputValue(feature.place_name)
     setShowPredictions(false)
-    
+
     const addressComponents = parseMapTilerFeature(feature)
     onAddressSelect(addressComponents)
   }
@@ -150,7 +150,7 @@ export default function AddressAutocomplete({
     setInputValue('')
     setPredictions([])
     setShowPredictions(false)
-    
+
     if (debounceTimeoutRef.current) {
       clearTimeout(debounceTimeoutRef.current)
     }
@@ -174,43 +174,41 @@ export default function AddressAutocomplete({
           onChange={handleInputChange}
           placeholder={placeholder}
           disabled={disabled}
-          className="pr-16"
+          className="bg-gray-50 border border-black/[0.03] rounded-none py-6 font-bold pr-16 focus-visible:ring-0 focus-visible:border-black/10"
           autoComplete="off"
         />
-        <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center gap-1">
+        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex items-center gap-2">
           {loading && (
-            <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
+            <Loader2 className="h-4 w-4 animate-spin text-black" />
           )}
           {inputValue && !loading && (
-            <Button
+            <button
               type="button"
-              variant="ghost"
-              size="sm"
               onClick={clearInput}
-              className="h-6 w-6 p-0"
+              className="text-gray-400 hover:text-black transition-colors"
             >
-              <X className="h-3 w-3" />
-            </Button>
+              <X className="h-4 w-4" />
+            </button>
           )}
           {!loading && (
             <MapPin className="h-4 w-4 text-gray-400" />
           )}
         </div>
       </div>
-      
+
       {showPredictions && predictions.length > 0 && (
-        <div className="absolute top-full left-0 right-0 z-50 bg-white border border-gray-200 rounded-md shadow-lg mt-1 max-h-60 overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 z-50 bg-white border border-black/[0.03] rounded-none shadow-2xl mt-1 max-h-60 overflow-y-auto">
           {predictions.map((feature) => (
             <button
               key={feature.id}
               type="button"
-              className="w-full text-left px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0 focus:bg-gray-50 focus:outline-none"
+              className="w-full text-left px-6 py-4 hover:bg-gray-50 border-b border-black/[0.02] last:border-b-0 focus:bg-gray-50 focus:outline-none group transition-all"
               onClick={() => handlePredictionSelect(feature)}
             >
-              <div className="flex items-start gap-3">
-                <MapPin className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-4">
+                <MapPin className="h-4 w-4 text-gray-300 mt-1 group-hover:text-black transition-colors" />
                 <div>
-                  <div className="font-medium text-sm text-gray-900">
+                  <div className="text-[10px] font-black uppercase tracking-widest text-black/80 group-hover:text-black">
                     {feature.place_name_en || feature.place_name}
                   </div>
                 </div>

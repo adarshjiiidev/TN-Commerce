@@ -5,6 +5,9 @@ import { redirect } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Category } from '@/types'
+import { ArrowLeft, Plus, Search, Layers, Calendar, Trash2, Power } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { cn } from '@/lib/utils'
 
 export default function CategoriesManagement() {
   const { data: session, status } = useSession()
@@ -14,7 +17,7 @@ export default function CategoriesManagement() {
 
   useEffect(() => {
     if (status === 'loading') return
-    
+
     if (!session || !session.user.isAdmin) {
       redirect('/auth/signin')
       return
@@ -28,11 +31,11 @@ export default function CategoriesManagement() {
       setLoading(true)
       const response = await fetch('/api/admin/categories')
       const data = await response.json()
-      
+
       if (data.success) {
         setCategories(data.data)
       } else {
-        console.error('Failed to fetch categories:', data.error)
+        console.error('Failed to fetch categories')
       }
     } catch (error) {
       console.error('Failed to fetch categories:', error)
@@ -52,16 +55,16 @@ export default function CategoriesManagement() {
       })
 
       const data = await response.json()
-      
+
       if (data.success) {
-        setCategories(categories.map(category => 
+        setCategories(categories.map(category =>
           category._id === categoryId ? { ...category, isActive: !isActive } : category
         ))
       } else {
-        alert('Failed to update category: ' + data.error)
+        alert('Failed to update category')
       }
     } catch (error) {
-      alert('Failed to update category: ' + error)
+      alert('Failed to update category')
     }
   }
 
@@ -76,14 +79,14 @@ export default function CategoriesManagement() {
       })
 
       const data = await response.json()
-      
+
       if (data.success) {
         setCategories(categories.filter(category => category._id !== categoryId))
       } else {
-        alert('Failed to delete category: ' + data.error)
+        alert('Failed to delete category')
       }
     } catch (error) {
-      alert('Failed to delete category: ' + error)
+      alert('Failed to delete category')
     }
   }
 
@@ -94,8 +97,8 @@ export default function CategoriesManagement() {
 
   if (status === 'loading' || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin h-12 w-12 border-2 border-black border-t-transparent"></div>
       </div>
     )
   }
@@ -105,105 +108,117 @@ export default function CategoriesManagement() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white pt-20">
       {/* Header */}
-      <div className="bg-white shadow">
+      <div className="border-b border-black/[0.03] bg-white sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center space-x-4">
-              <Link 
-                href="/admin"
-                className="text-gray-600 hover:text-gray-900"
-              >
-                ← Back to Admin
+          <div className="flex justify-between items-center py-10">
+            <div className="flex items-center space-x-6">
+              <Link href="/admin" className="p-3 bg-gray-50 border border-black/[0.03] text-gray-400 hover:text-black hover:bg-black hover:text-white transition-all">
+                <ArrowLeft className="h-5 w-5" />
               </Link>
-              <h1 className="text-3xl font-bold text-gray-900">Categories Management</h1>
+              <div>
+                <h1 className="text-4xl font-black text-black uppercase tracking-tighter italic">Boutique Taxonomies</h1>
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1">Refine and organize boutique collections</p>
+              </div>
             </div>
-            <Link
-              href="/admin/categories/add"
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-            >
-              Add New Category
+            <Link href="/admin/categories/add">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="bg-black text-white px-8 py-4 text-[10px] font-black uppercase tracking-widest flex items-center gap-2"
+              >
+                <Plus className="h-4 w-4" /> Add Category
+              </motion.button>
             </Link>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
         {/* Search */}
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <input
-            type="text"
-            placeholder="Search categories..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
+        <div className="bg-gray-50/50 border border-black/[0.03] p-8">
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Query taxonomies by name or identifier..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-4 py-4 bg-white border border-black/[0.03] text-sm font-bold text-black placeholder:text-gray-400 focus:outline-none focus:border-black/10 transition-all"
+            />
+          </div>
         </div>
 
         {/* Categories Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCategories.map((category) => (
-            <div key={category._id} className="bg-white rounded-lg shadow p-6">
-              <div className="flex items-center space-x-4 mb-4">
-                {category.image && (
-                  <img
-                    className="h-12 w-12 rounded-lg object-cover"
-                    src={category.image}
-                    alt={category.name}
-                  />
-                )}
-                <div className="flex-1">
-                  <h3 className="text-lg font-medium text-gray-900">{category.name}</h3>
-                  <p className="text-sm text-gray-600">/{category.slug}</p>
+            <div key={category._id} className="bg-white border border-black/[0.03] p-8 group hover:border-black/10 transition-all">
+              <div className="flex items-start justify-between mb-8">
+                <div className="flex items-center gap-6">
+                  {category.image ? (
+                    <div className="h-16 w-16 bg-gray-50 overflow-hidden relative">
+                      <img
+                        className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                        src={category.image}
+                        alt={category.name}
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-16 w-16 bg-gray-50 flex items-center justify-center text-gray-200">
+                      <Layers className="h-8 w-8" />
+                    </div>
+                  )}
+                  <div>
+                    <h3 className="text-xl font-black text-black uppercase tracking-tighter italic">{category.name}</h3>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1">ID: /{category.slug}</p>
+                  </div>
                 </div>
-                <div>
-                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                    category.isActive 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-red-100 text-red-800'
-                  }`}>
-                    {category.isActive ? 'Active' : 'Inactive'}
-                  </span>
+                <div className={cn(
+                  "px-3 py-1 text-[9px] font-black uppercase tracking-widest border",
+                  category.isActive ? "text-blue-600 border-blue-100 bg-blue-50" : "text-gray-400 border-gray-100 bg-gray-50"
+                )}>
+                  {category.isActive ? 'Active' : 'Archived'}
                 </div>
               </div>
-              
+
               {category.description && (
-                <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                <p className="text-[11px] font-bold text-gray-500 mb-8 line-clamp-2 leading-relaxed">
                   {category.description}
                 </p>
               )}
 
-              <div className="space-y-2 text-sm text-gray-600 mb-4">
-                <div className="flex justify-between">
-                  <span>Created:</span>
-                  <span>{new Date(category.createdAt).toLocaleDateString()}</span>
+              <div className="space-y-3 pt-8 border-t border-black/[0.02]">
+                <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+                  <span className="flex items-center gap-2"><Calendar className="h-3 w-3" /> Initialized</span>
+                  <span className="text-black">{new Date(category.createdAt).toLocaleDateString('en-GB')}</span>
                 </div>
                 {category.parentId && (
-                  <div className="flex justify-between">
-                    <span>Parent Category:</span>
-                    <span>{categories.find(c => c._id === category.parentId)?.name || 'Unknown'}</span>
+                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+                    <span className="flex items-center gap-2"><Layers className="h-3 w-3" /> Hierarchy</span>
+                    <span className="text-black">{categories.find(c => c._id === category.parentId)?.name || 'Root'}</span>
                   </div>
                 )}
               </div>
 
-              <div className="flex space-x-2 pt-4 border-t border-gray-200">
+              <div className="flex gap-4 mt-10">
                 <button
                   onClick={() => toggleCategoryStatus(category._id, category.isActive)}
-                  className={`flex-1 py-2 px-4 rounded-md text-sm font-medium ${
+                  className={cn(
+                    "flex-1 py-3 text-[9px] font-black uppercase tracking-widest border transition-all flex items-center justify-center gap-2",
                     category.isActive
-                      ? 'bg-red-100 text-red-800 hover:bg-red-200'
-                      : 'bg-green-100 text-green-800 hover:bg-green-200'
-                  }`}
+                      ? "text-red-400 border-red-50/50 hover:bg-black hover:text-white hover:border-black"
+                      : "text-blue-600 border-blue-50 hover:bg-black hover:text-white hover:border-black"
+                  )}
                 >
-                  {category.isActive ? 'Deactivate' : 'Activate'}
+                  <Power className="h-3 w-3" /> {category.isActive ? 'Deactivate' : 'Reactivate'}
                 </button>
                 <button
                   onClick={() => deleteCategory(category._id)}
-                  className="flex-1 py-2 px-4 bg-red-100 text-red-800 hover:bg-red-200 rounded-md text-sm font-medium"
+                  className="p-3 text-gray-300 hover:text-red-600 hover:bg-red-50 border border-transparent hover:border-red-100 transition-all flex items-center justify-center"
                 >
-                  Delete
+                  <Trash2 className="h-4 w-4" />
                 </button>
               </div>
             </div>
@@ -211,15 +226,18 @@ export default function CategoriesManagement() {
         </div>
 
         {filteredCategories.length === 0 && (
-          <div className="bg-white rounded-lg shadow p-8 text-center">
-            <div className="text-gray-500">
-              {searchTerm ? 'No categories match your search.' : 'No categories found.'}
+          <div className="bg-gray-50 p-32 text-center">
+            <div className="w-24 h-24 bg-white/50 mx-auto flex items-center justify-center mb-8 border border-black/[0.03]">
+              <Layers className="h-10 w-10 text-gray-200" />
             </div>
-            <Link
-              href="/admin/categories/add"
-              className="mt-4 inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-            >
-              Add First Category
+            <h3 className="text-2xl font-black text-black uppercase tracking-tighter italic mb-4">No taxonomies identified</h3>
+            <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-10">
+              {searchTerm ? 'Refine your query parameters.' : 'Initialize your first boutique collection.'}
+            </p>
+            <Link href="/admin/categories/add">
+              <button className="bg-black text-white px-10 py-5 text-[10px] font-black uppercase tracking-widest hover:bg-gray-900 transition-all">
+                Initialize Collection
+              </button>
             </Link>
           </div>
         )}

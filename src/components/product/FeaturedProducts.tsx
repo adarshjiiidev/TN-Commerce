@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ShoppingCart, Star } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 interface Product {
   _id: string
@@ -38,13 +38,13 @@ export default function FeaturedProducts() {
 
   if (loading) {
     return (
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#0d0d12] to-[#0a0a0f]">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="animate-pulse">
-            <div className="h-10 bg-white/5 rounded w-64 mb-12 mx-auto"></div>
+            <div className="h-10 bg-gray-100 rounded-none w-64 mb-12"></div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="bg-white/5 h-96 rounded-3xl"></div>
+                <div key={i} className="bg-gray-100 aspect-[3/4]"></div>
               ))}
             </div>
           </div>
@@ -56,108 +56,87 @@ export default function FeaturedProducts() {
   if (products.length === 0) return null
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#0d0d12] to-[#0a0a0f]">
+    <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-14"
+          className="text-left mb-16 border-b border-black/[0.03] pb-8"
         >
-          <h2 className="text-4xl font-bold text-white mb-3">Trending Now</h2>
-          <p className="text-gray-400 text-lg">Handpicked bestsellers everyone loves</p>
+          <div className="flex justify-between items-end">
+            <div>
+              <h2 className="text-5xl font-black text-black uppercase tracking-tighter italic">Bestsellers</h2>
+              <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mt-2">Curated for the bold</p>
+            </div>
+            <Link href="/products" className="text-black text-xs font-bold uppercase tracking-widest border-b border-black hover:text-gray-400 hover:border-gray-400 mb-2 transition-all">
+              View All
+            </Link>
+          </div>
         </motion.div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-12">
           {products.map((product, index) => (
             <motion.div
               key={product._id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: index * 0.05 }}
               viewport={{ once: true }}
             >
               <Link href={`/products/${product._id}`} className="group block">
                 <motion.div
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="bg-gradient-to-br from-[#1a1a24] to-[#14141c] rounded-3xl overflow-hidden border border-white/5 group-hover:border-purple-500/30 group-hover:shadow-[0_20px_60px_rgba(139,92,246,0.15)] transition-all duration-500"
+                  className="relative overflow-hidden transition-all duration-500"
                 >
                   {/* Product Image */}
-                  <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800">
+                  <div className="relative aspect-[3/4] overflow-hidden bg-gray-50 border border-black/[0.03]">
                     <Image
                       src={product.images[0] || '/placeholder-image.jpg'}
                       alt={product.name}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                     />
+
+                    {/* Quick Add Button - Solid Black */}
+                    <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        className="w-full bg-black text-white py-4 text-[10px] font-black uppercase tracking-widest"
+                      >
+                        Quick Add
+                      </motion.button>
+                    </div>
 
                     {/* Discount Badge */}
                     {product.originalPrice && (
-                      <div className="absolute top-4 left-4 bg-gradient-to-r from-orange-500 to-pink-500 text-white px-3 py-1.5 rounded-full text-sm font-bold shadow-lg">
-                        SAVE {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+                      <div className="absolute top-4 right-4 bg-black text-white px-2 py-1 text-[9px] font-black uppercase tracking-tighter">
+                        -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
                       </div>
                     )}
                   </div>
 
                   {/* Product Info */}
-                  <div className="p-5">
-                    <h3 className="text-white text-base font-semibold mb-2 truncate group-hover:text-purple-300 transition-colors">
-                      {product.name}
-                    </h3>
-
-                    {/* Rating */}
-                    <div className="flex items-center gap-1 mb-3">
-                      <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                      <span className="text-gray-400 text-sm font-medium">{product.rating}</span>
-                      <span className="text-gray-600 text-sm">({product.reviewCount})</span>
+                  <div className="mt-4">
+                    <div className="flex justify-between items-start">
+                      <h3 className="text-black text-[10px] font-black uppercase tracking-widest leading-none mb-1">
+                        {product.name}
+                      </h3>
                     </div>
-
-                    {/* Price */}
-                    <div className="flex items-center gap-2 mb-4">
-                      <span className="text-orange-400 font-bold text-xl">₹{product.price}</span>
+                    <div className="flex items-baseline gap-2 mt-1">
+                      <span className="text-black font-black text-sm tracking-tighter">₹{product.price}</span>
                       {product.originalPrice && (
-                        <span className="text-gray-600 text-sm line-through">₹{product.originalPrice}</span>
+                        <span className="text-gray-500 text-[10px] line-through tracking-tighter">₹{product.originalPrice}</span>
                       )}
                     </div>
-
-                    {/* CTA Button */}
-                    <motion.button
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                      className="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold py-3 rounded-full flex items-center justify-center gap-2 shadow-lg hover:shadow-orange-500/30 transition-all duration-300"
-                    >
-                      <ShoppingCart className="h-5 w-5" />
-                      Add to Cart
-                    </motion.button>
                   </div>
                 </motion.div>
               </Link>
             </motion.div>
           ))}
         </div>
-
-        {/* View All CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-          <Link href="/products">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white/5 backdrop-blur-md border border-white/10 text-white px-10 py-4 rounded-full font-semibold hover:bg-white/10 transition-all"
-            >
-              View All Products →
-            </motion.button>
-          </Link>
-        </motion.div>
       </div>
     </section>
   )

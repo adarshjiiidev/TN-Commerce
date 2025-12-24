@@ -12,13 +12,13 @@ import { formatPrice } from '@/utils'
 import { Button } from '@/components/ui/button'
 
 const statusConfig: Record<OrderStatus, { color: string; icon: React.ReactNode }> = {
-  pending: { color: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20', icon: <Clock className="w-3 h-3" /> },
-  confirmed: { color: 'text-blue-400 bg-blue-400/10 border-blue-400/20', icon: <CheckCircle className="w-3 h-3" /> },
-  processing: { color: 'text-indigo-400 bg-indigo-400/10 border-indigo-400/20', icon: <Package className="w-3 h-3" /> },
-  shipped: { color: 'text-purple-400 bg-purple-400/10 border-purple-400/20', icon: <Truck className="w-3 h-3" /> },
-  delivered: { color: 'text-green-400 bg-green-400/10 border-green-400/20', icon: <CheckCircle className="w-3 h-3" /> },
-  cancelled: { color: 'text-red-400 bg-red-400/10 border-red-400/20', icon: <XCircle className="w-3 h-3" /> },
-  refunded: { color: 'text-gray-400 bg-gray-400/10 border-gray-400/20', icon: <RotateCcw className="w-3 h-3" /> }
+  pending: { color: 'text-amber-600 bg-amber-50 border-amber-100', icon: <Clock className="w-3 h-3" /> },
+  confirmed: { color: 'text-blue-600 bg-blue-50 border-blue-100', icon: <CheckCircle className="w-3 h-3" /> },
+  processing: { color: 'text-indigo-600 bg-indigo-50 border-indigo-100', icon: <Package className="w-3 h-3" /> },
+  shipped: { color: 'text-purple-600 bg-purple-50 border-purple-100', icon: <Truck className="w-3 h-3" /> },
+  delivered: { color: 'text-green-600 bg-green-50 border-green-100', icon: <CheckCircle className="w-3 h-3" /> },
+  cancelled: { color: 'text-red-600 bg-red-50 border-red-100', icon: <XCircle className="w-3 h-3" /> },
+  refunded: { color: 'text-gray-600 bg-gray-50 border-gray-100', icon: <RotateCcw className="w-3 h-3" /> }
 }
 
 export default function OrdersManagement() {
@@ -48,7 +48,7 @@ export default function OrdersManagement() {
       if (data.success) {
         setOrders(data.data)
       } else {
-        console.error('Failed to fetch orders:', data.error)
+        console.error('Failed to fetch orders')
       }
     } catch (error) {
       console.error('Failed to fetch orders:', error)
@@ -74,10 +74,10 @@ export default function OrdersManagement() {
           order._id === orderId ? { ...order, status: newStatus } : order
         ))
       } else {
-        alert('Failed to update order: ' + data.error)
+        alert('Failed to update order')
       }
     } catch (error) {
-      alert('Failed to update order: ' + error)
+      alert('Failed to update order')
     }
   }
 
@@ -90,8 +90,8 @@ export default function OrdersManagement() {
 
   if (status === 'loading' && loading) {
     return (
-      <div className="min-h-screen bg-[#0d0d12] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin h-12 w-12 border-2 border-black border-t-transparent mx-auto"></div>
       </div>
     )
   }
@@ -101,18 +101,18 @@ export default function OrdersManagement() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0d12] text-white pt-20">
+    <div className="min-h-screen bg-white pt-20">
       {/* Header */}
-      <div className="border-b border-white/10 bg-[#0d0d12]/50 backdrop-blur-xl sticky top-0 z-20">
+      <div className="border-b border-black/[0.03] bg-white sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center space-x-4">
-              <Link href="/admin" className="p-2 rounded-full hover:bg-white/10 text-gray-400 hover:text-white transition-all">
+          <div className="flex justify-between items-center py-10">
+            <div className="flex items-center space-x-6">
+              <Link href="/admin" className="p-3 bg-gray-50 border border-black/[0.03] text-gray-400 hover:text-black hover:bg-black hover:text-white transition-all">
                 <ArrowLeft className="h-5 w-5" />
               </Link>
               <div>
-                <h1 className="text-2xl font-bold font-heading">Order Management</h1>
-                <p className="text-sm text-gray-400">View and manage customer orders</p>
+                <h1 className="text-4xl font-black text-black uppercase tracking-tighter italic">Order Management</h1>
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1">View and manage boutique customer orders</p>
               </div>
             </div>
           </div>
@@ -120,26 +120,26 @@ export default function OrdersManagement() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
         {/* Filters */}
-        <div className="bg-[#1a1a24]/80 backdrop-blur-md rounded-2xl border border-white/5 p-6 shadow-xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-gray-50/50 border border-black/[0.03] p-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search by order number or user ID..."
+                placeholder="Query order # or customer ID..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-black/20 border border-white/10 rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                className="w-full pl-12 pr-4 py-4 bg-white border border-black/[0.03] text-sm font-bold text-black placeholder:text-gray-400 focus:outline-none focus:border-black/10 transition-all"
               />
             </div>
             <div className="relative">
-              <Filter className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+              <Filter className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value as OrderStatus | 'all')}
-                className="w-full pl-10 pr-4 py-2.5 bg-black/20 border border-white/10 rounded-xl text-white appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                className="w-full pl-12 pr-4 py-4 bg-white border border-black/[0.03] text-sm font-bold text-black appearance-none focus:outline-none focus:border-black/10 transition-all"
               >
                 <option value="all">All Statuses</option>
                 <option value="pending">Pending</option>
@@ -150,77 +150,79 @@ export default function OrdersManagement() {
                 <option value="cancelled">Cancelled</option>
                 <option value="refunded">Refunded</option>
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 pointer-events-none" />
+              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
             </div>
           </div>
         </div>
 
         {/* Orders Table */}
-        <div className="bg-[#1a1a24]/80 backdrop-blur-xl rounded-2xl border border-white/5 shadow-2xl overflow-hidden">
+        <div className="bg-white border border-black/[0.03] overflow-hidden">
           {filteredOrders.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-              <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-4">
-                <Box className="h-10 w-10 text-gray-600" />
+            <div className="flex flex-col items-center justify-center py-32 text-center">
+              <div className="w-24 h-24 bg-gray-50 flex items-center justify-center mb-8">
+                <Box className="h-10 w-10 text-gray-200" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">No orders found</h3>
-              <p className="text-gray-400 max-w-sm">
-                {searchTerm || statusFilter !== 'all' ? 'Try adjusting your search criteria.' : 'No orders have been placed yet.'}
+              <h3 className="text-2xl font-black text-black uppercase tracking-tighter italic mb-2">No orders found</h3>
+              <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 max-w-sm">
+                {searchTerm || statusFilter !== 'all' ? 'Refine your search parameters to find results.' : 'The boutique hasn\'t received any orders yet.'}
               </p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-white/5 border-b border-white/10 text-xs uppercase text-gray-400 font-medium">
+                <thead className="bg-gray-50 border-b border-black/[0.03]">
                   <tr>
-                    <th className="px-6 py-4 text-left">Order Number</th>
-                    <th className="px-6 py-4 text-left">Customer</th>
-                    <th className="px-6 py-4 text-left">Total</th>
-                    <th className="px-6 py-4 text-left">Status</th>
-                    <th className="px-6 py-4 text-left">Date</th>
-                    <th className="px-6 py-4 text-left">Actions</th>
+                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-gray-400 text-left">Order Reference</th>
+                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-gray-400 text-left">Customer ID</th>
+                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-gray-400 text-left">Value</th>
+                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-gray-400 text-left">Status</th>
+                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-gray-400 text-left">Dated</th>
+                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-gray-400 text-right">Update Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
+                <tbody className="divide-y divide-black/[0.03]">
                   {filteredOrders.map((order) => {
-                    const statusMeta = statusConfig[order.status] || { color: 'text-gray-400', icon: null }
+                    const statusMeta = statusConfig[order.status] || { color: 'text-gray-400 uppercase', icon: null }
                     return (
-                      <tr key={order._id} className="hover:bg-white/5 transition-colors group">
-                        <td className="px-6 py-4">
-                          <div className="font-medium text-white font-mono break-all">{order.orderNumber}</div>
+                      <tr key={order._id} className="hover:bg-gray-50 transition-colors group">
+                        <td className="px-8 py-8">
+                          <div className="text-sm font-black text-black uppercase tracking-tight break-all font-mono">{order.orderNumber}</div>
                           {order.trackingNumber && (
-                            <div className="text-xs text-gray-500 mt-1 flex items-center gap-1">
-                              <Truck className="h-3 w-3" /> {order.trackingNumber}
+                            <div className="text-[9px] font-black uppercase tracking-widest text-gray-400 mt-2 flex items-center gap-1.5">
+                              <Truck className="h-3 w-3" /> TRK: {order.trackingNumber}
                             </div>
                           )}
                         </td>
-                        <td className="px-6 py-4">
-                          <div className="text-sm text-gray-300 break-all">{order.userId}</div>
+                        <td className="px-8 py-8">
+                          <div className="text-[10px] font-black uppercase tracking-widest text-gray-400 break-all">{order.userId.slice(-12).toUpperCase()}</div>
                         </td>
-                        <td className="px-6 py-4">
-                          <div className="font-bold text-white font-heading">
+                        <td className="px-8 py-8">
+                          <div className="text-sm font-black text-black">
                             {formatPrice(order.total)}
                           </div>
-                          <div className="text-xs text-gray-500">
-                            {order.items.length} items
+                          <div className="text-[9px] font-black uppercase tracking-widest text-gray-400 mt-1">
+                            {order.items.length} units
                           </div>
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-8 py-8">
                           <span className={cn(
-                            "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border",
+                            "inline-flex items-center gap-2 px-3 py-1 text-[9px] font-black uppercase tracking-widest border",
                             statusMeta.color
                           )}>
                             {statusMeta.icon}
-                            {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                            {order.status}
                           </span>
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-400">
-                          {new Date(order.createdAt).toLocaleDateString()}
+                        <td className="px-8 py-8">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">
+                            {new Date(order.createdAt).toLocaleDateString('en-GB')}
+                          </span>
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-8 py-8 text-right">
                           <select
                             value={order.status}
                             onChange={(e) => updateOrderStatus(order._id, e.target.value as OrderStatus)}
-                            className="text-xs bg-black/40 border border-white/10 rounded-lg px-3 py-1.5 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 cursor-pointer hover:bg-black/60 transition-colors"
+                            className="text-[10px] font-black uppercase tracking-widest bg-white border border-black/[0.03] px-4 py-2 text-black focus:outline-none focus:border-black transition-all cursor-pointer"
                           >
                             <option value="pending">Pending</option>
                             <option value="confirmed">Confirmed</option>
@@ -245,4 +247,5 @@ export default function OrdersManagement() {
 }
 
 export const dynamic = 'force-dynamic'
+
 
