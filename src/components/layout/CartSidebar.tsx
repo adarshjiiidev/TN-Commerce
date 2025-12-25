@@ -95,7 +95,7 @@ export default function CartSidebar() {
                       className="flex gap-4 group"
                     >
                       {/* Product Image */}
-                      <div className="relative h-24 w-24 flex-shrink-0 bg-gray-50 border border-black/5 grayscale hover:grayscale-0 transition-all duration-500">
+                      <div className="relative h-24 w-24 flex-shrink-0 bg-gray-50 border border-black/5 transition-all duration-500">
                         <Image
                           src={item.image}
                           alt={item.name}

@@ -89,7 +89,7 @@ export default function BestSellingStore() {
                       src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
                       alt="Signature Tee"
                       fill
-                      className="object-contain z-10 relative grayscale hover:grayscale-0 transition-all duration-700"
+                      className="object-contain z-10 relative transition-all duration-700"
                     />
                   </motion.div>
 
@@ -160,7 +160,7 @@ export default function BestSellingStore() {
                           src={product.images[0]}
                           alt={product.name}
                           fill
-                          className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                          className="object-cover transition-all duration-700"
                         />
                       </div>
                       <div className="flex-1">

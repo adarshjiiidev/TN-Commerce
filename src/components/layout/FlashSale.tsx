@@ -177,7 +177,7 @@ export default function FlashSale() {
                       src={product.images[0] || 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'}
                       alt={product.name}
                       fill
-                      className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                      className="object-cover transition-all duration-700"
                     />
                     {product.originalPrice && (
                       <div className="absolute top-4 left-4 bg-white text-black px-2 py-1 text-xs font-black uppercase tracking-tighter shadow-lg">

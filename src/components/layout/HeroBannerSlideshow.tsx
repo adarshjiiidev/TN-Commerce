@@ -67,100 +67,93 @@ export default function HeroBannerSlideshow() {
   const currentBanner = banners.length > 0 ? banners[currentSlide] : null
 
   return (
-    <section className="relative pt-20 pb-8 sm:pt-24 sm:pb-12 px-4 sm:px-6 lg:px-8 bg-white text-black overflow-hidden border-b border-black/[0.03]">
-      <div className="max-w-7xl mx-auto relative z-10">
+    <section className="relative min-h-[500px] sm:h-[60vh] lg:h-[70vh] w-full bg-white text-black overflow-hidden border-b border-black/[0.03]">
+      {/* Background Image Container */}
+      <div className="absolute inset-0 z-0">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlide}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+            className="relative w-full h-full"
+          >
+            <Image
+              src={currentBanner?.image || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'}
+              alt="Hero Background"
+              fill
+              className="object-cover object-center"
+              priority
+            />
+            {/* Subtle Overlay for readability without losing clarity */}
+            <div className="absolute inset-0 bg-white/20" />
+            <div className="absolute inset-0 bg-gradient-to-r from-white/40 to-transparent" />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 relative z-10 flex items-center pt-24 pb-20 sm:pt-32 sm:pb-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="grid lg:grid-cols-12 gap-12 items-center"
+          className="max-w-2xl"
         >
-          {/* Left Content - Takes 7 cols */}
-          <div className="lg:col-span-7">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentSlide}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4 }}
-              >
-                <div className="inline-block px-0 py-1 text-black text-[10px] font-black tracking-[0.3em] uppercase mb-4 border-b-2 border-black">
-                  Autumn Winter 2025
-                </div>
-
-                <h1 className="text-[12vw] lg:text-9xl font-black text-black mb-8 leading-[0.85] tracking-tighter uppercase italic">
-                  {currentBanner?.title || defaultContent.title}
-                  <span className="block not-italic text-gray-300 mt-4 selection:bg-black selection:text-white">
-                    {defaultContent.subtitle}
-                  </span>
-                </h1>
-
-                <p className="text-gray-500 text-lg md:text-xl mb-12 max-w-lg leading-snug font-bold">
-                  {currentBanner?.description || defaultContent.description}
-                </p>
-
-                <div className="flex flex-wrap gap-4">
-                  <Link href={currentBanner?.link || defaultContent.link}>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="bg-black text-white px-12 py-6 rounded-none font-bold text-sm uppercase tracking-widest flex items-center gap-4 transition-all hover:bg-gray-900"
-                    >
-                      {currentBanner?.buttonText || defaultContent.buttonText}
-                      <ArrowRight className="h-4 w-4" />
-                    </motion.button>
-                  </Link>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Right Image - Takes 5 cols */}
-          <div className="lg:col-span-5 relative">
+          <AnimatePresence mode="wait">
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1 }}
-              className="relative aspect-[3/4] overflow-hidden bg-gray-50 border border-black/5"
+              key={currentSlide}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4 }}
             >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentSlide}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="absolute inset-0"
-                >
-                  <Image
-                    src={currentBanner?.image || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
-                    alt="Hero"
-                    fill
-                    className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                    priority
-                  />
-                </motion.div>
-              </AnimatePresence>
-            </motion.div>
-
-            {/* Navigation Dots Overlay */}
-            {banners.length > 1 && (
-              <div className="absolute -bottom-10 left-0 flex gap-4">
-                {banners.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentSlide(idx)}
-                    className={`h-[2px] transition-all duration-500 ${currentSlide === idx
-                      ? 'w-12 bg-black'
-                      : 'w-6 bg-black/20 hover:bg-black/40'
-                      }`}
-                  />
-                ))}
+              <div className="inline-block px-0 py-1 text-black text-[10px] font-black tracking-[0.3em] uppercase mb-4 border-b-2 border-black">
+                Autumn Winter 2025
               </div>
-            )}
-          </div>
+
+              <h1 className="text-[8vw] sm:text-6xl lg:text-7xl font-black text-black mb-4 leading-[0.9] tracking-tighter uppercase italic drop-shadow-sm">
+                {currentBanner?.title || defaultContent.title}
+                <span className="block not-italic text-gray-700/80 mt-1 selection:bg-black selection:text-white text-[6vw] sm:text-4xl lg:text-5xl">
+                  {defaultContent.subtitle}
+                </span>
+              </h1>
+
+              <p className="text-black/60 text-base md:text-lg mb-8 max-w-lg leading-snug font-bold">
+                {currentBanner?.description || defaultContent.description}
+              </p>
+
+              <div className="flex flex-wrap gap-4">
+                <Link href={currentBanner?.link || defaultContent.link}>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-black text-white px-8 py-4 rounded-none font-bold text-sm uppercase tracking-widest flex items-center gap-4 transition-all hover:bg-gray-900"
+                  >
+                    {currentBanner?.buttonText || defaultContent.buttonText}
+                    <ArrowRight className="h-4 w-4" />
+                  </motion.button>
+                </Link>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </motion.div>
+
+        {/* Navigation Dots Overlay */}
+        {banners.length > 1 && (
+          <div className="absolute bottom-8 left-4 sm:left-6 lg:left-8 flex gap-3">
+            {banners.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentSlide(idx)}
+                className={`h-[1px] transition-all duration-500 ${currentSlide === idx
+                  ? 'w-10 bg-black'
+                  : 'w-5 bg-black/20 hover:bg-black/40'
+                  }`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )

@@ -89,7 +89,7 @@ export default function ProductCard({ product, className, priority = false }: Pr
               src={product.images[0]}
               alt={product.name}
               fill
-              className="object-cover object-center transition-all duration-700 grayscale group-hover:grayscale-0"
+              className="object-cover object-center transition-all duration-700"
               priority={priority}
             />
           </div>
